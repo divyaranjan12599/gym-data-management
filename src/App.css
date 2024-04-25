@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar-nav .nav-link {
+  transition: all 0.2s ease-in-out; /* Add transition */
+}
+
+.nav-link{
+  &:hover{
+    transform: scale(1.1);
+  }
+  &:active{
+    transform: scale(0.9);
+  }
+}
+
+/* 
+.nav-item .active{
+  color: red!important;
+} */
