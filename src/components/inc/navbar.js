@@ -14,83 +14,83 @@ function Navbar() {
       setIsDropdownOpen2(isOpen);
   };
   return (
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" to="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand me-0" to="#">Famous Fitness Studio</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="row w-100">
-            <div class="col-lg-8">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-evenly">
-                <li class="nav-item">
-                  <Link to="/home" class="nav-link">
+        <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
+          <div className="row w-100">
+            <div className="col-lg-8">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-evenly">
+                <li className="nav-item">
+                  <Link to="/home" className="nav-link">
                   <FontAwesomeIcon icon={faDisplay} /> Dashboard
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link to="/" class="nav-link">
+                <li className="nav-item">
+                  <Link to="/" className="nav-link">
                   <FontAwesomeIcon icon={faAddressCard}/> Memberships
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link to="/" class="nav-link">
+                <li className="nav-item">
+                  <Link to="/" className="nav-link">
                   <FontAwesomeIcon icon={faDumbbell} /> PTs
                   </Link>
                 </li>
-                <li class="nav-item dropdown" onMouseEnter={() => handleDropdownToggle(true, 1)} onMouseLeave={() => handleDropdownToggle(false, 1)}>
-                  <a class="nav-link" role="button" aria-expanded="false">
+                <li className="nav-item dropdown" onMouseEnter={() => handleDropdownToggle(true, 1)} onMouseLeave={() => handleDropdownToggle(false, 1)}>
+                  <a className="nav-link" role="button" aria-expanded="false">
                   <FontAwesomeIcon icon={faSquarePlus} /> Add {!isDropdownOpen1 ?<FontAwesomeIcon icon={faAngleDown} />:<FontAwesomeIcon icon={faAngleUp} />}
                   </a>
                   <ul className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''}`}>
-                    <li><Link class="dropdown-item" to="/add_member">
+                    <li><Link className="dropdown-item" to="/add_member">
                       Add Members</Link>
                     </li>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       Add Staff</Link>
                     </li>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       Add Pts</Link>
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item dropdown" onMouseEnter={() => handleDropdownToggle(true, 2)} onMouseLeave={() => handleDropdownToggle(false, 2)}>
-                  <a class="nav-link" role="button" aria-expanded="false">
+                <li className="nav-item dropdown" onMouseEnter={() => handleDropdownToggle(true, 2)} onMouseLeave={() => handleDropdownToggle(false, 2)}>
+                  <a className="nav-link" role="button" aria-expanded="false">
                   <FontAwesomeIcon icon={faLayerGroup}/> More {!isDropdownOpen2 ?<FontAwesomeIcon icon={faAngleDown}/>:<FontAwesomeIcon icon={faAngleUp} />}
                   </a>
                   <ul className={`dropdown-menu ${isDropdownOpen2 ? 'show' : ''}`}>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       Staff</Link>
                     </li>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       PT Members</Link>
                     </li>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       Recent Memberships</Link>
                     </li>
-                    <li><Link class="dropdown-item" to="#">
+                    <li><Link className="dropdown-item" to="#">
                       Staff Attendance</Link>
                     </li>
                   </ul>
                 </li>
-                {/* <li class="nav-item">
-                  <Link to="/contact" class="nav-link active">
+                {/* <li className="nav-item">
+                  <Link to="/contact" className="nav-link active">
                     Contact Us
                   </Link>
                 </li>
 
-                <li class="nav-item">
-                  <Link to="/about" class="nav-link active">
+                <li className="nav-item">
+                  <Link to="/about" className="nav-link active">
                     About Us
                   </Link>
                 </li> */}
               </ul>
             </div>
-            <div class="col-lg-4">
+            <div className="col-lg-4">
               <form className="d-flex nav-search-bar" role="search">
                 <div className="input-group">
-                  <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
+                  <input className="form-control" type="search" placeholder="Client Id, name, email or contact" aria-label="Search" />
                   <span className="input-group-text"><FontAwesomeIcon icon={faSearch} /></span>
                 </div>
               </form>

@@ -3,17 +3,17 @@ import Home from './components/pages/home';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
 import Navbar from "./components/inc/navbar";
-import Add from "./components/pages/add";
+import AddMembers from "./components/pages/addMembers";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <Router>
-      <div class="container-fluid">
+      <div className="container-fluid ps-0 pe-0">
         <Navbar />
         <Routes>
-          <Route path="/add_member" element={<Add />}>
+          <Route path="/add_member" element={<AddMembers />}>
           </Route>
 
           <Route exact path="/home" element={<Home />}>
