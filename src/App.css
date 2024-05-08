@@ -91,7 +91,7 @@
   color: red!important;
 } */
 
-.pic-box{
+/* .pic-box{
   background-color: #61dafb;
   border: 2px solid #282c34;
   height: 1000px;
@@ -100,4 +100,35 @@
   background-color: antiquewhite;
   border: 2px solid #282c34;
   height: 1000px;
+} */
+
+.arrow-wrapper {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+}
+
+select.form-control {
+  width: 110px; /* Adjust width as needed */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.custom-col-9{
+  width: 70%!important;
+}
+
+.custom-col-3{
+  width: 30%!important;
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 function AddMembers() {
 
-    
+
     return (
         <div className="container">
             <div className="container-fluid">
@@ -23,222 +23,147 @@ function AddMembers() {
                     <div class="row w-100">
                         <div className="main-box col-md-8">
                             <div className="row w-100">
-                                <div className="p-2 d-flex flex-column col-lg-6 ">
+                                <div className="mb-2 flex-column col-lg-6 ">
                                     {/* <label>Client ID</label> */}
-                                    
-                                    <input type="text" className="form-control" value={1602} placeholder="Enter Client ID" disabled/>
+
+                                    <input type="text" className="form-control" value={1602} placeholder="Enter Client ID" disabled />
                                     <span className="text-muted">*previous client id: 1601</span>
                                 </div>
 
-                                <div className="p-2 d-flex col-lg-6">
+                                <div className="mb-2 col-lg-6">
                                     {/* <label>Client Name</label> */}
                                     <input type="text" className="form-control" placeholder="Enter Full Name" />
                                 </div>
-                            </div>
 
-                            <div className="row w-100">
-                                <div className="p-2 d-flex col-lg-4">
-                                    <label>Billing Name</label>
-                                    <input type="text" className="form-control" placeholder="Enter Billing Name" />
-                                </div>
-
-                                <div className="p-2 d-flex col-lg-4">
-                                    <label>Email</label>
+                                <div className="mb-2 col-lg-6">
                                     <input type="text" className="form-control" placeholder="Enter Email" />
                                 </div>
 
-                                <div className="p-2 d-flex col-lg-4">
-                                    <label>Phone</label>
-                                    <select className="form-control" aria-label="Default select example">
-                                        <option selected>country code</option>
-                                        <option value="1">India (+91)</option>
-                                        <option value="2">United States (+1)</option>
-                                        <option value="3">Nigeria (+234)</option>
+                                <div className="mb-2 flex-column col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                                    </div>
+                                </div>
+
+
+                                <div class="mb-2 col-12">
+                                    {/* <label for="inputAddress2" class="form-label">Address 2</label> */}
+                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                                </div>
+                                <div class="mb-2 col-12">
+                                    {/* <label for="inputAddress" class="form-label">Address</label> */}
+                                    <input type="text" class="form-control" id="inputAddress" placeholder="Area" />
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    {/* <label for="inputCity" class="form-label">City</label> */}
+                                    <input type="text" class="form-control" id="inputCity" placeholder="City" />
+                                </div>
+                                <div class="mb-2 col-md-4">
+                                    {/* <label for="inputState" class="form-label">State</label> */}
+                                    <select id="inputState" class="form-select">
+                                        <option selected>State</option>
+                                        <option value="1">Madhya Pradesh</option>
+                                        <option value="2">Uttar Pradesh</option>
+                                        <option value="3">Maharashtra</option>
                                     </select>
-                                    <input type="text" className="form-control" placeholder="Enter Phone" />
                                 </div>
-                            </div>
+                                <div class="mb-2 col-md-2">
+                                    {/* <label for="inputZip" class="form-label">Zip</label> */}
+                                    <input type="text" class="form-control" id="inputZip" placeholder="Pincode" />
+                                </div>
 
-                            <div className="p-2 d-flex">
-                                <label>Address</label>
-                                <input type="text" className="form-control" placeholder="Enter Address" />
-                            </div>
-
-                            <div className="p-2 d-flex">
-                                <label>Pin</label>
-                                <input type="text" className="form-control" placeholder="Enter Address" />
-                            </div>
-
-                            <div className="p-2 d-flex">
-                                <label>Join Date</label>
-                                <input type="text" className="form-control" placeholder="Enter Address" />
-                            </div>
-
-                            <div className="p-2 d-flex">
-                                <label>State</label>
-                                <select className="form-control" aria-label="Default select example">
-                                    <option selected>select</option>
-                                    <option value="1">Madhya Pradesh</option>
-                                    <option value="2">Uttar Pradesh</option>
-                                    <option value="3">Maharashtra</option>
-                                </select>
-                            </div>
-
-                            <div className="p-2 d-flex">
-                                <label>Area</label>
-                                <input type="text" className="form-control" placeholder="Bandra East, kukatpally" />
-                            </div>
-
-                            <div className="p-2 d-flex">
-                                <label>Flat & Building</label>
-                                <input type="text" className="form-control" placeholder="Eg: 311,First Floor, Ama Building" />
-                            </div>
-
-                            <div className="p-2 d-flex">
                                 <label>Gender</label>
-                                <div className="from-check">
-                                    <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" />
-                                    <label className="form-check-label" for="gridRadios1">
-                                        Male
-                                    </label>
+                                <div className="mb-2 col-md-12 d-flex flex-row">
+                                    <div className="from-check col-4">
+                                        <input className="form-check-input me-2" type="radio" name="gridRadios" id="gridRadios1" value="option1" />
+                                        <label className="form-check-label" for="gridRadios1">
+                                            Male
+                                        </label>
+                                    </div>
+                                    <div className="from-check col-4">
+                                        <input className="form-check-input me-2" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
+                                        <label className="form-check-label" for="gridRadios2">
+                                            Female
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="from-check">
-                                    <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-                                    <label className="form-check-label" for="gridRadios2">
-                                        Female
-                                    </label>
-                                </div>
+                            </div>
+                            <div className="pic-box col-md-4">
+
                             </div>
 
-                            <div className="p-2 d-flex">
-                                <label>City</label>
-                                <input type="text" className="form-control" placeholder="Enter City" />
-                            </div>
                         </div>
-                        <div className="pic-box col-md-4">
 
+                        <label>ID Proof Details</label>
+                        <div className="mb-2 col-12 input-group d-flex flex-row">
+
+                            <select id="idProofType" class="form-select custom-col-3">
+                                <option selected>Type</option>
+                                <option value="1">Adhar Card</option>
+                                <option value="2">PAN Card</option>
+                                <option value="3">License</option>
+                                <option value="4">Other</option>
+                            </select>
+
+                            <input className="form-control custom-col-9" type="text" name="idProof" id="idProof" placeholder="id proof number" />
+
+                        </div>
+                        <div className="mb-2 col-6 d-flex flex-row">
+                            <label for="idProofFront" class="form-label custom-col-3">ID Proof Front</label>
+                            <input className="form-control custom-col-9" type="file" name="idProofFront" id="idProofFront" />
+                        </div>
+                        <div className="mb-2 col-6 d-flex flex-row">
+                            <label for="idProofBack" class="form-label custom-col-3">ID Proof Back</label>
+                            <input className="form-control custom-col-9" type="file" name="idProofBack" id="idProofBack" />
                         </div>
                     </div>
                 </form>
             </div>
-            <form className="d-flex flex-column justify-content-center align-items-center p-2 w-100">
-                <div className="bg-dark text-light">
-                    <p className="text-center">Membership Details</p>
+
+            .<div class="card text-left">
+                <div className="card-header border-top border-bottom">
+                    <p className="text-center mb-0">Add Membership Details</p>
                 </div>
-                <div class="row w-100">
-                    <div className="main-box col-md-8">
-                        <div className="row w-100">
-                            <div className="p-2 d-flex col-lg-6">
-                                {/* <label>Client ID</label> */}
-                                <input type="text" className="form-control" placeholder="Enter Client ID" />
+                <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                    <div class="row w-100">
+                        <div>
+                            <div className="row w-100">
+
+                                <div className="mb-2 col-lg-6">
+                                    <label>Registration fees</label>
+                                    <input type="text" className="form-control" placeholder="Enter Full Name" />
+                                </div>
+                                <div className="mb-2 col-lg-6">
+                                    <label>Membership Type</label>
+                                    <select id="idProofType" class="form-select">
+                                        <option selected>Select</option>
+                                        <option value="1">Monthly</option>
+                                        <option value="2">Quaterly</option>
+                                        <option value="3">Half Yearly</option>
+                                        <option value="4">Yearly</option>
+                                        <option value="5">Other</option>
+                                    </select>
+                                </div>
+                                <div className="mb-2 clo-12">
+                                    <label>Joining Date</label>
+                                    <input type="text" className="form-control" placeholder="Enter Address" />
+                                </div>
                             </div>
 
-                            <div className="p-2 d-flex col-lg-6">
-                                {/* <label>Client Name</label> */}
-                                <input type="text" className="form-control" placeholder="Enter Full Name" />
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <h4 class="card-title">Title</h4>
+                                    <p class="card-text">Body</p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="row w-100">
-                            <div className="p-2 d-flex col-lg-4">
-                                <label>Billing Name</label>
-                                <input type="text" className="form-control" placeholder="Enter Billing Name" />
-                            </div>
-
-                            <div className="p-2 d-flex col-lg-4">
-                                <label>Email</label>
-                                <input type="text" className="form-control" placeholder="Enter Email" />
-                            </div>
-
-                            <div className="p-2 d-flex col-lg-4">
-                                <label>Phone</label>
-                                <select className="form-control" aria-label="Default select example">
-                                    <option selected>country code</option>
-                                    <option value="1">India (+91)</option>
-                                    <option value="2">United States (+1)</option>
-                                    <option value="3">Nigeria (+234)</option>
-                                </select>
-                                <input type="text" className="form-control" placeholder="Enter Phone" />
-                            </div>
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Address</label>
-                            <input type="text" className="form-control" placeholder="Enter Address" />
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Pin</label>
-                            <input type="text" className="form-control" placeholder="Enter Address" />
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Join Date</label>
-                            <input type="text" className="form-control" placeholder="Enter Address" />
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>State</label>
-                            <select className="form-control" aria-label="Default select example">
-                                <option selected>select</option>
-                                <option value="1">Madhya Pradesh</option>
-                                <option value="2">Uttar Pradesh</option>
-                                <option value="3">Maharashtra</option>
-                            </select>
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Area</label>
-                            <input type="text" className="form-control" placeholder="Bandra East, kukatpally" />
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Flat & Building</label>
-                            <input type="text" className="form-control" placeholder="Eg: 311,First Floor, Ama Building" />
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>Gender</label>
-                            <div className="from-check">
-                                <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" />
-                                <label className="form-check-label" for="gridRadios1">
-                                    Male
-                                </label>
-                            </div>
-                            <div className="from-check">
-                                <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
-                                <label className="form-check-label" for="gridRadios2">
-                                    Female
-                                </label>
-                            </div>
-                        </div>
-
-                        <div className="p-2 d-flex">
-                            <label>City</label>
-                            <input type="text" className="form-control" placeholder="Enter City" />
                         </div>
                     </div>
-                    <div className="pic-box col-md-4">
+                </form>
+            </div>
 
-                    </div>
-                </div>
-            </form>
-
-            <form>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter your name" />
-                </div>
-                <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Enter your email" />
-                </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Enter your password" />
-                </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Confirm your password" />
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <button type="submit" class="btn btn-primary m-2">Submit</button>
         </div>
     );
 }
