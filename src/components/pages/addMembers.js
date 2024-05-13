@@ -15,7 +15,7 @@ function AddMembers() {
             </div>
 
 
-            <div className="card">
+            <div className="card mb-4">
                 <div className="card-header border-top border-bottom">
                     <p className="text-center mb-0">Add Personal Details</p>
                 </div>
@@ -42,7 +42,7 @@ function AddMembers() {
                                 <div className="mb-2 flex-column col-lg-6">
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">+91</span>
-                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                                        <input type="text" class="form-control" placeholder="Contact Number" aria-label="Username" aria-describedby="basic-addon1" />
                                     </div>
                                 </div>
 
@@ -89,10 +89,15 @@ function AddMembers() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pic-box col-md-4">
 
-                            </div>
-
+                        </div>
+                        <div className="pic-box col-4">
+                            <div className="card w-100 h-100">
+                                    {/* <div class="card-body">
+                                        <h4 class="card-title">Title</h4>
+                                        <p class="card-text">Body</p>
+                                    </div> */}
+                                </div>
                         </div>
 
                         <label>ID Proof Details</label>
@@ -117,54 +122,85 @@ function AddMembers() {
                             <label for="idProofBack" class="form-label custom-col-3">ID Proof Back</label>
                             <input className="form-control custom-col-9" type="file" name="idProofBack" id="idProofBack" />
                         </div>
+
+                        <div class="card p-0 text-left">
+                            <div className="card-header border-top border-bottom">
+                                <p className="text-center mb-0">Emergency Contact Details</p>
+                            </div>
+                            <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                                <div className="row w-100 mt-2">
+                                    <div className="mb-2 col-lg-6">
+                                        {/* <label>Client Name</label> */}
+                                        <input type="text" className="form-control" placeholder="Name" />
+                                    </div>
+                                    <div className="mb-2 flex-column col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">+91</span>
+                                            <input type="text" class="form-control" placeholder="Contact Number" aria-label="Username" aria-describedby="basic-addon1" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </form>
-            </div>
+            </div >
 
-            .<div class="card text-left">
+            <div class="card text-left">
                 <div className="card-header border-top border-bottom">
                     <p className="text-center mb-0">Add Membership Details</p>
                 </div>
                 <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                    <div class="row w-100">
-                        <div>
-                            <div className="row w-100">
+                    <div className="row w-100">
 
-                                <div className="mb-2 col-lg-6">
-                                    <label>Registration fees</label>
-                                    <input type="text" className="form-control" placeholder="Enter Full Name" />
-                                </div>
-                                <div className="mb-2 col-lg-6">
-                                    <label>Membership Type</label>
-                                    <select id="idProofType" class="form-select">
-                                        <option selected>Select</option>
-                                        <option value="1">Monthly</option>
-                                        <option value="2">Quaterly</option>
-                                        <option value="3">Half Yearly</option>
-                                        <option value="4">Yearly</option>
-                                        <option value="5">Other</option>
-                                    </select>
-                                </div>
-                                <div className="mb-2 clo-12">
-                                    <label>Joining Date</label>
-                                    <input type="text" className="form-control" placeholder="Enter Address" />
-                                </div>
-                            </div>
-
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <h4 class="card-title">Title</h4>
-                                    <p class="card-text">Body</p>
-                                </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Registration fees</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">INR</span>
+                                <input type="text" className="form-control" placeholder="" value="00.00" />
                             </div>
                         </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Membership Period</label>
+                            <select id="idProofType" class="form-select">
+                                <option selected>Select</option>
+                                <option value="1">Monthly</option>
+                                <option value="2">Quaterly</option>
+                                <option value="3">Half Yearly</option>
+                                <option value="4">Yearly</option>
+                                <option value="5">Other</option>
+                            </select>
+                        </div>
+                        <div className="mb-2 col-6">
+                            <label>Joining Date</label>
+                            <input type="text" className="form-control" placeholder="Enter Address" />
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Membership Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">INR</span>
+                                <input type="text" className="form-control" placeholder="" value="00.00" />
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <input className="form-check-input me-2" type="radio" />
+                            <label>PT Added</label>
+                        </div>
                     </div>
+
+                    <div class="card w-100">
+
+                        <div class="card-body">
+                            <h4 class="card-title">Title</h4>
+                            <p class="card-text">Body</p>
+                        </div>
+                    </div>
+
                 </form>
             </div>
 
             <button type="submit" class="btn btn-primary m-2">Submit</button>
-        </div>
+        </div >
     );
 }
 
