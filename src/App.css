@@ -119,6 +119,10 @@ button.FontAwesomeIcon {
   color: red!important;
 } */
 
+.pic-box:hover{
+  cursor: pointer;
+}
+
 .pic-box{
   /* background-color: #61dafb;
   border: 2px solid #282c34; */

@@ -1,10 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import defaultImage from "../icons/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function AddMembers() {
+  // cloudinary setup
+
+  const [imageURL, setImageURL] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
+
+  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+  const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary;
+    widgetRef.current = cloudinaryRef.current.createUploadWidget({
+      cloudName: CLOUD_NAME,
+      uploadPreset: UPLOAD_PRESENT,
+      multiple: true
+    },
+      (err, result) => {
+        if (result.event === "success") {
+          console.log("Done! Here is the image info: ", result.info);
+          setImageURL(result.info.secure_url);
+        }
+      });
+  }, []);
+
   //profile box image
   /********************************/
   const [isVisible, setIsVisible] = useState(false);
@@ -173,21 +197,22 @@ function AddMembers() {
                 </div>
               </div>
             </div>
+            
             <div className="pic-box col-4">
-              <div className="card w-100 h-100">
-                <div className="icon-container">
-                  <img
-                    src={image.placeholder}
-                    alt=""
-                  />
-                  <button className="btn ">
-                    <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon>
-                    <input
-                      className="form-control"
-                      type="file"
-                      onChange={displaySelectedImage}
-                    />
-                  </button>
+              <div className="card w-100 h-00 p-10 align-items-center justify-content-center   " onClick={() => widgetRef.current.open()} style={{height: "75%"}}>
+                <div className="icon-container w-100 h-100" >
+                  {imageURL ? (
+                    <img src={imageURL} alt="" className="p-1  w-100 img-fluid" style={{height: "100%"}} />
+                  ) : (
+                    <>
+                      <img
+                        className="p-3 w-100 "
+                        src={image.placeholder}
+                        alt=""
+                      />
+                      
+                    </>
+                  )}
                 </div>
               </div>
             </div>
