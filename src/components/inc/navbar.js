@@ -47,11 +47,11 @@ function Navbar() {
                     <li><Link className="dropdown-item" to="/add_member">
                       Add Members</Link>
                     </li>
-                    <li><Link className="dropdown-item" to="#">
-                      Add Staff</Link>
+                    <li><Link className="dropdown-item" to="/add_staff">
+                      Add Staff Member</Link>
                     </li>
-                    <li><Link className="dropdown-item" to="#">
-                      Add Pts</Link>
+                    <li><Link className="dropdown-item" to="/add_enquiry">
+                      Add Enquiry</Link>
                     </li>
                   </ul>
                 </li>

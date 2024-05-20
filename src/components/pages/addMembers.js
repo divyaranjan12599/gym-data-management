@@ -180,14 +180,14 @@ function AddMembers() {
                     src={image.placeholder}
                     alt=""
                   />
-                    <button className="btn ">
-                      <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon>
-                    <input 
+                  <button className="btn ">
+                    <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon>
+                    <input
                       className="form-control"
                       type="file"
                       onChange={displaySelectedImage}
                     />
-                    </button>
+                  </button>
                 </div>
               </div>
             </div>
@@ -195,11 +195,11 @@ function AddMembers() {
             <label>ID Proof Details</label>
             <div className="mb-2 col-12 input-group d-flex flex-row">
               <select id="idProofType" class="form-select custom-col-3">
-                <option selected>Type</option>
+                <option selected>Select</option>
                 <option value="1">Adhar Card</option>
                 <option value="2">PAN Card</option>
                 <option value="3">License</option>
-                <option value="4">Other</option>
+                {/* <option value="4">Other</option> */}
               </select>
 
               <input
@@ -296,13 +296,13 @@ function AddMembers() {
                 <option value="2">Quaterly</option>
                 <option value="3">Half Yearly</option>
                 <option value="4">Yearly</option>
-                <option value="5">Other</option>
+                {/* <option value="5">Other</option> */}
               </select>
             </div>
             <div className="mb-2 col-6">
               <label>Joining Date</label>
               <input
-                type="text"
+                type="date"
                 className="form-control"
                 placeholder="Enter Address"
               />
@@ -404,7 +404,7 @@ function AddMembers() {
         </form>
       </div>
 
-      <div class="card text-left mb-4">
+      <div class="card text-left mb-2">
         <div className="card-header border-top border-bottom">
           <p className="text-center mb-0">Add Payment Details</p>
         </div>
@@ -458,17 +458,18 @@ function AddMembers() {
 
           {/* <div class="card w-100" hidden="false">
 
-                    <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Body</p>
-                    </div>
-                </div> */}
+<div class="card-body">
+<h4 class="card-title">Title</h4>
+<p class="card-text">Body</p>
+</div>
+</div> */}
         </form>
       </div>
-
-      <button type="submit" class="btn btn-primary m-2">
-        Submit
-      </button>
+      <div className="col-12 d-flex justify-content-end p-0 mb-4">
+        <button type="submit" class="btn btn-primary m-2">
+          Submit
+        </button>
+      </div>
     </div>
   );
 }

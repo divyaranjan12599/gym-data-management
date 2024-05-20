@@ -6,6 +6,8 @@ import Navbar from "./components/inc/navbar";
 import AddMembers from "./components/pages/addMembers";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AddEnquiry from "./components/pages/addEnquiry";
+import AddStaffs from "./components/pages/addStaff";
 
 function App() {
   return (
@@ -14,6 +16,12 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/add_member" element={<AddMembers />}>
+          </Route>
+
+          <Route path="/add_enquiry" element={<AddEnquiry />}>
+          </Route>
+
+          <Route path="/add_staff" element={<AddStaffs />}>
           </Route>
 
           <Route exact path="/home" element={<Home />}>
