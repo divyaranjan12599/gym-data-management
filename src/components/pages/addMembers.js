@@ -4,12 +4,94 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
+
+const initialClientState = {
+  id: '',
+  name: '',
+  contact: '',
+  email: '',
+  gender: 'MALE', // Default value
+  photoUrl: '',
+  address: {
+    areaDetails: '',
+    city: '',
+    state: '',
+    pincode: ''
+  },
+  idproof: {
+    type: '',
+    frontPicUrl: '',
+    backPicUrl: ''
+  },
+  emergencyContact: {
+    name: '',
+    contact: ''
+  },
+  joiningdate: '',
+  membership: {
+    membershipPeriod: '',
+    membershipAmount: '',
+    isPt: false,
+    PTDetails: {
+      ptfees: '',
+      ptPeriod: '',
+      assignedTo: ''
+    }
+  },
+  paymentDetails: {
+    amountPaid: '',
+    mode: '',
+    amountRemaining: '',
+    dueDate: '',
+    transactionId: ''
+  }
+}
 function AddMembers() {
   // cloudinary setup
 
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
+
+  const [client, setClient] = useState(initialClientState);
+
+  const resetClient = () => {
+    setClient(initialClientState);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const keys = name.split('.');
+
+    if (keys.length === 1) {
+      setClient({
+        ...client,
+        [name]: value
+      });
+    } else {
+      setClient(prevState => {
+        let nestedState = { ...prevState };
+
+        keys.reduce((acc, key, idx) => {
+          if (idx === keys.length - 1) {
+            acc[key] = value;
+          } else {
+            acc[key] = { ...acc[key] };
+          }
+          return acc[key];
+        }, nestedState);
+
+        return nestedState;
+      });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(client);
+    // Submit the client data to the backend
+  };
+
 
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
@@ -197,12 +279,12 @@ function AddMembers() {
                 </div>
               </div>
             </div>
-            
+
             <div className="pic-box col-4">
-              <div className="card w-100 h-00 p-10 align-items-center justify-content-center   " onClick={() => widgetRef.current.open()} style={{height: "75%"}}>
+              <div className="card w-100 h-00 p-10 align-items-center justify-content-center   " onClick={() => widgetRef.current.open()} style={{ height: "75%" }}>
                 <div className="icon-container w-100 h-100" >
                   {imageURL ? (
-                    <img src={imageURL} alt="" className="p-1  w-100 img-fluid" style={{height: "100%"}} />
+                    <img src={imageURL} alt="" className="p-1  w-100 img-fluid" style={{ height: "100%" }} />
                   ) : (
                     <>
                       <img
@@ -210,7 +292,7 @@ function AddMembers() {
                         src={image.placeholder}
                         alt=""
                       />
-                      
+
                     </>
                   )}
                 </div>
