@@ -13,10 +13,6 @@
   }
 }
 
-button.FontAwesomeIcon {
-  color: #222
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -66,30 +62,6 @@ button.FontAwesomeIcon {
   margin-bottom: 30px;
 }
 
-.icon-container {
-  position: relative;
-  width: 100%;
-}
-
-.icon-container img {
-  width: 100%;
-  height: auto;
-}
-
-.icon-container .btn {
-  position: absolute;
-  top: 10%;
-  left: 75%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  color: white;
-  font-size: 16px;
-  padding: 12px 24px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
 /* .form-control {
   border-radius: 20px!important;
   box-shadow: none!important;
@@ -123,11 +95,12 @@ button.FontAwesomeIcon {
   cursor: pointer;
 }
 
-.pic-box{
-  /* background-color: #61dafb;
-  border: 2px solid #282c34; */
-  /* height: 100px; */
-}
+/* .pic-box{
+  background-color: #61dafb;
+  border: 2px solid #282c34;
+  height: 100px;
+} */
+
 /* .main-box{
   background-color: antiquewhite;
   border: 2px solid #282c34;
@@ -163,4 +136,28 @@ select.form-control {
 
 .custom-col-3{
   width: 30%!important;
+}
+
+.icon-container {
+  position: relative;
+  width: 100%;
+}
+
+.icon-container img {
+  width: 100%;
+  height: auto;
+}
+
+.icon-container .btn {
+  position: absolute;
+  top: 10%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 }

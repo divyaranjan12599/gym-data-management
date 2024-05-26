@@ -119,27 +119,6 @@ function AddMembers() {
     files: null,
   });
 
-  //preview profile image
-  /********************************/
-  const displaySelectedImage = (event) => {
-    // const fileInput = event.target.files[0];
-    console.log("hi");
-
-    if (
-      event.target.files[0].type === "image/jpeg" ||
-      event.target.files[0].type === "image/png"
-    ) {
-      const reader = new FileReader();
-
-      reader.onload = (r) => {
-        selectImage({
-          placeholder: r.target.result,
-          files: event.target.files[0],
-        });
-      };
-    }
-  };
-
   return (
     <div className="container">
       <div className="container-fluid">
@@ -250,35 +229,49 @@ function AddMembers() {
                   />
                 </div>
 
-                <label>Gender</label>
-                <div className="mb-2 col-md-12 d-flex flex-row">
-                  <div className="from-check col-4">
-                    <input
-                      className="form-check-input me-2"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios1"
-                      value="option1"
-                    />
-                    <label className="form-check-label" for="gridRadios1">
-                      Male
-                    </label>
-                  </div>
-                  <div className="from-check col-4">
-                    <input
-                      className="form-check-input me-2"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios2"
-                      value="option2"
-                    />
-                    <label className="form-check-label" for="gridRadios2">
-                      Female
-                    </label>
+                <div className="col-6">
+                  <label>Gender</label>
+                  <div className="col-md-12 d-flex flex-row">
+                    <div className="from-check col-4">
+                      <input
+                        className="form-check-input me-2"
+                        type="radio"
+                        name="gridRadios"
+                        id="gridRadios1"
+                        value="option1"
+                      />
+                      <label className="form-check-label" for="gridRadios1">
+                        Male
+                      </label>
+                    </div>
+                    <div className="from-check col-4">
+                      <input
+                        className="form-check-input me-2"
+                        type="radio"
+                        name="gridRadios"
+                        id="gridRadios2"
+                        value="option2"
+                      />
+                      <label className="form-check-label" for="gridRadios2">
+                        Female
+                      </label>
+                    </div>
+
                   </div>
                 </div>
+
+                <div className="col-6">
+                  <label>Joining Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    placeholder="Enter Address"
+                  />
+                </div>
+
               </div>
             </div>
+
 
             <div className="pic-box col-4">
               <div className="card w-100 h-00 p-10 align-items-center justify-content-center   " onClick={() => widgetRef.current.open()} style={{ height: "75%" }}>
@@ -288,7 +281,7 @@ function AddMembers() {
                   ) : (
                     <>
                       <img
-                        className="p-3 w-100 "
+                        className=""
                         src={image.placeholder}
                         alt=""
                       />
@@ -299,24 +292,27 @@ function AddMembers() {
               </div>
             </div>
 
-            <label>ID Proof Details</label>
-            <div className="mb-2 col-12 input-group d-flex flex-row">
-              <select id="idProofType" class="form-select custom-col-3">
-                <option selected>Select</option>
-                <option value="1">Adhar Card</option>
-                <option value="2">PAN Card</option>
-                <option value="3">License</option>
-                {/* <option value="4">Other</option> */}
-              </select>
+            <div className="col-12">
+              <label>ID Proof Details</label>
+              <div className="mb-2 input-group d-flex flex-row">
+                <select id="idProofType" class="form-select custom-col-3">
+                  <option selected>Select</option>
+                  <option value="1">Adhar Card</option>
+                  <option value="2">PAN Card</option>
+                  <option value="3">License</option>
+                  {/* <option value="4">Other</option> */}
+                </select>
 
-              <input
-                className="form-control custom-col-9"
-                type="text"
-                name="idProof"
-                id="idProof"
-                placeholder="id proof number"
-              />
+                <input
+                  className="form-control custom-col-9"
+                  type="text"
+                  name="idProof"
+                  id="idProof"
+                  placeholder="id proof number"
+                />
+              </div>
             </div>
+
             <div className="mb-2 col-6 d-flex flex-row">
               <label for="idProofFront" class="form-label custom-col-3">
                 ID Proof Front
@@ -371,6 +367,7 @@ function AddMembers() {
                 </div>
               </form>
             </div>
+
           </div>
         </form>
       </div>
@@ -405,14 +402,6 @@ function AddMembers() {
                 <option value="4">Yearly</option>
                 {/* <option value="5">Other</option> */}
               </select>
-            </div>
-            <div className="mb-2 col-6">
-              <label>Joining Date</label>
-              <input
-                type="date"
-                className="form-control"
-                placeholder="Enter Address"
-              />
             </div>
             <div className="mb-2 col-lg-6">
               <label>Membership Amount</label>
@@ -577,7 +566,7 @@ function AddMembers() {
           Submit
         </button>
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import defaultImage from "../icons/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
@@ -31,6 +31,7 @@ const initialStaffState = {
 
 function AddStaffs() {
 
+
     const [staff, setStaff] = useState(initialStaffState);
     const resetStaff = () => {
         setStaff(initialStaffState);
@@ -39,10 +40,33 @@ function AddStaffs() {
     //profile box image
     /********************************/
     const [isVisible, setIsVisible] = useState(false);
+
+    const [imageURL, setImageURL] = useState(null);
+    const cloudinaryRef = useRef();
+    const widgetRef = useRef();
+
     const [image, selectImage] = useState({
         placeholder: defaultImage,
         files: null,
     });
+
+    const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+    const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+
+    useEffect(() => {
+        cloudinaryRef.current = window.cloudinary;
+        widgetRef.current = cloudinaryRef.current.createUploadWidget({
+            cloudName: CLOUD_NAME,
+            uploadPreset: UPLOAD_PRESENT,
+            multiple: true
+        },
+            (err, result) => {
+                if (result.event === "success") {
+                    console.log("Done! Here is the image info: ", result.info);
+                    setImageURL(result.info.secure_url);
+                }
+            });
+    }, []);
 
     //preview profile image
     /********************************/
@@ -217,20 +241,20 @@ function AddStaffs() {
                             </div>
                         </div>
                         <div className="pic-box col-4">
-                            <div className="card w-100 h-100">
+                            <div className="card p-2 align-items-center justify-content-center" onClick={() => widgetRef.current.open()}>
                                 <div className="icon-container">
-                                    <img
-                                        src={image.placeholder}
-                                        alt=""
-                                    />
-                                    <button className="btn ">
-                                        <FontAwesomeIcon icon={faCamera}></FontAwesomeIcon>
-                                        <input
-                                            className="form-control"
-                                            type="file"
-                                            onChange={displaySelectedImage}
-                                        />
-                                    </button>
+                                    {imageURL ? (
+                                        <img src={imageURL} alt="" className="p-1 w-100" />
+                                    ) : (
+                                        <>
+                                            <img
+                                                className=""
+                                                src={image.placeholder}
+                                                alt=""
+                                            />
+
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
