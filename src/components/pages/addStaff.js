@@ -4,11 +4,47 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
+const initialStaffState = {
+    id: '',
+    name: '',
+    contact: '',
+    email: '',
+    gender: 'MALE', // Default value
+    photoUrl: '',
+    address: {
+        areaDetails: '',
+        city: '',
+        state: '',
+        pincode: ''
+    },
+    idproof: {
+        type: '',
+        frontPicUrl: '',
+        backPicUrl: ''
+    },
+    emergencyContact: {
+        name: '',
+        contact: ''
+    },
+    joiningdate: '',
+};
+
 function AddStaffs() {
+
+
+    const [staff, setStaff] = useState(initialStaffState);
+    const resetStaff = () => {
+        setStaff(initialStaffState);
+      };
+      
+    //profile box image
+    /********************************/
+    const [isVisible, setIsVisible] = useState(false);
 
     const [imageURL, setImageURL] = useState(null);
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
+
     const [image, selectImage] = useState({
         placeholder: defaultImage,
         files: null,
