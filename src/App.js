@@ -3,6 +3,7 @@ import Home from './components/pages/home';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
 import Navbar from "./components/inc/navbar";
+import Memberships from "./components/pages/Membership";
 import AddMembers from "./components/pages/addMembers";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -10,9 +11,9 @@ import AddEnquiry from "./components/pages/addEnquiry";
 import AddStaffs from "./components/pages/addStaff";
 
 function App() {
+
   return (
     <Router>
-      <div className="container-fluid ps-0 pe-0">
         <Navbar />
         <Routes>
           <Route path="/add_member" element={<AddMembers />}>
@@ -32,8 +33,10 @@ function App() {
 
           <Route path="/contact" element={<Contact />}>
           </Route>
+
+          <Route path="/memberships" element={<Memberships />}>
+          </Route>
         </Routes>
-      </div>
     </Router>
   );
 }
