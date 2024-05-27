@@ -48,14 +48,14 @@ function AddStaffs() {
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         setStaffData({
-            ...clientData,
+            ...staffData,
             [name]: type === 'file' ? files[0] : value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission, e.g., send clientData to the server
+        // Handle form submission, e.g., send staffData to the server
         console.log('Form submitted:', staffData);
     };
 
@@ -231,7 +231,7 @@ function AddStaffs() {
                                             name="gridRadios"
                                             id="gridRadios1"
                                             value="Male"
-                                            checked={clientData.gender === 'Male'}
+                                            checked={staffData.gender === 'Male'}
                                             onChange={handleChange}
                                         />
                                         <label className="form-check-label" for="gridRadios1">
@@ -245,7 +245,7 @@ function AddStaffs() {
                                             name="gridRadios"
                                             id="gridRadios2"
                                             value="Female"
-                                            checked={clientData.gender === 'Female'}
+                                            checked={staffData.gender === 'Female'}
                                             onChange={handleChange}
                                         />
                                         <label className="form-check-label" for="gridRadios2">
