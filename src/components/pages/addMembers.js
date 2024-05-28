@@ -7,7 +7,6 @@ import { Avatar } from '@mui/material';
 import axios from "axios"
 
 const initialClientState = {
-  id: 1620,
   clientName: '',
   email: '',
   contactNumber: '',
