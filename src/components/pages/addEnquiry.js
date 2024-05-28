@@ -1,22 +1,70 @@
 import React, { useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
-// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaPlus, FaMinus } from 'react-icons/fa';
 
 function AddEnquiry() {
-    //profile box image
-    /********************************/
-    const [isVisible, setIsVisible] = useState(false);
+    const [enquiryData, setEnquiryData] = useState({
+        visitorName: '',
+        phone: '',
+        source: '',
+        referredBy: '',
+        enquiryOn: new Date(),
+        lastFollowUpOn: new Date(),
+        enquiredFor: [],
+        interestedOn: '',
+        attainedBy: '',
+        email: '',
+        address: '',
+        comment: ''
+    });
 
-    const [dateTime, setDateTime] = useState(new Date());
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        console.log(name, value, type, checked, enquiryData);
+        if (type === 'checkbox') {
+            setEnquiryData((prevState) => {
+                const updatedEnquiredFor = checked
+                    ? [...prevState.enquiredFor, value]
+                    : prevState.enquiredFor.filter((item) => item !== value);
+                return { ...prevState, enquiredFor: updatedEnquiredFor };
+            });
+        } else {
+            setEnquiryData({
+                ...enquiryData,
+                [name]: value
+            });
+        }
+    };
+
+    const [lastFollowUpDateTime, setlastFollowUpDateTime] = useState(new Date());
+    const [enquiryOnDateTime, setEnquiryOnDateTime] = useState(new Date());
 
     useEffect(() => {
-        setDateTime(new Date()); // Set default value to current date and time on component mount
+        setlastFollowUpDateTime(new Date()); // Set default value to current date and time on component mount
+        setEnquiryOnDateTime(new Date()); // Set default value to current date and time on component mount
     }, []);
 
-    const handleDateTimeChange = (date) => {
-        setDateTime(date);
+    const lastFollowUpOnDateTimeChange = (date) => {
+        setlastFollowUpDateTime(date);
+        setEnquiryData({
+            ...enquiryData,
+            "lastFollowUpOn": lastFollowUpDateTime
+        });
+    };
+
+    const enquiryOnDateTimeChange = (date) => {
+        setEnquiryOnDateTime(date)
+        // console.log(e);
+        setEnquiryData({
+            ...enquiryData,
+            "enquiryOn": enquiryOnDateTime
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle form submission, e.g., send enquiryData to the server
+        console.log('Form submitted:', enquiryData);
     };
 
     return (
@@ -36,18 +84,24 @@ function AddEnquiry() {
                         <label>Visitor's Name*</label>
                         <input
                             type="text"
+                            onChange={handleChange}
+                            name="visitorName"
+                            value={enquiryData.visitorName}
                             className="form-control"
                             placeholder="Fullname"
                             required />
                     </div>
                     <div className="mb-2 col-lg-6">
                         <label>Phone*</label>
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
+                        <div className="input-group">
+                            <span className="input-group-text" id="basic-addon1">
                                 +91
                             </span>
                             <input
                                 type="text"
+                                onChange={handleChange}
+                                name="phone"
+                                value={enquiryData.value}
                                 className="form-control"
                                 placeholder="contact number"
                                 required />
@@ -55,7 +109,7 @@ function AddEnquiry() {
                     </div>
                     <div className="mb-2 col-lg-6">
                         <label>Source*</label>
-                        <select id="idProofType" class="form-select" required>
+                        <select id="idProofType" className="form-select" onChange={handleChange} name="source" value={enquiryData.source} required>
                             <option selected>Select</option>
                             <option value="1">Walk In</option>
                             <option value="2">Social Media</option>
@@ -67,6 +121,9 @@ function AddEnquiry() {
                         <label>Refered By</label>
                         <input
                             type="text"
+                            onChange={handleChange}
+                            name="referredBy"
+                            value={enquiryData.referredBy}
                             className="form-control"
                             placeholder="Enter Member Name"
                         />
@@ -74,8 +131,9 @@ function AddEnquiry() {
                     <div className="mb-2 col-6 d-flex flex-column">
                         <label>Enquiry On</label>
                         <ReactDatePicker
-                            selected={dateTime}
-                            onChange={handleDateTimeChange}
+                            selected={enquiryOnDateTime}
+                            onChange={enquiryOnDateTimeChange}
+                            name="enquiryOn"
                             showTimeSelect
                             timeFormat="HH:mm"
                             timeIntervals={15}
@@ -86,8 +144,10 @@ function AddEnquiry() {
                     <div className="mb-2 col-6 d-flex flex-column">
                         <label>Last Follow Up On</label>
                         <ReactDatePicker
-                            selected={dateTime}
-                            onChange={handleDateTimeChange}
+                            // selected={enquiryData.lastFollowUpOn}
+                            selected={lastFollowUpDateTime}
+                            onChange={lastFollowUpOnDateTimeChange}
+                            name="lastFollowUpOn"
                             showTimeSelect
                             timeFormat="HH:mm"
                             timeIntervals={15}
@@ -97,86 +157,29 @@ function AddEnquiry() {
                     </div>
 
                     <div className="mb-2 col-12">
-                        <label>Equired For</label>
-                        <div class="row p-4">
-
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Gym" id="flexCheckChecked" checked />
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Gym
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="CrossFit" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    CrossFit
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Calisthenics" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Calisthenics
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Zumba" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Zumba
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Dance" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Dance
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Yoga" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Yoga
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Steam Bath" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Steam Bath
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Physio Therapy" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Physio Therapy
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Power Lifting" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Power Lifting
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Personal Training" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Personal Training
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Cardio" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Cardio
-                                </label>
-                            </div>
-                            <div class="form-check col-3">
-                                <input class="form-check-input" type="checkbox" value="Aerobics" />
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Aerobics
-                                </label>
-                            </div>
+                        <label>Enquired For</label>
+                        <div className="row p-4">
+                            {['Gym', 'CrossFit', 'Calisthenics', 'Zumba', 'Dance', 'Yoga', 'Steam Bath', 'Physio Therapy', 'Power Lifting', 'Personal Training', 'Cardio', 'Aerobics'].map((activity, index) => (
+                                <div className="form-check col-3" key={index}>
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        name="enquiredFor"
+                                        value={activity}
+                                        checked={enquiryData.enquiredFor.includes(activity)}
+                                        onChange={handleChange}
+                                    />
+                                    <label className="form-check-label" htmlFor={`flexCheckDefault${index}`}>
+                                        {activity}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
                     </div>
+
                     <div className="mb-2 col-lg-6">
                         <label>Interested On</label>
-                        <select id="idProofType" class="form-select">
+                        <select id="idProofType" name="interestedOn" onChange={handleChange} value={enquiryData.interestedOn} className="form-select">
                             <option selected>Select Package</option>
                             <option value="1">Monthly Package</option>
                             <option value="2">Quaterly Package</option>
@@ -187,7 +190,7 @@ function AddEnquiry() {
                     </div>
                     <div className="mb-2 col-lg-6">
                         <label>Attain By</label>
-                        <select id="idProofType" class="form-select">
+                        <select id="idProofType" name="attainedBy" value={enquiryData.attainedBy} onChange={handleChange} className="form-select">
                             <option selected>Select Staff</option>
                             <option value="1">S1</option>
                             <option value="2">S2</option>
@@ -198,6 +201,9 @@ function AddEnquiry() {
                         <label>Email</label>
                         <input
                             type="text"
+                            onChange={handleChange}
+                            name="email"
+                            value={enquiryData.email}
                             className="form-control"
                             placeholder="asd123@gmail.com"
                         />
@@ -206,6 +212,9 @@ function AddEnquiry() {
                         <label>Address</label>
                         <textarea
                             type="text"
+                            onChange={handleChange}
+                            name="address"
+                            value={enquiryData.address}
                             className="form-control"
                             placeholder="eg. 123, Colony, Hyderabad"
                         />
@@ -214,12 +223,15 @@ function AddEnquiry() {
                         <label>Comment</label>
                         <textarea
                             type="text"
+                            onChange={handleChange}
+                            name="comment"
+                            value={enquiryData.comment}
                             className="form-control"
                             placeholder="Enter comment..."
                         />
                     </div>
                     <div className="col-12 d-flex justify-content-end p-0">
-                        <button type="submit" class="btn btn-primary m-2">
+                        <button onClick={handleSubmit} className="btn btn-primary m-2">
                             Submit
                         </button>
                     </div>
