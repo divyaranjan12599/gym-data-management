@@ -96,15 +96,15 @@ function AddMembers() {
       ...clientData,
       picUrl: imageURL
     };
-    try {
-      const response = await axios.post(process.env.REACT_APP_DOMAIN+"/user/create-client", postData);
-      console.log('Client created successfully:', response.data);
-      resetClientData();
-    } catch (error) {
-      console.error('Error creating client:', error);
-    }
+    // try {
+    //   const response = await axios.post(process.env.REACT_APP_DOMAIN+"/user/create-client", postData);
+    //   console.log('Client created successfully:', response.data);
+    //   resetClientData();
+    // } catch (error) {
+    //   console.error('Error creating client:', error);
+    // }
     // Handle form submission, e.g., send clientData to the server
-    // console.log('Form submitted:', clientData);
+    console.log('Form submitted:', clientData);
   };
 
   return (
@@ -378,13 +378,15 @@ function AddMembers() {
                         +91
                       </span>
                       <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         name="emergencyContactNumber"
                         value={clientData.emergencyContactNumber}
                         placeholder="Contact Number"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        onChange={handleChange}
+                        aria-hidden
                       />
                     </div>
                   </div>

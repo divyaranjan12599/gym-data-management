@@ -56,12 +56,12 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link">
+                  <Link to="/pt" className="nav-link">
                     <FontAwesomeIcon icon={faDumbbell} /> PTs
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="#" className="nav-link">
+                  <Link to="/invoice" className="nav-link">
                     <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoices
                   </Link>
                 </li>
@@ -115,22 +115,22 @@ function Navbar() {
                     className={`dropdown-menu ${isDropdownOpen2 ? "show" : ""}`}
                   >
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/staff">
                         Staff
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/ptMembers">
                         PT Members
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/recentMemberships">
                         Recent Memberships
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/staffAttendance">
                         Staff Attendance
                       </Link>
                     </li>
