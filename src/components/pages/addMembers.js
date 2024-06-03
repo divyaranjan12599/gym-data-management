@@ -315,9 +315,9 @@ function AddMembers() {
               <div className="mb-2 input-group d-flex flex-row">
                 <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" class="form-select custom-col-3">
                   <option selected>Select</option>
-                  <option value="Adhar Card">Adhar Card</option>
-                  <option value="PAN Card">PAN Card</option>
-                  <option value="License">License</option>
+                  <option value="adhar">Adhar Card</option>
+                  <option value="pan">PAN Card</option>
+                  <option value="license">License</option>
                   {/* <option value="4">Other</option> */}
                 </select>
 
@@ -425,11 +425,11 @@ function AddMembers() {
               <label>Membership Period</label>
               <select id="idProofType" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} class="form-select">
                 <option selected>Select</option>
-                <option value="One Month">One Month</option>
-                <option value="Two Months">Two Months</option>
-                <option value="Three Months">Three Months</option>
-                <option value="Six Months">Six Months</option>
-                <option value="Yearly">Yearly</option>
+                <option value="monthly">One Month</option>
+                <option value="twomonths">Two Months</option>
+                <option value="quarterly">Three Months</option>
+                <option value="halfyearly">Six Months</option>
+                <option value="yearly">Yearly</option>
                 {/* <option value="5">Other</option> */}
               </select>
             </div>

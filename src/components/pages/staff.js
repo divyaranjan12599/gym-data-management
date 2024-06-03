@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,11 +6,29 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import axios from "axios";
 
 
 function Staff() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+
+  const [staffData, setStaffData] = useState([]);
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-staffs");
+      setStaffData(response.data);
+
+    } catch (error) {
+      console.log(error);
+      setStaffData([]);
+    }
+  }
+  console.log("Staff :-> ", staffData);
+  useEffect(() => {
+    fetchData();
+  }, []);
   
   let columns = useMemo(
     () => [
