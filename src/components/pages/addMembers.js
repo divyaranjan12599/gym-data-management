@@ -96,13 +96,14 @@ function AddMembers() {
       ...clientData,
       picUrl: imageURL
     };
-    // try {
-    //   const response = await axios.post(process.env.REACT_APP_DOMAIN+"/user/create-client", postData);
-    //   console.log('Client created successfully:', response.data);
-    //   resetClientData();
-    // } catch (error) {
-    //   console.error('Error creating client:', error);
-    // }
+
+    try {
+      const response = await axios.post(process.env.REACT_APP_SERVER_URL+"/user/create-client", postData);
+      console.log('Client created successfully:', response.data);
+      resetClientData();
+    } catch (error) {
+      console.error('Error creating client:', error);
+    }
     // Handle form submission, e.g., send clientData to the server
     console.log('Form submitted:', clientData);
   };
@@ -312,7 +313,7 @@ function AddMembers() {
             <div className="col-12">
               <label>ID Proof Details</label>
               <div className="mb-2 input-group d-flex flex-row">
-                <select id="idProofType" onChange={handleChange} value={clientData.idProofType} class="form-select custom-col-3">
+                <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" class="form-select custom-col-3">
                   <option selected>Select</option>
                   <option value="Adhar Card">Adhar Card</option>
                   <option value="PAN Card">PAN Card</option>
@@ -381,11 +382,11 @@ function AddMembers() {
                         type="number"
                         class="form-control"
                         name="emergencyContactNumber"
+                        onChange={handleChange}
                         value={clientData.emergencyContactNumber}
                         placeholder="Contact Number"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
-                        onChange={handleChange}
                         aria-hidden
                       />
                     </div>
