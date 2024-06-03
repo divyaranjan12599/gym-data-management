@@ -5,23 +5,18 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
-import { grey } from '@mui/material/colors';
+import { grey } from "@mui/material/colors";
 
-import XLSX from 'sheetjs-style';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 
-function Memberships() {
+function StaffAttendance() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-
-  const doc = new jsPDF();
-
+  
   let columns = useMemo(
     () => [
       {
-        field: 'photoURL',
-        headerName: 'Avatar',
+        field: "photoURL",
+        headerName: "Avatar",
         width: 90,
         renderCell: (params) => <Avatar src={params.row.photoURL} />,
         sortable: false,
@@ -36,19 +31,19 @@ function Memberships() {
       { field: "amount", headerName: "Amount", width: 140 },
       { field: "balance", headerName: "Balance", width: 140 },
       {
-        field: 'status',
-        headerName: 'Status',
+        field: "status",
+        headerName: "Status",
         width: 100,
-        type: 'boolean',
+        type: "boolean",
         editable: true,
       },
     ],
     []
   );
-
+  
   const rows = [
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/560/560277.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/560/560277.png",
       id: 1602,
       name: "Divyaranjan",
       email: "johndoe@example.com",
@@ -56,7 +51,7 @@ function Memberships() {
       status: "Active",
     },
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/2202/2202112.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/2202/2202112.png",
       id: 1603,
       name: "Aman",
       email: "johndoe@example.com",
@@ -64,7 +59,7 @@ function Memberships() {
       status: "Active",
     },
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/4140/4140037.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140037.png",
       id: 1604,
       name: "Abhay",
       email: "johndoe@example.com",
@@ -72,7 +67,7 @@ function Memberships() {
       status: "Active",
     },
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/4140/4140048.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140048.png",
       id: 1605,
       name: "Chetan",
       email: "johndoe@example.com",
@@ -80,7 +75,7 @@ function Memberships() {
       status: "Active",
     },
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/6997/6997662.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
       id: 1606,
       name: "Abhishek",
       email: "johndoe@example.com",
@@ -88,7 +83,7 @@ function Memberships() {
       status: "Active",
     },
     {
-      photoURL: 'https://cdn-icons-png.flaticon.com/128/3135/3135715.png',
+      photoURL: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
       id: 1607,
       name: "John Doe",
       email: "johndoe@example.com",
@@ -124,31 +119,10 @@ function Memberships() {
       status: "Active",
     },
   ];
-
-
-const handleExportExcel = () => {
-
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(rows);
-
-  XLSX.utils.book_append_sheet(wb, ws, 'Memberships');
-
-  XLSX.writeFile(wb, 'memberships.xlsx');
-};
-
-const handleExportPDF = () => {
   
-  doc.autoTable({
-    head: columns,
-    body: rows,
-  });
-
-  doc.save('memberships.pdf');
-}
-
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">MEMBERSHIPS</h2>
+      <h2 className="text-center mt-3">STAFF ATTENDANCE</h2>
 
       <div className="container-fluid d-flex flex-column mt-5">
         <div className="d-flex flex-row">
@@ -174,7 +148,7 @@ const handleExportPDF = () => {
 
           <div className="col-2 mx-3">
             <label>Search On</label>
-            <select id="idProofType" class="form-select w-100">
+            <select id="expired" class="form-select w-100">
               <option selected>Expired</option>
               <option value="1">*-*</option>
               <option value="2">*-*</option>
@@ -185,7 +159,7 @@ const handleExportPDF = () => {
 
           <div className="col-2 mx-3" type="select">
             <label>Status</label>
-            <select id="idProofType" class="form-select w-100">
+            <select id="status" class="form-select w-100">
               <option selected>Active</option>
               <option value="1">*_*</option>
               <option value="2">*_*</option>
@@ -195,7 +169,7 @@ const handleExportPDF = () => {
 
           <div className="col-2 mx-3" type="select">
             <label>Package</label>
-            <select id="idProofType" class="form-select w-100">
+            <select id="package" class="form-select w-100">
               <option selected>All</option>
               <option value="1">*_*</option>
               <option value="2">*_*</option>
@@ -203,49 +177,44 @@ const handleExportPDF = () => {
             </select>
           </div>
 
-          <div className="btn btn-primary mt-4 w-50 h-100 mx-3">Submit</div>
+          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
+            Submit
+          </div>
+
         </div>
       </div>
 
-    <div className="mt-4">
-      <label className="mx-3">Export as : </label>
-      <button className="btn btn-outline-success mx-2" onClick={handleExportExcel}>
-        Excel
-      </button>
-      <button className="btn btn-outline-danger" onClick={handleExportPDF}>
-        PDF
-      </button>
-    </div>
-
-      <div className="mt-3">
+      <div className="mt-5 mx-4">
           <DataGrid
-          sx={{
-          width: '100%',
-          height: 500,
-            [`& .${gridClasses.row}`]: {
-              bgcolor: grey[200],
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          // getRowSpacing={(params) => ({
-          //   top: params.isFirstVisible ? 0 : 5,
-          //   bottom: params.isLastVisible ? 0 : 5,
-          // })}
-          localeText={{
-            toolbarDensity: 'Size',
-            toolbarDensityLabel: 'Size',
-            toolbarDensityCompact: 'Small',
-            toolbarDensityStandard: 'Medium',
-            toolbarDensityComfortable: 'Large',
-          }}
-          slots={{
-            toolbar: GridToolbar,
-          }}
+            className="data-grid"
+            sx={{
+              width: "100%",
+              height: 550,
+              [`& .${gridClasses.row}`]: {
+                bgcolor: grey[200],
+              },
+            }}
+            rows={rows}
+            columns={columns}
+            getRowSpacing={(params) => ({
+                top: params.isFirstVisible ? 0 : 2,
+              bottom: params.isLastVisible ? 0 : 2,
+            })}
+            localeText={{
+              toolbarDensity: "Size",
+              toolbarDensityLabel: "Size",
+              toolbarDensityCompact: "Small",
+              toolbarDensityStandard: "Medium",
+              toolbarDensityComfortable: "Large",
+            }}
+            slots={{
+              toolbar: GridToolbar,
+            }}
           />
       </div>
+
     </div>
   );
 }
 
-export default Memberships;
+export default StaffAttendance;
