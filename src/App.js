@@ -23,6 +23,7 @@ function App() {
 
   const [clientData, setClientData] = useState([]);
   const [enquiryData, setEnquiryData] = useState([]);
+  const [staffData, setStaffData] = useState([]);
 
 
   const fetchClientData = async () => {
@@ -45,11 +46,23 @@ function App() {
       setEnquiryData([]);
     }
   }
+  const fetchStaffData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-staffs");
+      setStaffData(response.data);
+
+    } catch (error) {
+      console.log(error);
+      setStaffData([]);
+    }
+  }
   console.log("client :-> ", clientData);
   console.log("enquiry :-> ", enquiryData);
+  console.log("staff :-> ", staffData);
   useEffect(() => {
     fetchClientData();
     fetchEnquiryData();
+    fetchStaffData();
   }, []);
 
   return (

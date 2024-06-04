@@ -12,23 +12,7 @@ import axios from "axios";
 function Staff() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-
-  const [staffData, setStaffData] = useState([]);
   
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-staffs");
-      setStaffData(response.data);
-
-    } catch (error) {
-      console.log(error);
-      setStaffData([]);
-    }
-  }
-  console.log("Staff :-> ", staffData);
-  useEffect(() => {
-    fetchData();
-  }, []);
   
   let columns = useMemo(
     () => [
