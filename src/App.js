@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Home from './components/pages/home';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
@@ -15,10 +15,42 @@ import Invoice from "./components/pages/invoice";
 import Memberships from "./components/pages/memberships";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
 
 
 
 function App() {
+
+  const [clientData, setClientData] = useState([]);
+  const [enquiryData, setEnquiryData] = useState([]);
+
+
+  const fetchClientData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-clients");
+      setClientData(response.data);
+
+    } catch (error) {
+      console.log(error);
+      setClientData([]);
+    }
+  }
+  const fetchEnquiryData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-enquirys");
+      setEnquiryData(response.data);
+
+    } catch (error) {
+      console.log(error);
+      setEnquiryData([]);
+    }
+  }
+  console.log("client :-> ", clientData);
+  console.log("enquiry :-> ", enquiryData);
+  useEffect(() => {
+    fetchClientData();
+    fetchEnquiryData();
+  }, []);
 
   return (
     <Router>
