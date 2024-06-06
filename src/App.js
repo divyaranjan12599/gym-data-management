@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Home from './components/pages/home';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
@@ -17,8 +17,9 @@ import Memberships from "./components/pages/memberships";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
+import { lookInSession } from "./components/pages/session";
 
-
+export const UserContext = createContext({})
 
 function App() {
 
@@ -26,10 +27,17 @@ function App() {
   const [enquiryData, setEnquiryData] = useState([]);
   const [staffData, setStaffData] = useState([]);
 
+  const [userAuth, setUserAuth] = useState({});
+
+  useEffect(() => {
+    let userInSession = lookInSession("user");
+    userInSession ? setUserAuth(JSON.parse(userInSession)) : setUserAuth({ access_token: null });
+  }, [])
+
 
   const fetchClientData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-clients");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients");
       setClientData(response.data);
 
     } catch (error) {
@@ -39,7 +47,7 @@ function App() {
   }
   const fetchEnquiryData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-enquirys");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquirys");
       setEnquiryData(response.data);
 
     } catch (error) {
@@ -49,7 +57,7 @@ function App() {
   }
   const fetchStaffData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL+"/user/get-staffs");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs");
       setStaffData(response.data);
 
     } catch (error) {
@@ -66,42 +74,46 @@ function App() {
     fetchStaffData();
   }, []);
 
+
+
   return (
-    <Router>
+    <UserContext.Provider value={{ userAuth, setUserAuth }}>
+      <Router>
         <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
 
-          <Route path="/add_member" element={<AddMembers />}/>
+          <Route path="/add_member" element={<AddMembers />} />
 
-          <Route path="/add_enquiry" element={<AddEnquiry />}/>
+          <Route path="/add_enquiry" element={<AddEnquiry />} />
 
-          <Route path="/add_staff" element={<AddStaffs />}/>
+          <Route path="/add_staff" element={<AddStaffs />} />
 
-          <Route exact path="/home" element={<Home />}/>
+          <Route exact path="/home" element={<Home />} />
 
-          <Route path="/about" element={<About />}/>
+          <Route path="/about" element={<About />} />
 
-          <Route path="/contact" element={<Contact />}/>
+          <Route path="/contact" element={<Contact />} />
 
-          <Route path="/memberships" element={<Memberships />}/>
+          <Route path="/memberships" element={<Memberships />} />
 
-          <Route path="/pt" element={<Pts />}/>
+          <Route path="/pt" element={<Pts />} />
 
-          <Route path="/ptMembers" element={<PtMembers />}/>
+          <Route path="/ptMembers" element={<PtMembers />} />
 
-          <Route path="/staff" element={<Staff />}/>
-          
-          <Route path="/recentMemberships" element={<RecentMemberships />}/>
+          <Route path="/staff" element={<Staff />} />
 
-          <Route path="/staffAttendance" element={<StaffAttendance />}/>
+          <Route path="/recentMemberships" element={<RecentMemberships />} />
 
-          <Route path="/pts" element={<Pts />}/>
+          <Route path="/staffAttendance" element={<StaffAttendance />} />
 
-          <Route path="/invoice" element={<Invoice />}/>
+          <Route path="/pts" element={<Pts />} />
+
+          <Route path="/invoice" element={<Invoice />} />
 
         </Routes>
-    </Router>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

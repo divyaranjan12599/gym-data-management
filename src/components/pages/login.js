@@ -1,10 +1,14 @@
 // Login.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 // import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../App';
+import { storeIsSession } from './session';
+import axios from 'axios';
 // import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 
 const Login = () => {
+    let { userAuth: { access_token }, setUserAuth  } = useContext(UserContext);
     // const { login } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -12,9 +16,15 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // Implement your authentication logic here
-        // login();
-        navigate('/home'); // Redirect to home or any other route after login
+        axios.post(process.env.REACT_APP_SERVER_URL + '/user/login', { email, password })
+        .then(({ data }) => {
+            storeIsSession("user", JSON.stringify(data))
+            setUserAuth(data)
+        })
+        .catch(({ response }) => {
+            console.log(response)
+        })
+        // navigate('/home'); // Redirect to home or any other route after login
     };
 
     return (
@@ -27,13 +37,13 @@ const Login = () => {
                             <form>
                                 <div class="form-group mb-3" id="formEmail">
                                     <label for="email">Email address or Contact</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email" required />
+                                    <input type="email" onChange={(e) => setEmail(e.target.value)} class="form-control" id="email" placeholder="Enter email" required />
                                 </div>
                                 <div class="form-group mb-3" id="formPassword">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Password" required />
+                                    <input type="password" onChange={(e) => setPassword(e.target.value)} class="form-control" id="password" placeholder="Password" required />
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100">Login</button>
+                                <button type="submit" onClick={handleLogin} class="btn btn-primary w-100">Login</button>
                             </form>
                         </div>
                     </div>
