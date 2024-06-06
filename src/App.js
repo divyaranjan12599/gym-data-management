@@ -12,6 +12,7 @@ import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
 import RecentMemberships from "./components/pages/recentMemberships";
 import Invoice from "./components/pages/invoice";
+import Login from "./components/pages/login";
 import Memberships from "./components/pages/memberships";
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -69,48 +70,35 @@ function App() {
     <Router>
         <Navbar />
         <Routes>
-          <Route path="/add_member" element={<AddMembers />}>
-          </Route>
+          <Route path="/login" element={<Login />} />
 
-          <Route path="/add_enquiry" element={<AddEnquiry />}>
-          </Route>
+          <Route path="/add_member" element={<AddMembers />}/>
 
-          <Route path="/add_staff" element={<AddStaffs />}>
-          </Route>
+          <Route path="/add_enquiry" element={<AddEnquiry />}/>
 
-          <Route exact path="/home" element={<Home />}>
-          </Route>
+          <Route path="/add_staff" element={<AddStaffs />}/>
 
-          <Route path="/about" element={<About />}>
-          </Route>
+          <Route exact path="/home" element={<Home />}/>
 
-          <Route path="/contact" element={<Contact />}>
-          </Route>
+          <Route path="/about" element={<About />}/>
 
-          <Route path="/memberships" element={<Memberships />}>
-          </Route>
+          <Route path="/contact" element={<Contact />}/>
 
+          <Route path="/memberships" element={<Memberships />}/>
 
-          <Route path="/pt" element={<Pts />}>
-          </Route>
+          <Route path="/pt" element={<Pts />}/>
 
-          <Route path="/ptMembers" element={<PtMembers />}>
-          </Route>
+          <Route path="/ptMembers" element={<PtMembers />}/>
 
-          <Route path="/staff" element={<Staff />}>
-          </Route>
+          <Route path="/staff" element={<Staff />}/>
           
-          <Route path="/recentMemberships" element={<RecentMemberships />}>
-          </Route>
+          <Route path="/recentMemberships" element={<RecentMemberships />}/>
 
-          <Route path="/staffAttendance" element={<StaffAttendance />}>
-          </Route>
+          <Route path="/staffAttendance" element={<StaffAttendance />}/>
 
-          <Route path="/pts" element={<Pts />}>
-          </Route>
+          <Route path="/pts" element={<Pts />}/>
 
-          <Route path="/invoice" element={<Invoice />}>
-          </Route>
+          <Route path="/invoice" element={<Invoice />}/>
 
         </Routes>
     </Router>
