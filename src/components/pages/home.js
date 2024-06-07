@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../App";
 
 function Home(){
+  
+
     return(
         <div className="container">
             <div className="card mt-4 shadow">

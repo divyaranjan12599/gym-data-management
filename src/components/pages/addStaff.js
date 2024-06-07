@@ -3,6 +3,7 @@ import defaultImage from "../icons/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import axios from "axios";
 
 const initialStaffState = {
     staffName: '',
@@ -53,8 +54,20 @@ function AddStaffs() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const postData = {
+            ...staffData,
+            picUrl: imageURL
+        };
+
+        try {
+            const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-staff", postData);
+            console.log('Staff Added successfully:', response.data);
+            resetStaffData();
+        } catch (error) {
+            console.error('Error creating client:', error);
+        }
         // Handle form submission, e.g., send staffData to the server
         console.log('Form submitted:', staffData);
     };
@@ -278,10 +291,9 @@ function AddStaffs() {
                         <div className="mb-2 col-12 input-group d-flex flex-row">
                             <select id="idProofType" onChange={handleChange} value={staffData.idProofType} name="idProofType" className="form-select custom-col-3">
                                 <option selected>Select</option>
-                                <option value="1">Adhar Card</option>
-                                <option value="2">PAN Card</option>
-                                <option value="3">License</option>
-                                <option value="4">Other</option>
+                                <option value="adhar">Adhar Card</option>
+                                <option value="pan">PAN Card</option>
+                                <option value="license">License</option>
                             </select>
 
                             <input
