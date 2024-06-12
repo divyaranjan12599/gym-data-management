@@ -76,8 +76,9 @@ function App() {
 
 
 
+
   return (
-    <UserContext.Provider value={{ userAuth, setUserAuth }}>
+    <UserContext.Provider value={{ userAuth, setUserAuth , staffData }}>
       <Router>
         <Navbar />
         <Routes>
