@@ -133,6 +133,9 @@ function Navbar() {
                       <Link className="dropdown-item" to="/staffAttendance">
                         Staff Attendance
                       </Link>
+                      <Link className="dropdown-item" to="/enquiries">
+                        Enquiries
+                      </Link>
                     </li>
                   </ul>
                 </li>

@@ -18,6 +18,7 @@ import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
+import Enquiries from "./components/pages/Enquiries";
 
 export const UserContext = createContext({})
 
@@ -103,6 +104,8 @@ function App() {
           <Route path="/ptMembers" element={<PtMembers />} />
 
           <Route path="/staff" element={<Staff />} />
+
+          <Route path="/enquiries" element={<Enquiries />} />
 
           <Route path="/recentMemberships" element={<RecentMemberships />} />
 
