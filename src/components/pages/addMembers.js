@@ -48,6 +48,9 @@ function AddMembers() {
 
   const resetClientData = () => {
     setClientData(initialClientState);
+    // resting the image url
+    setImageURL(null);
+
   };
 
   // const handleSubmit = (e) => {
