@@ -62,6 +62,10 @@
   margin-bottom: 30px;
 }
 
+.custom-margin-1 {
+  margin: 10px;
+}
+
 /* .form-control {
   border-radius: 20px!important;
   box-shadow: none!important;

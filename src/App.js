@@ -11,7 +11,6 @@ import PtMembers from "./components/pages/ptMembers";
 import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
 import RecentMemberships from "./components/pages/recentMemberships";
-import Invoice from "./components/pages/invoice";
 import Login from "./components/pages/login";
 import Memberships from "./components/pages/memberships";
 import "./App.css"
@@ -19,6 +18,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
+import Invoice from "./components/pages/invoicepages/invoice";
+import StateContext from "./components/pages/invoicepages/stateContext";
 
 export const UserContext = createContext({})
 
@@ -113,7 +114,11 @@ function App() {
 
           <Route path="/pts" element={<Pts />} />
 
-          <Route path="/invoice" element={<Invoice />} />
+          <Route path="/invoice" element={
+            <StateContext>
+              <Invoice />
+            </StateContext>
+          } />
 
         </Routes>
       </Router>
