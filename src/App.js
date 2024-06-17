@@ -18,6 +18,7 @@ import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
+import Enquiries from "./components/pages/Enquiries";
 
 export const UserContext = createContext({})
 
@@ -76,8 +77,9 @@ function App() {
 
 
 
+
   return (
-    <UserContext.Provider value={{ userAuth, setUserAuth }}>
+    <UserContext.Provider value={{ userAuth, setUserAuth , staffData, enquiryData, clientData }}>
       <Router>
         <Navbar />
         <Routes>
@@ -102,6 +104,8 @@ function App() {
           <Route path="/ptMembers" element={<PtMembers />} />
 
           <Route path="/staff" element={<Staff />} />
+
+          <Route path="/enquiries" element={<Enquiries />} />
 
           <Route path="/recentMemberships" element={<RecentMemberships />} />
 

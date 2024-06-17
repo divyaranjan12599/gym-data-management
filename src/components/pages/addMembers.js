@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import defaultImage from "../icons/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { Avatar } from '@mui/material';
 import axios from "axios"
+import { UserContext } from "../../App";
 
 const initialClientState = {
   clientName: '',
   email: '',
   contactNumber: '',
-  picUrl:"",
+  picUrl: "",
   address1: '',
   address2: '',
   city: '',
@@ -47,6 +48,9 @@ function AddMembers() {
 
   const resetClientData = () => {
     setClientData(initialClientState);
+    // resting the image url
+    setImageURL(null);
+
   };
 
   // const handleSubmit = (e) => {
@@ -98,7 +102,7 @@ function AddMembers() {
     };
 
     try {
-      const response = await axios.post(process.env.REACT_APP_SERVER_URL+"/user/create-client", postData);
+      const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData);
       console.log('Client created successfully:', response.data);
       resetClientData();
     } catch (error) {
@@ -107,6 +111,8 @@ function AddMembers() {
     // Handle form submission, e.g., send clientData to the server
     console.log('Form submitted:', clientData);
   };
+
+  let { staffData } = useContext(UserContext);
 
   return (
     <div className="container">
@@ -502,20 +508,20 @@ function AddMembers() {
                       <label>Membership Period</label>
                       <select id="idProofType" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} class="form-select">
                         <option selected>Select</option>
-                        <option value="One Month">One Month</option>
-                        <option value="Two Months">Two Months</option>
-                        <option value="Three Months">Three Months</option>
-                        <option value="Six Months">Six Months</option>
-                        <option value="Yearly">Yearly</option>
+                        <option value="monthly">One Month</option>
+                        <option value="twomonths">Two Months</option>
+                        <option value="quarterly">Three Months</option>
+                        <option value="halfyearly">Six Months</option>
+                        <option value="yearly">Yearly</option>
                       </select>
                     </div>
                     <div className="mb-2 col-lg-6">
                       <label>PT Assigned to</label>
                       <select id="idProofType" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} class="form-select">
-                        <option selected>Select</option>
-                        <option value="1">T1</option>
-                        <option value="2">T2</option>
-                        <option value="5">Other</option>
+                        <option selected>Select Staff</option>
+                        {staffData.map((staff, index) => (
+                          <option key={index} value={staff._id}>{staff.name}</option>
+                        ))}
                       </select>
                     </div>
                   </div>

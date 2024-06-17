@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,12 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { UserContext } from "../../App";
 
 
 function StaffAttendance() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   
+  let { staffData } = useContext(UserContext);
+
   let columns = useMemo(
     () => [
       {
@@ -41,84 +44,18 @@ function StaffAttendance() {
     []
   );
   
-  const rows = [
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/560/560277.png",
-      id: 1602,
-      name: "Divyaranjan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/2202/2202112.png",
-      id: 1603,
-      name: "Aman",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140037.png",
-      id: 1604,
-      name: "Abhay",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140048.png",
-      id: 1605,
-      name: "Chetan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
-      id: 1606,
-      name: "Abhishek",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-      id: 1607,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1608,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1609,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1610,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1611,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-  ];
+  const rows =  staffData.map((staff, index) => ({
+    id: staff.id || "N/A",
+    name: staff.name || "N/A",
+    phone: staff.contact || "N/A",
+    package: staff.package || "N/A",
+    startDate: staff.joiningdate || "N/A",
+    endDate: staff.endDate || "N/A",
+    amount: staff.amount || "N/A",
+    balance: staff.balance || "N/A",
+    status: staff.status || "N/A",
+    photoURL: staff.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  }));
   
   return (
     <div className="container-fluid">

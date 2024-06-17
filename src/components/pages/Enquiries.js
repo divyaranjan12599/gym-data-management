@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,14 +6,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import axios from "axios";
 import { UserContext } from "../../App";
+import AddEnquiry from "./addEnquiry";
 
 
-function PtMembers() {
+function Enquiries() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   
-  let { clientData } = useContext(UserContext);
+  let {staffData} = useContext(UserContext);
+  
+    let  { enquiryData } = useContext(UserContext)
 
   let columns = useMemo(
     () => [
@@ -28,11 +32,11 @@ function PtMembers() {
       { field: "id", headerName: "Client ID", width: 90 },
       { field: "name", headerName: "Name", width: 150 },
       { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      { field: "amount", headerName: "Amount", width: 140 },
-      { field: "balance", headerName: "Balance", width: 140 },
+      { field: "email", headerName: "Email", width: 180 },
+      { field: "enquiryDate", headerName: "Enquiry Date", width: 150 },
+      { field: "lastFollowUpDate", headerName: "Last FollowUp Date", width: 150 },
+      { field: "intrestedOn", headerName: "Intrested On", width: 140 },
+      { field: "source", headerName: "Source", width: 140 },
       {
         field: "status",
         headerName: "Status",
@@ -44,24 +48,22 @@ function PtMembers() {
     []
   );
   
-  const rows = clientData
-  .filter(client => client.membership.isPt)
-  .map((client, index) => ({
-    id: client.id || "N/A",
-    name: client.name || "N/A",
-    phone: client.contact || "N/A",
-    package: client.membership.membershipPeriod || "N/A",
-    startDate: client.joiningdate || "N/A",
-    endDate: client.endDate || "N/A",
-    amount: client.paymentDetails.amountPaid,
-    balance: client.paymentDetails.amountRemaining,
-    status: client.status || "N/A",
-    photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  const rows =  enquiryData.map((staff, index) => ({
+    id: staff.id || "N/A",
+    name: staff.name || "N/A",
+    phone: staff.contact || "N/A",
+    email: staff.email || "N/A",
+    enquiryDate: staff.enquiryDate || "N/A",
+    lastFollowUpDate: staff.lastFollowUpDate || "N/A",
+    intrestedOn: staff.intrestedOn || "N/A",
+    balance: staff.balance || "N/A",
+    source: staff.source || "N/A",
+    photoURL: staff.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
   
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">PT MEMBERS</h2>
+      <h2 className="text-center mt-3">STAFF</h2>
 
       <div className="container-fluid d-flex flex-column mt-5">
         <div className="d-flex flex-row">
@@ -156,4 +158,4 @@ function PtMembers() {
   );
 }
 
-export default PtMembers;
+export default Enquiries;
