@@ -77,8 +77,6 @@ function App() {
   }, []);
 
 
-
-
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth , staffData, enquiryData, clientData }}>
       <Router>
