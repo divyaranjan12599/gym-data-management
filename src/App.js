@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
+import Layout from "./Layout/Layout";
 
 export const UserContext = createContext({})
 
@@ -66,9 +67,9 @@ function App() {
       setStaffData([]);
     }
   }
-  console.log("client :-> ", clientData);
-  console.log("enquiry :-> ", enquiryData);
-  console.log("staff :-> ", staffData);
+  // console.log("client :-> ", clientData);
+  // console.log("enquiry :-> ", enquiryData);
+  // console.log("staff :-> ", staffData);
   useEffect(() => {
     fetchClientData();
     fetchEnquiryData();
@@ -79,8 +80,11 @@ function App() {
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth , staffData, enquiryData, clientData }}>
       <Router>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
+
+          <Route path="/" element={<Layout/>} />
+
           <Route path="/login" element={<Login />} />
 
           <Route path="/add_member" element={<AddMembers />} />
