@@ -1,5 +1,5 @@
 // Login.js
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
@@ -8,11 +8,20 @@ import axios from 'axios';
 // import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 
 const Login = () => {
-    let { userAuth: { access_token }, setUserAuth  } = useContext(UserContext);
+
+    
+
+    let {userAuth, userAuth: { token }, setUserAuth  } = useContext(UserContext);
     // const { login } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (token) {
+            navigate('/home ');
+        }
+    }, [token, navigate]);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -20,12 +29,16 @@ const Login = () => {
         .then(({ data }) => {
             storeIsSession("user", JSON.stringify(data))
             setUserAuth(data)
+            if (data.token) {
+                navigate('/home ')
+            }
         })
         .catch(({ response }) => {
             console.log(response)
         })
-        // navigate('/home'); // Redirect to home or any other route after login
     };
+
+    console.log("first", userAuth)
 
     return (
         <div class="container d-flex align-items-center justify-content-center w-100 h-100">
