@@ -21,7 +21,6 @@ import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
-import RedirectToHome from "./components/Protected/RedirectToHome";
 import MainLayout from "./components/pages/MainLayout";
 
 export const UserContext = createContext({})
@@ -31,8 +30,7 @@ function App() {
   const [enquiryData, setEnquiryData] = useState([]);
   const [staffData, setStaffData] = useState([]);
   const [userAuth, setUserAuth] = useState({});
-  const [loading, setLoading] = useState(true); // Add a loading state
-
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     let userInSession = lookInSession("user");
@@ -41,7 +39,7 @@ function App() {
     } else {
       setUserAuth({ access_token: null });
     }
-    setLoading(false); // Set loading to false after setting userAuth
+    setLoading(false); 
   }, []);
 
   const fetchClientData = async () => {
