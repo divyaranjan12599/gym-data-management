@@ -13,9 +13,31 @@ import {
   faAngleUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-function Navbar() {
+function Navbar(props) {
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    console.log("adhjdsaj",props);
+  };
+
+  const filterData = (event) => {
+    event.preventDefault();
+    const filteredClients = props.clientData.filter(client => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        // client.id.includes(searchLower) ||
+        client.name.toLowerCase().includes(searchLower) ||
+        client.email.split(/[@.]/)[0].toLowerCase().includes(searchLower) ||
+        client.contact.includes(searchLower)
+      );
+    });
+
+    console.log(filteredClients);
+  }
+
 
   const handleDropdownToggle = (isOpen, num) => {
     if (num === 1) setIsDropdownOpen1(isOpen);
@@ -56,7 +78,7 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/pt" className="nav-link">
+                  <Link to="/ptMembers" className="nav-link">
                     <FontAwesomeIcon icon={faDumbbell} /> PTs
                   </Link>
                 </li>
@@ -153,15 +175,17 @@ function Navbar() {
               </ul>
             </div>
             <div className="col-lg-4">
-              <form className="d-flex nav-search-bar" role="search">
+              <form className="d-flex nav-search-bar" role="search" onSubmit={filterData}>
                 <div className="input-group">
                   <input
                     className="form-control"
                     type="search"
-                    placeholder="Client Id, name, email or contact"
+                    onChange={handleSearchChange}
+                    value={searchTerm}
+                    placeholder="Name, Email or Contact"
                     aria-label="Search"
                   />
-                  <span className="input-group-text">
+                  <span className="input-group-text" onClick={filterData}>
                     <FontAwesomeIcon icon={faSearch} />
                   </span>
                 </div>

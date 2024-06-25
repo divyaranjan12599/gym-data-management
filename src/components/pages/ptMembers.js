@@ -53,8 +53,8 @@ function PtMembers() {
     package: client.membership.membershipPeriod || "N/A",
     startDate: client.joiningdate || "N/A",
     endDate: client.endDate || "N/A",
-    amount: client.paymentDetails.amountPaid,
-    balance: client.paymentDetails.amountRemaining,
+    amount: client.paymentDetails.amountPaid || "N/A",
+    balance: client.paymentDetails.amountRemaining || "N/A",
     status: client.status || "N/A",
     photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));

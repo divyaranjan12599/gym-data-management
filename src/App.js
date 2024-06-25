@@ -6,7 +6,7 @@ import Navbar from "./components/inc/navbar";
 import AddMembers from "./components/pages/addMembers";
 import AddEnquiry from "./components/pages/addEnquiry";
 import AddStaffs from "./components/pages/addStaff";
-import Pts from "./components/pages/pt";
+// import Pts from "./components/pages/pt";
 import PtMembers from "./components/pages/ptMembers";
 import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
@@ -55,7 +55,7 @@ function App() {
 
   const fetchEnquiryData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquirys");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquiries");
       setEnquiryData(response.data);
     } catch (error) {
       console.log(error);
@@ -82,25 +82,27 @@ function App() {
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, loading }}>
       <Router>
+
+        <Navbar clientData={clientData} staffData={staffData} enquiryData={enquiryData} />
         <Routes>
           <Route index element={<Layout />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-            <Route path="/add_member" element={<ProtectedRoute><AddMembers /></ProtectedRoute>} />
-            <Route path="/add_enquiry" element={<ProtectedRoute><AddEnquiry /></ProtectedRoute>} />
-            <Route path="/add_staff" element={<ProtectedRoute><AddStaffs /></ProtectedRoute>} />
-            <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
-            <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
-            <Route path="/memberships" element={<ProtectedRoute><Memberships /></ProtectedRoute>} />
-            <Route path="/pt" element={<ProtectedRoute><Pts /></ProtectedRoute>} />
-            <Route path="/ptMembers" element={<ProtectedRoute><PtMembers /></ProtectedRoute>} />
-            <Route path="/staff" element={<ProtectedRoute><Staff /></ProtectedRoute>} />
-            <Route path="/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
-            <Route path="/recentMemberships" element={<ProtectedRoute><RecentMemberships /></ProtectedRoute>} />
-            <Route path="/staffAttendance" element={<ProtectedRoute><StaffAttendance /></ProtectedRoute>} />
-            <Route path="/pts" element={<ProtectedRoute><Pts /></ProtectedRoute>} />
-            <Route path="/invoice" element={<ProtectedRoute><Invoice /></ProtectedRoute>} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/add_member" element={<AddMembers />} />
+            <Route path="/add_enquiry" element={<AddEnquiry />} />
+            <Route path="/add_staff" element={<AddStaffs />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/memberships" element={<Memberships />} />
+            {/* <Route path="/pt" element={<Pts />} /> */}
+            <Route path="/ptMembers" element={<PtMembers />} />
+            <Route path="/staff" element={<Staff />} />
+            <Route path="/enquiries" element={<Enquiries />} />
+            <Route path="/recentMemberships" element={<RecentMemberships />} />
+            <Route path="/staffAttendance" element={<StaffAttendance />} />
+            {/* <Route path="/pts" element={<Pts />} /> */}
+            <Route path="/invoice" element={<Invoice />} />
           </Route>
         </Routes>
       </Router>

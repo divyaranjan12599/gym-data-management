@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,12 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { UserContext } from "../../App";
 
 
 function Memberships() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-  
+
+  let { clientData } = useContext(UserContext);
+
   let columns = useMemo(
     () => [
       {
@@ -40,89 +43,35 @@ function Memberships() {
     ],
     []
   );
-  
-  const rows = [
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/560/560277.png",
-      id: 1602,
-      name: "Divyaranjan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/2202/2202112.png",
-      id: 1603,
-      name: "Aman",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140037.png",
-      id: 1604,
-      name: "Abhay",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140048.png",
-      id: 1605,
-      name: "Chetan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
-      id: 1606,
-      name: "Abhishek",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-      id: 1607,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1608,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1609,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1610,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1611,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-  ];
-  
+
+  const rows = clientData.map((client, index) => ({
+    id: client.id || "N/A",
+    name: client.name || "N/A",
+    phone: client.contact || "N/A",
+    package: client.membership.membershipPeriod || "N/A",
+    startDate: client.joiningdate || "N/A",
+    endDate: client.endDate || "N/A",
+    amount: client.paymentDetails.amountPaid,
+    balance: client.paymentDetails.amountRemaining,
+    status: client.status || "N/A",
+    photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  }));
+
+  rows.sort((a, b) => {
+    if (a.id === "N/A" && b.id === "N/A") {
+      return 0; // both ids are invalid
+    } else if (a.id === "N/A") {
+      return 1; // only a.id is invalid, push it to the end
+    } else if (b.id === "N/A") {
+      return -1; // only b.id is invalid, push it to the end
+    } else {
+      return a.id - b.id; // valid ids comparison
+    }
+  });
+
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">MEMBERSHIPS</h2>
+      <h2 className="text-center mt-3">MEMBERS</h2>
 
       <div className="container-fluid d-flex flex-column mt-5">
         <div className="d-flex flex-row">
@@ -185,32 +134,32 @@ function Memberships() {
       </div>
 
       <div className="mt-5 mx-4">
-          <DataGrid
-            className="data-grid"
-            sx={{
-              width: "100%",
-              height: 550,
-              [`& .${gridClasses.row}`]: {
-                bgcolor: grey[200],
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            getRowSpacing={(params) => ({
-                top: params.isFirstVisible ? 0 : 2,
-              bottom: params.isLastVisible ? 0 : 2,
-            })}
-            localeText={{
-              toolbarDensity: "Size",
-              toolbarDensityLabel: "Size",
-              toolbarDensityCompact: "Small",
-              toolbarDensityStandard: "Medium",
-              toolbarDensityComfortable: "Large",
-            }}
-            slots={{
-              toolbar: GridToolbar,
-            }}
-          />
+        <DataGrid
+          className="data-grid"
+          sx={{
+            width: "100%",
+            height: 550,
+            [`& .${gridClasses.row}`]: {
+              bgcolor: grey[200],
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          getRowSpacing={(params) => ({
+            top: params.isFirstVisible ? 0 : 2,
+            bottom: params.isLastVisible ? 0 : 2,
+          })}
+          localeText={{
+            toolbarDensity: "Size",
+            toolbarDensityLabel: "Size",
+            toolbarDensityCompact: "Small",
+            toolbarDensityStandard: "Medium",
+            toolbarDensityComfortable: "Large",
+          }}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
       </div>
 
     </div>

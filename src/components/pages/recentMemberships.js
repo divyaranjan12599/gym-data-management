@@ -43,7 +43,7 @@ function RecentMemberships() {
     ],
     []
   );
-  
+
   const rows = clientData.map((client, index) => ({
     id: client.id || "N/A",
     name: client.name || "N/A",
@@ -51,12 +51,27 @@ function RecentMemberships() {
     package: client.membership.membershipPeriod || "N/A",
     startDate: client.joiningdate || "N/A",
     endDate: client.endDate || "N/A",
-    amount: client.paymentDetails.amountPaid ,
+    amount: client.paymentDetails.amountPaid,
     balance: client.paymentDetails.amountRemaining,
     status: client.status || "N/A",
     photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
-  
+
+  rows.sort((a, b) => {
+    const dateA = new Date(a.startDate);
+    const dateB = new Date(b.startDate);
+
+    if (isNaN(dateA) && isNaN(dateB)) {
+      return 0; // both dates are invalid
+    } else if (isNaN(dateA)) {
+      return 1; // only dateA is invalid, push it to the end
+    } else if (isNaN(dateB)) {
+      return -1; // only dateB is invalid, push it to the end
+    } else {
+      return dateA - dateB; // valid dates comparison
+    }
+  });
+
   return (
     <div className="container-fluid">
       <h2 className="text-center mt-3">RECENT MEMBERSHIPS</h2>
@@ -122,32 +137,32 @@ function RecentMemberships() {
       </div>
 
       <div className="mt-5 mx-4">
-          <DataGrid
-            className="data-grid"
-            sx={{
-              width: "100%",
-              height: 550,
-              [`& .${gridClasses.row}`]: {
-                bgcolor: grey[200],
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            getRowSpacing={(params) => ({
-                top: params.isFirstVisible ? 0 : 2,
-              bottom: params.isLastVisible ? 0 : 2,
-            })}
-            localeText={{
-              toolbarDensity: "Size",
-              toolbarDensityLabel: "Size",
-              toolbarDensityCompact: "Small",
-              toolbarDensityStandard: "Medium",
-              toolbarDensityComfortable: "Large",
-            }}
-            slots={{
-              toolbar: GridToolbar,
-            }}
-          />
+        <DataGrid
+          className="data-grid"
+          sx={{
+            width: "100%",
+            height: 550,
+            [`& .${gridClasses.row}`]: {
+              bgcolor: grey[200],
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          getRowSpacing={(params) => ({
+            top: params.isFirstVisible ? 0 : 2,
+            bottom: params.isLastVisible ? 0 : 2,
+          })}
+          localeText={{
+            toolbarDensity: "Size",
+            toolbarDensityLabel: "Size",
+            toolbarDensityCompact: "Small",
+            toolbarDensityStandard: "Medium",
+            toolbarDensityComfortable: "Large",
+          }}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
       </div>
 
     </div>

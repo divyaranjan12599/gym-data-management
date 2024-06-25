@@ -63,7 +63,7 @@ function Enquiries() {
   
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">STAFF</h2>
+      <h2 className="text-center mt-3">ENQUIRIES</h2>
 
       <div className="container-fluid d-flex flex-column mt-5">
         <div className="d-flex flex-row">
