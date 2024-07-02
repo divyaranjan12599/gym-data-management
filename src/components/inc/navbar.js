@@ -174,7 +174,7 @@ function Navbar(props) {
                 </li> */}
               </ul>
             </div>
-            <div className="col-lg-4">
+            {/* <div className="col-lg-4">
               <form className="d-flex nav-search-bar" role="search" onSubmit={filterData}>
                 <div className="input-group">
                   <input
@@ -190,7 +190,7 @@ function Navbar(props) {
                   </span>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

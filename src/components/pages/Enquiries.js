@@ -3,21 +3,32 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import axios from "axios";
 import { UserContext } from "../../App";
 import AddEnquiry from "./addEnquiry";
+import Table from "../inc/table";
 
+// components={{
+//               Toolbar: QuickSearchToolbar,
+//             }}
+//             componentsProps={{
+//               toolbar: {
+//                 showQuickFilter: true,
+//                 quickFilterProps: {
+//                   debounceMs: 500,
+//                 },
+//               },
+//             }}
 
 function Enquiries() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-  
-  let {staffData} = useContext(UserContext);
-  
-    let  { enquiryData } = useContext(UserContext)
+
+  let { staffData } = useContext(UserContext);
+
+  let { enquiryData } = useContext(UserContext)
 
   let columns = useMemo(
     () => [
@@ -47,8 +58,8 @@ function Enquiries() {
     ],
     []
   );
-  
-  const rows =  enquiryData.map((staff, index) => ({
+
+  const rows = enquiryData.map((staff, index) => ({
     id: staff.id || "N/A",
     name: staff.name || "N/A",
     phone: staff.contact || "N/A",
@@ -60,7 +71,7 @@ function Enquiries() {
     source: staff.source || "N/A",
     photoURL: staff.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
-  
+
   return (
     <div className="container-fluid">
       <h2 className="text-center mt-3">ENQUIRIES</h2>
@@ -125,34 +136,48 @@ function Enquiries() {
         </div>
       </div>
 
-      <div className="mt-5 mx-4">
-          <DataGrid
-            className="data-grid"
-            sx={{
-              width: "100%",
-              height: 550,
-              [`& .${gridClasses.row}`]: {
-                bgcolor: grey[200],
+      {/* <div className="mt-5 mx-4">
+        <DataGrid
+          className="data-grid"
+          sx={{
+            width: "100%",
+            height: 550,
+            [`& .${gridClasses.row}`]: {
+              bgcolor: grey[200],
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          components={{
+            Toolbar: QuickSearchToolbar,
+          }}
+          componentsProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: {
+                debounceMs: 500,
               },
-            }}
-            rows={rows}
-            columns={columns}
-            getRowSpacing={(params) => ({
-                top: params.isFirstVisible ? 0 : 2,
-              bottom: params.isLastVisible ? 0 : 2,
-            })}
-            localeText={{
-              toolbarDensity: "Size",
-              toolbarDensityLabel: "Size",
-              toolbarDensityCompact: "Small",
-              toolbarDensityStandard: "Medium",
-              toolbarDensityComfortable: "Large",
-            }}
-            slots={{
-              toolbar: GridToolbar,
-            }}
-          />
-      </div>
+            },
+          }}
+          getRowSpacing={(params) => ({
+            top: params.isFirstVisible ? 0 : 2,
+            bottom: params.isLastVisible ? 0 : 2,
+          })}
+
+          localeText={{
+            toolbarDensity: "Size",
+            toolbarDensityLabel: "Size",
+            toolbarDensityCompact: "Small",
+            toolbarDensityStandard: "Medium",
+            toolbarDensityComfortable: "Large",
+          }}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+          hideFooter
+        />
+      </div> */}
+      <Table rows={rows} columns={columns}/>
 
     </div>
   );
