@@ -3,11 +3,9 @@ import React, { useContext, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { UserContext } from "../../App";
-
+import Table from '../inc/table'
 
 function Memberships() {
   const [fromDate, setFromDate] = useState(null);
@@ -133,34 +131,7 @@ function Memberships() {
         </div>
       </div>
 
-      <div className="mt-5 mx-4">
-        <DataGrid
-          className="data-grid"
-          sx={{
-            width: "100%",
-            height: 550,
-            [`& .${gridClasses.row}`]: {
-              bgcolor: grey[200],
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          getRowSpacing={(params) => ({
-            top: params.isFirstVisible ? 0 : 2,
-            bottom: params.isLastVisible ? 0 : 2,
-          })}
-          localeText={{
-            toolbarDensity: "Size",
-            toolbarDensityLabel: "Size",
-            toolbarDensityCompact: "Small",
-            toolbarDensityStandard: "Medium",
-            toolbarDensityComfortable: "Large",
-          }}
-          slots={{
-            toolbar: GridToolbar,
-          }}
-        />
-      </div>
+      <Table rows={rows} columns={columns}/>
 
     </div>
   );

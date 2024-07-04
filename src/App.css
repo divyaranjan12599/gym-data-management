@@ -54,15 +54,16 @@
 .navbar-nav .nav-link {
   transition: all 0.2s ease-in-out;
   /* Add transition */
+  &:hover {
+    color: white;
+    background-color: #9c9c9c;
+  }
 }
 
-.nav-link {
-  &:hover {
-    transform: scale(1.1);
-  }
-
+.nav-item {
   &:active {
-    transform: scale(0.9);
+    background-color: #222;
+    font-weight: 600;
   }
 }
 

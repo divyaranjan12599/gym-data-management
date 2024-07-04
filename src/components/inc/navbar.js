@@ -12,6 +12,7 @@ import {
   faAngleDown,
   faAngleUp,
 } from "@fortawesome/free-solid-svg-icons";
+import Nav from 'react-bootstrap/Nav';
 
 function Navbar(props) {
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
@@ -44,7 +45,7 @@ function Navbar(props) {
     if (num === 2) setIsDropdownOpen2(isOpen);
   };
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <Nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand me-0" href="/home">
           Famous Fitness Studio
@@ -64,7 +65,7 @@ function Navbar(props) {
           className="collapse navbar-collapse justify-content-around"
           id="navbarSupportedContent"
         >
-          <div className="row w-100">
+          <div className="row w-100 justify-content-end">
             <div className="col-lg-8">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-evenly">
                 <li className="nav-item">
@@ -194,7 +195,7 @@ function Navbar(props) {
           </div>
         </div>
       </div>
-    </nav>
+    </Nav>
   );
 }
 

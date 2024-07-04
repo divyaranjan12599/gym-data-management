@@ -3,8 +3,7 @@ import { UserContext } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "@mui/material";
-import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
-import { grey } from "@mui/material/colors";
+import Table from "../inc/table";
 
 function Home() {
 
@@ -133,144 +132,24 @@ function Home() {
                             2 days ago
                         </div> */}
                         <h3>New Memberships</h3>
-                        <div className="mb-2 mx-4">
-                            <DataGrid
-                                className="data-grid"
-                                sx={{
-                                    width: "100%",
-                                    height: 550,
-                                    [`& .${gridClasses.row}`]: {
-                                        bgcolor: grey[200],
-                                    },
-                                }}
-                                rows={recentMemRows}
-                                columns={clientColumns}
-                                getRowSpacing={(params) => ({
-                                    top: params.isFirstVisible ? 0 : 2,
-                                    bottom: params.isLastVisible ? 0 : 2,
-                                })}
-                                localeText={{
-                                    toolbarDensity: "Size",
-                                    toolbarDensityLabel: "Size",
-                                    toolbarDensityCompact: "Small",
-                                    toolbarDensityStandard: "Medium",
-                                    toolbarDensityComfortable: "Large",
-                                }}
-                                // slots={{
-                                //     toolbar: GridToolbar,
-                                // }}
-                                pagination={false}
-                                pageSize={recentMemRows.length}
-                                rowsPerPageOptions={[]}
-                            />
-                        </div>
+                        <Table rows={rows} columns={clientColumns}/>
                     </div>
                 </div>
                 <div className="col-12">
                     <div className="card mb-2 text-center">
                         <h3>Recent Renewals</h3>
-                        <div className="mb-2 mx-4">
-                            <DataGrid
-                                className="data-grid"
-                                sx={{
-                                    width: "100%",
-                                    height: 550,
-                                    [`& .${gridClasses.row}`]: {
-                                        bgcolor: grey[200],
-                                    },
-                                }}
-                                rows={recentMemRows}
-                                columns={clientColumns}
-                                getRowSpacing={(params) => ({
-                                    top: params.isFirstVisible ? 0 : 2,
-                                    bottom: params.isLastVisible ? 0 : 2,
-                                })}
-                                localeText={{
-                                    toolbarDensity: "Size",
-                                    toolbarDensityLabel: "Size",
-                                    toolbarDensityCompact: "Small",
-                                    toolbarDensityStandard: "Medium",
-                                    toolbarDensityComfortable: "Large",
-                                }}
-                                // slots={{
-                                //     toolbar: GridToolbar,
-                                // }}
-                                pagination={false}
-                                pageSize={recentMemRows.length}
-                                rowsPerPageOptions={[]}
-                            />
-                        </div>
+                        <Table rows={rows} columns={clientColumns}/>
                     </div>
                     <div className="col-12">
                         <div className="card mb-2 text-center">
                             <h3>Due Date NearBy</h3>
-                            <div className="mb-2 mx-4">
-                                <DataGrid
-                                    className="data-grid"
-                                    sx={{
-                                        width: "100%",
-                                        height: 550,
-                                        [`& .${gridClasses.row}`]: {
-                                            bgcolor: grey[200],
-                                        },
-                                    }}
-                                    rows={recentMemRows}
-                                    columns={clientColumns}
-                                    getRowSpacing={(params) => ({
-                                        top: params.isFirstVisible ? 0 : 2,
-                                        bottom: params.isLastVisible ? 0 : 2,
-                                    })}
-                                    localeText={{
-                                        toolbarDensity: "Size",
-                                        toolbarDensityLabel: "Size",
-                                        toolbarDensityCompact: "Small",
-                                        toolbarDensityStandard: "Medium",
-                                        toolbarDensityComfortable: "Large",
-                                    }}
-                                    // slots={{
-                                    //     toolbar: GridToolbar,
-                                    // }}
-                                    pagination={false}
-                                    pageSize={recentMemRows.length}
-                                    rowsPerPageOptions={[]}
-                                />
-                            </div>
+                            <Table rows={rows} columns={clientColumns}/>
                         </div>
                     </div>
                     <div className="col-12">
                         <div className="card mb-2 text-center">
                             <h3>Recent Enquiries</h3>
-                            <div className="mb-2 mx-4">
-                                <DataGrid
-                                    className="data-grid"
-                                    sx={{
-                                        width: "100%",
-                                        height: 550,
-                                        [`& .${gridClasses.row}`]: {
-                                            bgcolor: grey[200],
-                                        },
-                                    }}
-                                    rows={recentMemRows}
-                                    columns={clientColumns}
-                                    getRowSpacing={(params) => ({
-                                        top: params.isFirstVisible ? 0 : 2,
-                                        bottom: params.isLastVisible ? 0 : 2,
-                                    })}
-                                    localeText={{
-                                        toolbarDensity: "Size",
-                                        toolbarDensityLabel: "Size",
-                                        toolbarDensityCompact: "Small",
-                                        toolbarDensityStandard: "Medium",
-                                        toolbarDensityComfortable: "Large",
-                                    }}
-                                    // slots={{
-                                    //     toolbar: GridToolbar,
-                                    // }}
-                                    pagination={false}
-                                    pageSize={recentMemRows.length}
-                                    rowsPerPageOptions={[]}
-                                />
-                            </div>
+                            <Table rows={rows} columns={clientColumns}/>
                         </div>
                     </div>
 
