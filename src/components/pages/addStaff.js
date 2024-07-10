@@ -241,7 +241,7 @@ function AddStaffs() {
                                         <input
                                             className="form-check-input me-2"
                                             type="radio"
-                                            name="gridRadios"
+                                            name="gender"
                                             id="gridRadios1"
                                             value="Male"
                                             checked={staffData.gender === 'Male'}
@@ -255,7 +255,7 @@ function AddStaffs() {
                                         <input
                                             className="form-check-input me-2"
                                             type="radio"
-                                            name="gridRadios"
+                                            name="gender"
                                             id="gridRadios2"
                                             value="Female"
                                             checked={staffData.gender === 'Female'}
