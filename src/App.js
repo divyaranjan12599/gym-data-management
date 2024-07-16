@@ -18,8 +18,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "r
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
-import Invoice from "./components/pages/invoicepages/invoice";
-import StateContext from "./components/pages/invoicepages/stateContext";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import MainLayout from "./components/pages/MainLayout";
@@ -46,6 +44,7 @@ function App() {
   const fetchClientData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients");
+      console.log("client",response.data);
       setClientData(response.data);
     } catch (error) {
       console.log(error);
@@ -56,6 +55,7 @@ function App() {
   const fetchEnquiryData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquiries");
+      console.log("enquiry",response.data);
       setEnquiryData(response.data);
     } catch (error) {
       console.log(error);
@@ -66,6 +66,7 @@ function App() {
   const fetchStaffData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs");
+      console.log("staff",response.data);
       setStaffData(response.data);
     } catch (error) {
       console.log(error);
@@ -102,7 +103,7 @@ function App() {
             <Route path="/recentMemberships" element={<RecentMemberships />} />
             <Route path="/staffAttendance" element={<StaffAttendance />} />
             {/* <Route path="/pts" element={<Pts />} /> */}
-            <Route path="/invoice" element={<Invoice />} />
+            {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
         </Routes>
       </Router>

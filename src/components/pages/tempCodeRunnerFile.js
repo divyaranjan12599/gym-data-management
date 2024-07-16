@@ -19,7 +19,7 @@ export default function Invoice() {
   
   const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
   
-  function useMenuAnimation(isOpen: boolean) {
+  function useMenuAnimation(isOpen) {
     const [scope, animate] = useAnimate();
   
     useEffect(() => {

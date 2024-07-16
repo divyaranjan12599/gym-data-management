@@ -62,66 +62,6 @@ function PtMembers() {
     <div className="container-fluid">
       <h2 className="text-center mt-3">PT MEMBERS</h2>
 
-      <div className="container-fluid d-flex flex-column mt-5">
-        <div className="d-flex flex-row">
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>From</label>
-            <DatePicker
-              id="from-date-picker"
-              className="form-select "
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>To</label>
-            <DatePicker
-              id="to-date-picker"
-              className="form-select "
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3">
-            <label>Search On</label>
-            <select id="expired" class="form-select w-100">
-              <option selected>Expired</option>
-              <option value="1">*-*</option>
-              <option value="2">*-*</option>
-              <option value="3">*-*</option>
-              <option value="4">*-*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Status</label>
-            <select id="status" class="form-select w-100">
-              <option selected>Active</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Package</label>
-            <select id="package" class="form-select w-100">
-              <option selected>All</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
-            Submit
-          </div>
-
-        </div>
-      </div>
-
       <Table rows={rows} columns={columns}/>
 
     </div>

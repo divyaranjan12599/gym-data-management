@@ -46,6 +46,8 @@ function Enquiries() {
       { field: "email", headerName: "Email", width: 180 },
       { field: "enquiryDate", headerName: "Enquiry Date", width: 150 },
       { field: "lastFollowUpDate", headerName: "Last FollowUp Date", width: 150 },
+      { field: "referredBy", headerName: "Referred By", width: 150 },
+      { field: "attainBy", headerName: "Attained By", width: 150 },
       { field: "intrestedOn", headerName: "Intrested On", width: 140 },
       { field: "source", headerName: "Source", width: 140 },
       {
@@ -59,82 +61,24 @@ function Enquiries() {
     []
   );
 
-  const rows = enquiryData.map((staff, index) => ({
-    id: staff.id || "N/A",
-    name: staff.name || "N/A",
-    phone: staff.contact || "N/A",
-    email: staff.email || "N/A",
-    enquiryDate: staff.enquiryDate || "N/A",
-    lastFollowUpDate: staff.lastFollowUpDate || "N/A",
-    intrestedOn: staff.intrestedOn || "N/A",
-    balance: staff.balance || "N/A",
-    source: staff.source || "N/A",
-    photoURL: staff.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  const rows = enquiryData.map((enquiry, index) => ({
+    id: enquiry.id || "N/A",
+    name: enquiry.name || "N/A",
+    phone: enquiry.contact || "N/A",
+    email: enquiry.email || "N/A",
+    referredBy: enquiry.referredBy || "None",
+    attainBy: enquiry.attainBy.name || "None",
+    enquiryDate: enquiry.enquiryDate || "N/A",
+    lastFollowUpDate: enquiry.lastFollowUpDate || "N/A",
+    intrestedOn: enquiry.intrestedOn || "N/A",
+    balance: enquiry.balance || "N/A",
+    source: enquiry.source || "N/A",
+    photoURL: enquiry.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
 
   return (
     <div className="container-fluid">
       <h2 className="text-center mt-3">ENQUIRIES</h2>
-
-      <div className="container-fluid d-flex flex-column mt-5">
-        <div className="d-flex flex-row">
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>From</label>
-            <DatePicker
-              id="from-date-picker"
-              className="form-select "
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>To</label>
-            <DatePicker
-              id="to-date-picker"
-              className="form-select "
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3">
-            <label>Search On</label>
-            <select id="expired" class="form-select w-100">
-              <option selected>Expired</option>
-              <option value="1">*-*</option>
-              <option value="2">*-*</option>
-              <option value="3">*-*</option>
-              <option value="4">*-*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Status</label>
-            <select id="status" class="form-select w-100">
-              <option selected>Active</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Package</label>
-            <select id="package" class="form-select w-100">
-              <option selected>All</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
-            Submit
-          </div>
-
-        </div>
-      </div>
 
       {/* <div className="mt-5 mx-4">
         <DataGrid

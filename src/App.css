@@ -5,14 +5,14 @@
   --darkGrey: #464D53;
   --caloryCard: #656565;
   --planCard: linear-gradient(210.41deg, #fa5042 1.14%, #ffa739 100.75%);
-  --appColor:  #3c3f45;
+  --appColor: #3c3f45;
 }
 
 
 
 .App {
   text-align: center;
-  mix-blend-mode: overlay  !important;
+  mix-blend-mode: overlay !important;
 }
 
 .App-logo {
@@ -51,22 +51,32 @@
   }
 }
 
-.navbar-nav .nav-link {
-  transition: all 0.2s ease-in-out;
-  /* Add transition */
+.nav-link {
+  /* transition: all 0.2s ease; */
+  border-radius: 5px;
+
   &:hover {
     color: white;
     background-color: #9c9c9c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
   }
-}
 
-.nav-item {
   &:active {
-    background-color: #222;
-    font-weight: 600;
+    color: rgb(111, 111, 111);
+    background-color: #b0b0b0;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    transform: scale(1);
   }
 }
 
+.nav-link.active {
+  color: rgb(74, 73, 73);
+  background-color: #d4d4d4;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
 
 .form-heading {
   font-size: 24px;
@@ -109,7 +119,7 @@
   color: red!important;
 } */
 
-.pic-box:hover{
+.pic-box:hover {
   cursor: pointer;
 }
 
@@ -142,18 +152,19 @@
 }
 
 select.form-control {
-  width: 110px; /* Adjust width as needed */
+  width: 110px;
+  /* Adjust width as needed */
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.custom-col-9{
-  width: 70%!important;
+.custom-col-9 {
+  width: 70% !important;
 }
 
-.custom-col-3{
-  width: 30%!important;
+.custom-col-3 {
+  width: 30% !important;
 }
 
 .icon-container {

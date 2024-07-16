@@ -74,7 +74,7 @@ function RecentMemberships() {
     <div className="container-fluid">
       <h2 className="text-center mt-3">RECENT MEMBERSHIPS</h2>
 
-      <div className="container-fluid d-flex flex-column mt-5">
+      {/* <div className="container-fluid d-flex flex-column mt-5">
         <div className="d-flex flex-row">
           <div className="col-2 mx-3 d-flex flex-column">
             <label>From</label>
@@ -132,7 +132,7 @@ function RecentMemberships() {
           </div>
 
         </div>
-      </div>
+      </div> */}
 
       <Table rows={rows} columns={columns}/>
 

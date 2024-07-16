@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -18,10 +18,11 @@ function Navbar(props) {
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    console.log("adhjdsaj",props);
+    console.log("adhjdsaj", props);
   };
 
   const filterData = (event) => {
@@ -67,24 +68,24 @@ function Navbar(props) {
         >
           <div className="row w-100 justify-content-end">
             <div className="col-lg-8">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-evenly">
+              <ul className="navbar-nav me-4 mb-2 mb-lg-0 d-flex justify-content-end">
                 <li className="nav-item">
-                  <Link to="/home" className="nav-link">
+                  <Link to="/home" className={`nav-link m-2 ${location.pathname === '/home' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faDisplay} /> Dashboard
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/memberships" className="nav-link">
+                  <Link to="/memberships" className={`nav-link m-2 ${location.pathname === '/memberships' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faAddressCard} /> Memberships
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/ptMembers" className="nav-link">
+                {/* <li className="nav-item">
+                  <Link to="/ptMembers" className={`nav-link m-2 ${location.pathname === '/ptMembers' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faDumbbell} /> PTs
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
-                  <Link to="/invoice" className="nav-link">
+                  <Link to="/" className={`nav-link m-2 ${location.pathname === '/' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoices
                   </Link>
                 </li>
@@ -93,7 +94,105 @@ function Navbar(props) {
                   onMouseEnter={() => handleDropdownToggle(true, 1)}
                   onMouseLeave={() => handleDropdownToggle(false, 1)}
                 >
-                  <a className="nav-link" role="button" aria-expanded="false">
+                  <a className={`nav-link m-2 ${(location.pathname === '/add_member' || location.pathname === '/add_staff' || location.pathname === '/add_enquiry') ? 'active' : ''}`} role="button" aria-expanded="false">
+                    <FontAwesomeIcon icon={faSquarePlus} /> Add{" "}
+                    {!isDropdownOpen1 ? (
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faAngleUp} />
+                    )}
+                  </a>
+                  <ul className={`dropdown-menu ${isDropdownOpen1 ? 'show' : ''}`}>
+                    <li>
+                      <Link className="dropdown-item" to="/add_member">
+                        Add Members
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/add_staff">
+                        Add Staff Member
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/add_enquiry">
+                        Add Enquiry
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  className="nav-item dropstart"
+                  onMouseEnter={() => handleDropdownToggle(true, 2)}
+                  onMouseLeave={() => handleDropdownToggle(false, 2)}
+                >
+                  <a className={`nav-link m-2 ${(location.pathname === '/staff' || location.pathname === '/ptMembers' || location.pathname === '/recentMemberships' || location.pathname === '/staffAttendance' || location.pathname === '/enquiries') ? 'active' : ''}`} role="button" aria-expanded="false">
+                    <FontAwesomeIcon icon={faLayerGroup} /> More{" "}
+                    {!isDropdownOpen2 ? (
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faAngleUp} />
+                    )}
+                  </a>
+                  <ul className={`dropdown-menu dropdown-menu-lg-end ${isDropdownOpen2 ? 'show' : ''}`}>
+                    <li>
+                      <Link className="dropdown-item" to="/staff">
+                        Staff
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/ptMembers">
+                        PT Members
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/recentMemberships">
+                        Recent Memberships
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/staffAttendance">
+                        Staff Attendance
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/enquiries">
+                        Enquiries
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {/* <div className="row w-100 justify-content-end">
+            <div className="col-lg-8">
+              <ul className="navbar-nav me-4 mb-2 mb-lg-0 d-flex justify-content-end">
+                <li className="nav-item">
+                  <Link to="/home" className="nav-link m-2">
+                    <FontAwesomeIcon icon={faDisplay} /> Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/memberships" className="nav-link m-2">
+                    <FontAwesomeIcon icon={faAddressCard} /> Memberships
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/ptMembers" className="nav-link m-2">
+                    <FontAwesomeIcon icon={faDumbbell} /> PTs
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/" className="nav-link m-2">
+                    <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoices
+                  </Link>
+                </li>
+                <li
+                  className="nav-item dropdown"
+                  onMouseEnter={() => handleDropdownToggle(true, 1)}
+                  onMouseLeave={() => handleDropdownToggle(false, 1)}
+                >
+                  <a className="nav-link m-2" role="button" aria-expanded="false">
                     <FontAwesomeIcon icon={faSquarePlus} /> Add{" "}
                     {!isDropdownOpen1 ? (
                       <FontAwesomeIcon icon={faAngleDown} />
@@ -122,11 +221,11 @@ function Navbar(props) {
                   </ul>
                 </li>
                 <li
-                  className="nav-item dropdown"
+                  className="nav-item dropstart"
                   onMouseEnter={() => handleDropdownToggle(true, 2)}
                   onMouseLeave={() => handleDropdownToggle(false, 2)}
                 >
-                  <a className="nav-link" role="button" aria-expanded="false">
+                  <a className="nav-link m-2" role="button" aria-expanded="false">
                     <FontAwesomeIcon icon={faLayerGroup} /> More{" "}
                     {!isDropdownOpen2 ? (
                       <FontAwesomeIcon icon={faAngleDown} />
@@ -135,7 +234,7 @@ function Navbar(props) {
                     )}
                   </a>
                   <ul
-                    className={`dropdown-menu ${isDropdownOpen2 ? "show" : ""}`}
+                    className={`dropdown-menu dropdown-menu-lg-end ${isDropdownOpen2 ? "show" : ""}`}
                   >
                     <li>
                       <Link className="dropdown-item" to="/staff">
@@ -173,29 +272,12 @@ function Navbar(props) {
                     About Us
                   </Link>
                 </li> */}
-              </ul>
-            </div>
-            {/* <div className="col-lg-4">
-              <form className="d-flex nav-search-bar" role="search" onSubmit={filterData}>
-                <div className="input-group">
-                  <input
-                    className="form-control"
-                    type="search"
-                    onChange={handleSearchChange}
-                    value={searchTerm}
-                    placeholder="Name, Email or Contact"
-                    aria-label="Search"
-                  />
-                  <span className="input-group-text" onClick={filterData}>
-                    <FontAwesomeIcon icon={faSearch} />
-                  </span>
-                </div>
-              </form>
-            </div> */}
-          </div>
+
         </div>
       </div>
-    </Nav>
+
+
+    </Nav >
   );
 }
 
