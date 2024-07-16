@@ -27,6 +27,7 @@ function QuickSearchToolbar(props) {
     );
 }
 
+
 const Table = (props) => {
     return (
         <div>
@@ -42,6 +43,7 @@ const Table = (props) => {
                     }}
                     rows={props.rows}
                     columns={props.columns}
+                    checkboxSelection
                     components={{
                         Toolbar: QuickSearchToolbar,
                     }}
