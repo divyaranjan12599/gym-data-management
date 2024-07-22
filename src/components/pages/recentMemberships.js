@@ -31,13 +31,13 @@ function RecentMemberships() {
       { field: "endDate", headerName: "End Date", width: 150 },
       { field: "amount", headerName: "Amount", width: 140 },
       { field: "balance", headerName: "Balance", width: 140 },
-      {
-        field: "status",
-        headerName: "Status",
-        width: 100,
-        type: "boolean",
-        editable: true,
-      },
+      // {
+      //   field: "status",
+      //   headerName: "Status",
+      //   width: 100,
+      //   type: "boolean",
+      //   editable: true,
+      // },
     ],
     []
   );

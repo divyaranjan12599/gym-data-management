@@ -27,18 +27,12 @@ function PtMembers() {
       { field: "id", headerName: "Client ID", width: 90 },
       { field: "name", headerName: "Name", width: 150 },
       { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
+      { field: "ptDuration", headerName: "PT Duration", width: 180 },
       { field: "startDate", headerName: "Start Date", width: 150 },
       { field: "endDate", headerName: "End Date", width: 150 },
       { field: "amount", headerName: "Amount", width: 140 },
+      { field: "ptby", headerName: "PT By", width: 140 },
       { field: "balance", headerName: "Balance", width: 140 },
-      {
-        field: "status",
-        headerName: "Status",
-        width: 100,
-        type: "boolean",
-        editable: true,
-      },
     ],
     []
   );
@@ -48,8 +42,9 @@ function PtMembers() {
   .map((client, index) => ({
     id: client.id || "N/A",
     name: client.name || "N/A",
+    ptby: client.membership.PTDetails.assignedTo.name || "N/A",
     phone: client.contact || "N/A",
-    package: client.membership.membershipPeriod || "N/A",
+    ptDuration: client.membership.PTDetails.ptPeriod || "N/A",
     startDate: client.joiningdate || "N/A",
     endDate: client.endDate || "N/A",
     amount: client.paymentDetails.amountPaid || "N/A",

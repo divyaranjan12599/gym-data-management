@@ -50,13 +50,13 @@ function Enquiries() {
       { field: "attainBy", headerName: "Attained By", width: 150 },
       { field: "intrestedOn", headerName: "Intrested On", width: 140 },
       { field: "source", headerName: "Source", width: 140 },
-      {
-        field: "status",
-        headerName: "Status",
-        width: 100,
-        type: "boolean",
-        editable: true,
-      },
+      // {
+      //   field: "status",
+      //   headerName: "Status",
+      //   width: 100,
+      //   type: "boolean",
+      //   editable: true,
+      // },
     ],
     []
   );
