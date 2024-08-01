@@ -36,7 +36,7 @@ const Table = (props) => {
                     className="data-grid p-2"
                     sx={{
                         width: "100%",
-                        height: 550,
+                        height: 500,
                         [`& .${gridClasses.row}`]: {
                             bgcolor: grey[200],
                         },

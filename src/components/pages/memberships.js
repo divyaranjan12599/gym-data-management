@@ -15,7 +15,7 @@ function Memberships() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
 
-  let { clientData } = useContext(UserContext);
+  // let { clientData } = useContext(UserContext);
 
   const sendEmail = (row) => {
     const templateParams = {
@@ -78,31 +78,31 @@ function Memberships() {
   );
 
 
-  //  const rows = clientData
-  const rows = clientData.map((client, index) => ({
-    id: client.id || "N/A",
-    name: client.name || "N/A",
-    phone: client.contact || "N/A",
-    package: client.membership.membershipPeriod || "N/A",
-    startDate: client.joiningdate || "N/A",
-    endDate: client.endDate || "N/A",
-    amount: client.paymentDetails.amountPaid,
-    remaining: client.paymentDetails.amountRemaining,
-    status: client.status || "N/A",
-    photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-  }));
+   const rows = clientData
+  // const rows = clientData.map((client, index) => ({
+  //   id: client.id || "N/A",
+  //   name: client.name || "N/A",
+  //   phone: client.contact || "N/A",
+  //   package: client.membership.membershipPeriod || "N/A",
+  //   startDate: client.joiningdate || "N/A",
+  //   endDate: client.endDate || "N/A",
+  //   amount: client.paymentDetails.amountPaid,
+  //   remaining: client.paymentDetails.amountRemaining,
+  //   status: client.status || "N/A",
+  //   photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  // }));
 
-  rows.sort((a, b) => {
-    if (a.id === "N/A" && b.id === "N/A") {
-      return 0; // both ids are invalid
-    } else if (a.id === "N/A") {
-      return 1; // only a.id is invalid, push it to the end
-    } else if (b.id === "N/A") {
-      return -1; // only b.id is invalid, push it to the end
-    } else {
-      return a.id - b.id; // valid ids comparison
-    }
-  });
+  // rows.sort((a, b) => {
+  //   if (a.id === "N/A" && b.id === "N/A") {
+  //     return 0; // both ids are invalid
+  //   } else if (a.id === "N/A") {
+  //     return 1; // only a.id is invalid, push it to the end
+  //   } else if (b.id === "N/A") {
+  //     return -1; // only b.id is invalid, push it to the end
+  //   } else {
+  //     return a.id - b.id; // valid ids comparison
+  //   }
+  // });
 
   return (
     <div className="container-fluid">
