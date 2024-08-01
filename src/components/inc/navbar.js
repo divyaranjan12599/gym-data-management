@@ -85,8 +85,8 @@ function Navbar(props) {
                   </Link>
                 </li> */}
                 <li className="nav-item">
-                  <Link to="/" className={`nav-link m-2 ${location.pathname === '/' ? 'active' : ''}`}>
-                    <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoices
+                  <Link to="/invoice" className={`nav-link m-2 ${location.pathname === '/' ? 'active' : ''}`}>
+                    <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoice
                   </Link>
                 </li>
                 <li

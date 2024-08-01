@@ -18,9 +18,14 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "r
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
+import UserDetails from "./components/pages/userDetails";
 import Layout from "./Layout/Layout";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import MainLayout from "./components/pages/MainLayout";
+import Invoice from "./components/pages/invoice";
+import InvoiceItem from "./components/inc/invoiceItem";
+import InvoiceModal from "./components/inc/invoiceModal";
+import FieldEdits from "./components/inc/fieldEdits";
 
 export const UserContext = createContext({})
 
@@ -102,6 +107,11 @@ function App() {
             <Route path="/enquiries" element={<Enquiries />} />
             <Route path="/recentMemberships" element={<RecentMemberships />} />
             <Route path="/staffAttendance" element={<StaffAttendance />} />
+            <Route path="/userDetails" element={<UserDetails />} />
+            <Route path="/invoice" element={<Invoice />} />
+            <Route path="/invoiceItem" element={<InvoiceItem />} />
+            <Route path="/invoiceModal" element={<InvoiceModal />} />
+            <Route path="/fieldEdits" element={<FieldEdits />} />
             {/* <Route path="/pts" element={<Pts />} /> */}
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
