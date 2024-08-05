@@ -50,8 +50,8 @@ function Memberships() {
       { field: "package", headerName: "Package", width: 180 },
       { field: "startDate", headerName: "Start Date", width: 150 },
       { field: "endDate", headerName: "End Date", width: 150 },
-      { field: "amount", headerName: "Amount Paid", width: 140 },
-      { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
+      // { field: "amount", headerName: "Amount Paid", width: 140 },
+      // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
       // {
       //   field: "status",
       //   headerName: "Status",
@@ -77,20 +77,19 @@ function Memberships() {
     []
   );
 
-
-   const rows = clientData
-  // const rows = clientData.map((client, index) => ({
-  //   id: client.id || "N/A",
-  //   name: client.name || "N/A",
-  //   phone: client.contact || "N/A",
-  //   package: client.membership.membershipPeriod || "N/A",
-  //   startDate: client.joiningdate || "N/A",
-  //   endDate: client.endDate || "N/A",
-  //   amount: client.paymentDetails.amountPaid,
-  //   remaining: client.paymentDetails.amountRemaining,
-  //   status: client.status || "N/A",
-  //   photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-  // }));
+  //  const rows = clientData
+  const rows = clientData.map((client, index) => ({
+    id: client.id || "N/A",
+    name: client.name || "N/A",
+    phone: client.contact || "N/A",
+    package: client.membership.membershipPeriod || "N/A",
+    startDate: client.joiningdate || "N/A",
+    endDate: client.endDate || "N/A",
+    // amount: client.paymentDetails.amountPaid,
+    // remaining: client.paymentDetails.amountRemaining,
+    status: client.status || "N/A",
+    photoURL: client.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  }));
 
   // rows.sort((a, b) => {
   //   if (a.id === "N/A" && b.id === "N/A") {

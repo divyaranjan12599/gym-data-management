@@ -31,6 +31,8 @@ export const UserContext = createContext({})
 
 function App() {
   const [clientData, setClientData] = useState([]);
+  const [membershipData, setMembershipData] = useState([]);
+  const [paymentData, setPaymentData] = useState([]);
   const [enquiryData, setEnquiryData] = useState([]);
   const [staffData, setStaffData] = useState([]);
   const [userAuth, setUserAuth] = useState({});
@@ -46,10 +48,32 @@ function App() {
     setLoading(false); 
   }, []);
 
+  const fetchClientMembershipData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-memberships");
+      console.log("membership details",response.data);
+      setMembershipData(response.data);
+    } catch (error) {
+      console.log(error);
+      setMembershipData([]);
+    }
+  }
+
+  const fetchClientPaymentData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-paymentDetails");
+      console.log("paymentdetails",response.data);
+      setPaymentData(response.data);
+    } catch (error) {
+      console.log(error);
+      setPaymentData([]);
+    }
+  }
+
   const fetchClientData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients");
-      console.log("client",response.data);
+      console.log("clients",response.data);
       setClientData(response.data);
     } catch (error) {
       console.log(error);
@@ -80,16 +104,16 @@ function App() {
   }
 
   useEffect(() => {
-    fetchClientData();
+    fetchClientMembershipData();
     fetchEnquiryData();
     fetchStaffData();
+    fetchClientPaymentData();
   }, []);
 
   return (
-    <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, loading }}>
+    <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
-
-        <Navbar clientData={clientData} staffData={staffData} enquiryData={enquiryData} />
+        <Navbar clientData={clientData} staffData={staffData} enquiryData={enquiryData} membershipData={membershipData} paymentData={paymentData}/>
         <Routes>
           <Route index element={<Layout />} />
           <Route path="/login" element={<Login />} />
