@@ -29,9 +29,12 @@ const initialClientState = {
   registrationFees: '',
   membershipPeriod: '',
   membershipAmount: '',
+  membershipStartingDate: '',
   amountPaid: '',
   amountRemaining: '',
+  startingDate: '',
   dueDate: '',
+  transactionDate: '',
   paymentMode: '',
   transactionId: '',
   ptFees: '',
@@ -302,11 +305,11 @@ function AddMembers() {
               <div className="card p-2 w-100 h-100 align-items-center justify-content-center" onClick={() => widgetRef.current.open()}>
                 <div className="icon-container">
                   {imageURL ? (
-                    <img src={imageURL} alt="" className="p-1 w-100" />
+                    <img src={imageURL} alt="" className="p-1 w-100 h-100" />
                   ) : (
                     <>
                       <img
-                        className=""
+                        className="p-1 w-100 h-100"
                         src={image.placeholder}
                         alt=""
                       />
@@ -421,7 +424,7 @@ function AddMembers() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder=""
+                  placeholder="00.00"
                   name="registrationFees"
                   onChange={handleChange}
                   value={clientData.registrationFees}
@@ -429,6 +432,22 @@ function AddMembers() {
               </div>
             </div>
             <div className="mb-2 col-lg-6">
+              <label>Membership Amount</label>
+              <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                  INR
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="00.00"
+                  name="membershipAmount"
+                  onChange={handleChange}
+                  value={clientData.membershipAmount}
+                />
+              </div>
+            </div>
+            <div className="mb-2 col-4">
               <label>Membership Period</label>
               <select id="idProofType" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} class="form-select">
                 <option selected>Select</option>
@@ -441,27 +460,11 @@ function AddMembers() {
               </select>
             </div>
             <div className="mb-2 col-4">
-              <label>Membership Amount</label>
-              <div class="input-group">
-                <span class="input-group-text" id="basic-addon1">
-                  INR
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  name="membershipAmount"
-                  onChange={handleChange}
-                  value={clientData.membershipAmount}
-                />
-              </div>
-            </div>
-            <div className="mb-2 col-4">
-            <label>Starting Date</label>
+              <label>Starting Date</label>
               <input
                 type="date"
                 onChange={handleChange}
-                name="dueDate"
+                name="membershipStartingDate"
                 value={clientData.membershipStartingDate}
                 className="form-control"
               />
@@ -591,10 +594,13 @@ function AddMembers() {
             </div>
             <div className="mb-2 col-lg-4">
               <label>Mode of Payment</label>
-              <select id="idProofType" class="form-select">
+              <select id="idProofType" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} class="form-select">
                 <option selected>Select</option>
-                <option value="1">Online</option>
-                <option value="2">Cash</option>
+                <option value="online">ONLINE</option>
+                <option value="CASH">CASH</option>
+                <option value="NET_BANKING">NET BANKING</option>
+                <option value="DEBIT_CARD">DEBIT CARD</option>
+                <option value="CREDIT_CARD">CREDIT CARD</option>
               </select>
             </div>
             <div className="col-4">
@@ -602,8 +608,8 @@ function AddMembers() {
               <input
                 type="date"
                 onChange={handleChange}
-                name="dueDate"
-                value={clientData.dueDate}
+                name="transactionDate"
+                value={clientData.transactionDate}
                 className="form-control"
               />
             </div>
@@ -612,7 +618,7 @@ function AddMembers() {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter Address"
+                placeholder="Enter transaction id"
               />
             </div>
             <div className="col-4">

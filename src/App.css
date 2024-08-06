@@ -165,15 +165,15 @@ select.form-control {
   width: 30% !important;
 }
 
-/* .icon-container {
+.icon-container {
   position: relative;
   width: 100%;
-} */
+} 
 
-/* .icon-container img {
+.icon-container img {
   width: 80%;
   height: 80%;
-} */
+}
 
 .icon-container .btn {
   position: absolute;
