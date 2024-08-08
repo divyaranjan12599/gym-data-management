@@ -29,10 +29,10 @@ const initialClientState = {
   registrationFees: '',
   membershipPeriod: '',
   membershipAmount: '',
-  membershipStartingDate: '',
   amountPaid: '',
   amountRemaining: '',
   startingDate: '',
+  ptStartingDate: '',
   dueDate: '',
   transactionDate: '',
   paymentMode: '',
@@ -422,7 +422,7 @@ function AddMembers() {
                   INR
                 </span>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="00.00"
                   name="registrationFees"
@@ -438,7 +438,7 @@ function AddMembers() {
                   INR
                 </span>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="00.00"
                   name="membershipAmount"
@@ -449,7 +449,7 @@ function AddMembers() {
             </div>
             <div className="mb-2 col-4">
               <label>Membership Period</label>
-              <select id="idProofType" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} class="form-select">
+              <select id="membershipPeriod" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} class="form-select">
                 <option selected>Select</option>
                 <option value="monthly">One Month</option>
                 <option value="twomonths">Two Months</option>
@@ -520,7 +520,7 @@ function AddMembers() {
                     </div>
                     <div className="mb-2 col-lg-6">
                       <label>Membership Period</label>
-                      <select id="idProofType" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} class="form-select">
+                      <select id="ptMembershipPeriod" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} class="form-select">
                         <option selected>Select</option>
                         <option value="monthly">One Month</option>
                         <option value="twomonths">Two Months</option>
@@ -531,12 +531,22 @@ function AddMembers() {
                     </div>
                     <div className="mb-2 col-lg-6">
                       <label>PT Assigned to</label>
-                      <select id="idProofType" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} class="form-select">
+                      <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} class="form-select">
                         <option selected>Select Staff</option>
                         {staffData.map((staff, index) => (
                           <option key={index} value={staff._id}>{staff.name}</option>
                         ))}
                       </select>
+                    </div>
+                    <div className="mb-2 col-6">
+                      <label>Starting Date</label>
+                      <input
+                        type="date"
+                        onChange={handleChange}
+                        name="ptStartingDate"
+                        value={clientData.ptStartingDate}
+                        className="form-control"
+                      />
                     </div>
                   </div>
                 </form>
@@ -594,7 +604,7 @@ function AddMembers() {
             </div>
             <div className="mb-2 col-lg-4">
               <label>Mode of Payment</label>
-              <select id="idProofType" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} class="form-select">
+              <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} class="form-select">
                 <option selected>Select</option>
                 <option value="online">ONLINE</option>
                 <option value="CASH">CASH</option>
@@ -618,6 +628,9 @@ function AddMembers() {
               <input
                 type="text"
                 className="form-control"
+                value={clientData.transactionId}
+                onChange={handleChange}
+                name="transactionId"
                 placeholder="Enter transaction id"
               />
             </div>
@@ -631,22 +644,6 @@ function AddMembers() {
                 className="form-control"
               />
             </div>
-            {/* <div className="mb-2 col-lg-4">
-              <label>Membership Amount</label>
-              <div class="input-group">
-                <span class="input-group-text" id="basic-addon1">
-                  INR
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder=""
-                  name="membershipAmount"
-                  onChange={handleChange}
-                  value={clientData.membershipAmount}
-                />
-              </div>
-            </div> */}
           </div>
 
           {/* <div class="card w-100" hidden="false">

@@ -9,11 +9,11 @@ import { UserContext } from "../../App";
 import Table from '../inc/table'
 import emailjs from 'emailjs-com';
 
-function Memberships() {
+function Invoices() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
 
-  let { membershipData } = useContext(UserContext);
+  let { paymentData } = useContext(UserContext);
 
   const sendEmail = (row) => {
     const templateParams = {
@@ -45,10 +45,11 @@ function Memberships() {
       { field: "name", headerName: "Name", width: 150 },
       { field: "email", headerName: "Email ID", width: 150 },
       { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      // { field: "amount", headerName: "Amount Paid", width: 140 },
+      { field: "paymentDate", headerName: "Payment On", width: 180 },
+      { field: "amountPaid", headerName: "Amount Paid", width: 150 },
+      { field: "amountRemaining", headerName: "Amount Remaining", width: 150 },
+      { field: "dueDate", headerName: "Due Date", width: 150 },
+      { field: "transactionId", headerName: "Transaction Id", width: 140 },
       // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
       // {
       //   field: "status",
@@ -76,18 +77,19 @@ function Memberships() {
   );
 
   //  const rows = clientData
-  const rows = membershipData.map((membership, index) => ({
-    id: membership.membershipBy.id || "N/A",
-    name: membership.membershipBy.name || "N/A",
-    phone: membership.membershipBy.contact || "N/A",
-    email: membership.membershipBy.email || "N/A",
-    package: membership.membershipPeriod || "N/A",
-    startDate: membership.membershipBy.joiningdate || "N/A",
-    endDate: membership.endDate || "N/A",
-    // amount: membership.paymentDetails.amountPaid,
-    // remaining: membership.paymentDetails.amountRemaining,
-    status: membership.status || "N/A",
-    photoURL: membership.membershipBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+  const rows = paymentData.map((payment, index) => ({
+    id: payment.amountPaidBy.id || "N/A",
+    name: payment.amountPaidBy.name || "N/A",
+    phone: payment.amountPaidBy.contact || "N/A",
+    email: payment.amountPaidBy.email || "N/A",
+    paymentDate: payment.amountPaidOn || "N/A",
+    amountPaid: payment.amountPaid || "N/A",
+    amountRemaining: payment.amountRemaining || "N/A",
+    dueDate: payment.dueDate || "N/A",
+    transactionId: payment.transactionId || "N/A",
+    // remaining: payment.paymentDetails.amountRemaining,
+    status: payment.status || "N/A",
+    photoURL: payment.amountPaidBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
 
   // rows.sort((a, b) => {
@@ -106,7 +108,7 @@ function Memberships() {
     <div className="container-fluid">
       <h2 className="text-center mt-3">MEMBERS</h2>
 
-{/* <<<<<<< Updated upstream
+      {/* <<<<<<< Updated upstream
       <Table rows={rows} columns={columns} />
 ======= */}
       {/* <div className="container-fluid d-flex flex-column mt-5">
@@ -169,10 +171,10 @@ function Memberships() {
         </div>
       </div> */}
 
-      <Table rows={rows} columns={columns}/>
+      <Table rows={rows} columns={columns} />
 
     </div>
   );
 }
 
-export default Memberships;
+export default Invoices;

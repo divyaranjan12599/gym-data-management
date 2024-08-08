@@ -269,14 +269,14 @@ function AddStaffs() {
                             </div>
                         </div>
                         <div className="pic-box col-4">
-                            <div className="card p-2 align-items-center justify-content-center" onClick={() => widgetRef.current.open()}>
+                            <div className="card p-2 align-items-center justify-content-center w-100 h-100" onClick={() => widgetRef.current.open()}>
                                 <div className="icon-container">
                                     {imageURL ? (
-                                        <img src={imageURL} alt="" className="p-1 w-100" />
+                                        <img src={imageURL} alt="" className="p-1 w-100 h-100" />
                                     ) : (
                                         <>
                                             <img
-                                                className=""
+                                                className="p-1 w-100 h-100"
                                                 src={image.placeholder}
                                                 alt=""
                                             />

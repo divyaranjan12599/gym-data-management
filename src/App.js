@@ -26,6 +26,7 @@ import Invoice from "./components/pages/invoice";
 import InvoiceItem from "./components/inc/invoiceItem";
 import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
+import Invoices from "./components/pages/invoices";
 
 export const UserContext = createContext({})
 
@@ -113,7 +114,7 @@ function App() {
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
-        <Navbar clientData={clientData} staffData={staffData} enquiryData={enquiryData} membershipData={membershipData} paymentData={paymentData}/>
+        <Navbar/>
         <Routes>
           <Route index element={<Layout />} />
           <Route path="/login" element={<Login />} />
@@ -125,13 +126,13 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/memberships" element={<Memberships />} />
-            {/* <Route path="/pt" element={<Pts />} /> */}
             <Route path="/ptMembers" element={<PtMembers />} />
             <Route path="/staff" element={<Staff />} />
             <Route path="/enquiries" element={<Enquiries />} />
             <Route path="/recentMemberships" element={<RecentMemberships />} />
             <Route path="/staffAttendance" element={<StaffAttendance />} />
             <Route path="/userDetails" element={<UserDetails />} />
+            <Route path="/invoices" element={<Invoices />} />
             <Route path="/invoice" element={<Invoice />} />
             <Route path="/invoiceItem" element={<InvoiceItem />} />
             <Route path="/invoiceModal" element={<InvoiceModal />} />

@@ -112,166 +112,167 @@ function AddEnquiry() {
             {/* <div className="bg-dark text-light">
             <p className="text-center">Client Details</p>
         </div> */}
-
-            <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                <div className="row w-100">
-                    <div className="mb-2 col-lg-6">
-                        <label>Visitor's Name*</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="visitorName"
-                            value={enquiryData.visitorName}
-                            className="form-control"
-                            placeholder="Fullname"
-                            required />
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Phone*</label>
-                        <div className="input-group">
-                            <span className="input-group-text" id="basic-addon1">
-                                +91
-                            </span>
+            <div className="card mb-4 pt-4 p-2">
+                <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                    <div className="row w-100">
+                        <div className="mb-2 col-lg-6">
+                            <label>Visitor's Name*</label>
                             <input
                                 type="text"
                                 onChange={handleChange}
-                                name="phone"
-                                value={enquiryData.value}
+                                name="visitorName"
+                                value={enquiryData.visitorName}
                                 className="form-control"
-                                placeholder="contact number"
+                                placeholder="Fullname"
                                 required />
                         </div>
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Source*</label>
-                        <select id="idProofType" className="form-select" onChange={handleChange} name="source" value={enquiryData.source} required>
-                            <option selected>Select</option>
-                            <option value="walk-in">Walk In</option>
-                            <option value="social-media">Social Media</option>
-                            <option value="referral">Referral</option>
-                            {/* <option value="5">Other</option> */}
-                        </select>
-                    </div>
-                    <div className="mb-2 col-6">
-                        <label>Refered By</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="referredBy"
-                            value={enquiryData.referredBy}
-                            className="form-control"
-                            placeholder="Enter Member Name"
-                        />
-                    </div>
-                    <div className="mb-2 col-6 d-flex flex-column">
-                        <label>Enquiry On</label>
-                        <ReactDatePicker
-                            selected={enquiryOnDateTime}
-                            onChange={enquiryOnDateTimeChange}
-                            name="enquiryOn"
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            className="form-control"
-                        />
-                    </div>
-                    <div className="mb-2 col-6 d-flex flex-column">
-                        <label>Last Follow Up On</label>
-                        <ReactDatePicker
-                            // selected={enquiryData.lastFollowUpOn}
-                            selected={lastFollowUpDateTime}
-                            onChange={lastFollowUpOnDateTimeChange}
-                            name="lastFollowUpOn"
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            className="form-control"
-                        />
-                    </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Phone*</label>
+                            <div className="input-group">
+                                <span className="input-group-text" id="basic-addon1">
+                                    +91
+                                </span>
+                                <input
+                                    type="text"
+                                    onChange={handleChange}
+                                    name="phone"
+                                    value={enquiryData.value}
+                                    className="form-control"
+                                    placeholder="contact number"
+                                    required />
+                            </div>
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Source*</label>
+                            <select id="idProofType" className="form-select" onChange={handleChange} name="source" value={enquiryData.source} required>
+                                <option selected>Select</option>
+                                <option value="walk-in">Walk In</option>
+                                <option value="social-media">Social Media</option>
+                                <option value="referral">Referral</option>
+                                {/* <option value="5">Other</option> */}
+                            </select>
+                        </div>
+                        <div className="mb-2 col-6">
+                            <label>Refered By</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="referredBy"
+                                value={enquiryData.referredBy}
+                                className="form-control"
+                                placeholder="Enter Member Name"
+                            />
+                        </div>
+                        <div className="mb-2 col-6 d-flex flex-column">
+                            <label>Enquiry On</label>
+                            <ReactDatePicker
+                                selected={enquiryOnDateTime}
+                                onChange={enquiryOnDateTimeChange}
+                                name="enquiryOn"
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="mb-2 col-6 d-flex flex-column">
+                            <label>Last Follow Up On</label>
+                            <ReactDatePicker
+                                // selected={enquiryData.lastFollowUpOn}
+                                selected={lastFollowUpDateTime}
+                                onChange={lastFollowUpOnDateTimeChange}
+                                name="lastFollowUpOn"
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                className="form-control"
+                            />
+                        </div>
 
-                    <div className="mb-2 col-12">
-                        <label>Enquired For</label>
-                        <div className="row p-4">
-                            {['Gym', 'CrossFit', 'Calisthenics', 'Zumba', 'Dance', 'Yoga', 'Steam Bath', 'Physio Therapy', 'Power Lifting', 'Personal Training', 'Cardio', 'Aerobics'].map((activity, index) => (
-                                <div className="form-check col-3" key={index}>
-                                    <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        name="enquiredFor"
-                                        value={activity}
-                                        checked={enquiryData.enquiredFor.includes(activity)}
-                                        onChange={handleChange}
-                                    />
-                                    <label className="form-check-label" htmlFor={`flexCheckDefault${index}`}>
-                                        {activity}
-                                    </label>
-                                </div>
-                            ))}
+                        <div className="mb-2 col-12">
+                            <label>Enquired For</label>
+                            <div className="row p-4">
+                                {['Gym', 'CrossFit', 'Calisthenics', 'Zumba', 'Dance', 'Yoga', 'Steam Bath', 'Physio Therapy', 'Power Lifting', 'Personal Training', 'Cardio', 'Aerobics'].map((activity, index) => (
+                                    <div className="form-check col-3" key={index}>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            name="enquiredFor"
+                                            value={activity}
+                                            checked={enquiryData.enquiredFor.includes(activity)}
+                                            onChange={handleChange}
+                                        />
+                                        <label className="form-check-label" htmlFor={`flexCheckDefault${index}`}>
+                                            {activity}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="mb-2 col-lg-6">
+                            <label>Interested On</label>
+                            <select id="idProofType" name="interestedOn" onChange={handleChange} value={enquiryData.interestedOn} className="form-select">
+                                <option selected>Select Package</option>
+                                <option value="monthly">Monthly Package</option>
+                                <option value="twomonths">Quaterly Package</option>
+                                <option value="quarterly">Half Yearly Package</option>
+                                <option value="halfyearly">Yearly Package</option>
+                                <option value="yearly">Other</option>
+                            </select>
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Attain By</label>
+                            <select id="idProofType" name="attainedBy" value={enquiryData.attainedBy} onChange={handleChange} className="form-select">
+                                <option selected>Select Staff</option>
+                                {staffData.map((staff, index) => (
+                                    <option key={index} value={staff._id}>{staff.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Email</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="email"
+                                value={enquiryData.email}
+                                className="form-control"
+                                placeholder="asd123@gmail.com"
+                            />
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Address</label>
+                            <textarea
+                                type="text"
+                                onChange={handleChange}
+                                name="address"
+                                value={enquiryData.address}
+                                className="form-control"
+                                placeholder="eg. 123, Colony, Hyderabad"
+                            />
+                        </div>
+                        <div className="mb-2 col-lg-6">
+                            <label>Comment</label>
+                            <textarea
+                                type="text"
+                                onChange={handleChange}
+                                name="comment"
+                                value={enquiryData.comment}
+                                className="form-control"
+                                placeholder="Enter comment..."
+                            />
+                        </div>
+                        <div className="col-12 d-flex justify-content-end p-0">
+                            <button onClick={handleSubmit} className="btn btn-primary m-2">
+                                Submit
+                            </button>
                         </div>
                     </div>
-
-                    <div className="mb-2 col-lg-6">
-                        <label>Interested On</label>
-                        <select id="idProofType" name="interestedOn" onChange={handleChange} value={enquiryData.interestedOn} className="form-select">
-                            <option selected>Select Package</option>
-                            <option value="monthly">Monthly Package</option>
-                            <option value="twomonths">Quaterly Package</option>
-                            <option value="quarterly">Half Yearly Package</option>
-                            <option value="halfyearly">Yearly Package</option>
-                            <option value="yearly">Other</option>
-                        </select>
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Attain By</label>
-                        <select id="idProofType" name="attainedBy" value={enquiryData.attainedBy} onChange={handleChange} className="form-select">
-                            <option selected>Select Staff</option>
-                            {staffData.map((staff, index) => (
-                                <option key={index} value={staff._id}>{staff.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Email</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="email"
-                            value={enquiryData.email}
-                            className="form-control"
-                            placeholder="asd123@gmail.com"
-                        />
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Address</label>
-                        <textarea
-                            type="text"
-                            onChange={handleChange}
-                            name="address"
-                            value={enquiryData.address}
-                            className="form-control"
-                            placeholder="eg. 123, Colony, Hyderabad"
-                        />
-                    </div>
-                    <div className="mb-2 col-lg-6">
-                        <label>Comment</label>
-                        <textarea
-                            type="text"
-                            onChange={handleChange}
-                            name="comment"
-                            value={enquiryData.comment}
-                            className="form-control"
-                            placeholder="Enter comment..."
-                        />
-                    </div>
-                    <div className="col-12 d-flex justify-content-end p-0">
-                        <button onClick={handleSubmit} className="btn btn-primary m-2">
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 }
