@@ -27,6 +27,7 @@ import InvoiceItem from "./components/inc/invoiceItem";
 import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
+import DateRange from "./components/inc/dateRange";
 
 export const UserContext = createContext({})
 
@@ -137,7 +138,7 @@ function App() {
             <Route path="/invoiceItem" element={<InvoiceItem />} />
             <Route path="/invoiceModal" element={<InvoiceModal />} />
             <Route path="/fieldEdits" element={<FieldEdits />} />
-            {/* <Route path="/pts" element={<Pts />} /> */}
+            <Route path="/dateRange" element={<DateRange />} />
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
         </Routes>
