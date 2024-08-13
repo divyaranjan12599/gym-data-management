@@ -1,13 +1,11 @@
 import React, { useContext, useMemo, useState } from "react";
 
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-import { Button } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { UserContext } from "../../App";
-import Table from '../inc/table'
+import Table from '../inc/table';
 import emailjs from 'emailjs-com';
+import { endDateGenerator } from "../inc/utilityFuncs";
 
 function Memberships() {
   const [fromDate, setFromDate] = useState(null);
@@ -83,24 +81,24 @@ function Memberships() {
     email: membership.membershipBy.email || "N/A",
     package: membership.membershipPeriod || "N/A",
     startDate: membership.membershipBy.joiningdate || "N/A",
-    endDate: membership.endDate || "N/A",
+    endDate: endDateGenerator(membership.membershipBy.joiningdate, membership.membershipPeriod) || "N/A",
     // amount: membership.paymentDetails.amountPaid,
     // remaining: membership.paymentDetails.amountRemaining,
     status: membership.status || "N/A",
     photoURL: membership.membershipBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
 
-  // rows.sort((a, b) => {
-  //   if (a.id === "N/A" && b.id === "N/A") {
-  //     return 0; // both ids are invalid
-  //   } else if (a.id === "N/A") {
-  //     return 1; // only a.id is invalid, push it to the end
-  //   } else if (b.id === "N/A") {
-  //     return -1; // only b.id is invalid, push it to the end
-  //   } else {
-  //     return a.id - b.id; // valid ids comparison
-  //   }
-  // });
+  rows.sort((a, b) => {
+    if (a.id === "N/A" && b.id === "N/A") {
+      return 0; // both ids are invalid
+    } else if (a.id === "N/A") {
+      return 1; // only a.id is invalid, push it to the end
+    } else if (b.id === "N/A") {
+      return -1; // only b.id is invalid, push it to the end
+    } else {
+      return a.id - b.id; // valid ids comparison
+    }
+  });
 
   return (
     <div className="container-fluid">

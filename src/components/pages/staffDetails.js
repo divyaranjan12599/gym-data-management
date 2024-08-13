@@ -1,53 +1,21 @@
-import React, { useContext, useMemo, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 import defaultImage from "../icons/user.png";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { Avatar } from "@mui/material";
-import { UserContext } from "../../App";
-import StaffTable from "../inc/table";
+import clientData from '../inc/clientData.json'
+import Table from "../inc/table";
 
 function StaffDetails() {
-  const { staffId } = useParams();
-  const [userData, setUserData] = useState(null);
+  const [image, selectImage] = useState({
+    placeholder: defaultImage,
+    files: null,
+  });
 
-  const { membershipData, paymentData, staffData } = useContext(UserContext);
+  const rows = clientData
 
-  useEffect(() => {
-    const staff = staffData?.find((staff) => staff.id == staffId)
-    if (staff) {
-      setUserData(staff);
-    } else {
-      console.error("User not found");
-    }
-  }, [staffId, staffData]);
-
-  const membershipRows = useMemo(() => {
-    return membershipData?.map((membership, index) => ({
-      id: membership?.membershipBy?.id || "N/A",
-      name: membership?.membershipBy?.name || "N/A",
-      phone: membership?.membershipBy?.contact || "N/A",
-      email: membership?.membershipBy?.email || "N/A",
-      package: membership?.membershipPeriod || "N/A",
-      startDate: membership?.membershipBy?.joiningdate || "N/A",
-      endDate: membership?.endDate || "N/A",
-      status: membership?.status || "N/A",
-      photoURL:
-        membership?.membershipBy?.photoUrl ||
-        "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-    })) || [];
-  }, [membershipData]);
-
-  const paymentRows = useMemo(() => {
-    return paymentData?.map((payment, index) => ({
-      id: payment?.amountPaidBy?.id || "N/A",
-      amount_paid: payment?.amountPaid || "N/A",
-      mode: payment?.mode || "N/A",
-      due_date: payment?.dueDate || "N/A",
-    })) || [];
-  }, [paymentData]);
-
-  const membershipColumns = useMemo(
+  let columns = useMemo(
     () => [
       {
         field: "photoURL",
@@ -65,6 +33,13 @@ function StaffDetails() {
       { field: "startDate", headerName: "Start Date", width: 150 },
       { field: "endDate", headerName: "End Date", width: 150 },
       { field: "status", headerName: "Status", width: 140 },
+      { field: "amount", headerName: "Amount Paid", width: 140 },
+      {
+        field: "remaining",
+        headerName: "Remaining Amount",
+        width: 140,
+        editable: true,
+      },
     ],
     []
   );
@@ -79,83 +54,85 @@ function StaffDetails() {
     []
   );
 
-  if (!userData) {
-    return <div>Loading...</div>;
-  }
+  // if (!userData) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="container-fluid">
       <h1 className="userHeading mt-3 d-flex justify-content-center">
-        Staff Info
+        User Info
       </h1>
-      <div className="w-100 d-flex">
-        <div className="card shadow p-2">
-          <div className="d-flex justify-content-end">
-            <button className="btn btn-light">
-              <FontAwesomeIcon icon={faPencil} />
-            </button>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-3">
+            <div className="card shadow p-2">
+              <div className="d-flex justify-content-end">
+                <button className="btn btn-light">
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+              </div>
+              <div className="d-flex justify-content-center">
+                <img
+                  className="rounded-circle"
+                  style={{ width: "80%" }}
+                  src={image.placeholder}
+                  alt=""
+                />
+              </div>
+              <label className="userLabel mt-3 text-center">Full Name</label>
+              <label className="userLabel text-center text-body-tertiary">
+                +91 9834****32
+              </label>
+              <label className="userLabel text-center text-body-tertiary">
+                Los Angeles, United States
+              </label>
+              <div className="card mt-5 h-100 shadow p-3">
+                <div className="">
+                  <label className="headLabel">Client ID</label>
+                  <label className="smallLabel">1602</label>
+                </div>
+                <hr />
+                <div className="">
+                  <label className="headLabel">Email ID</label>
+                  <label className="smallLabel">example@xyz.com</label>
+                </div>
+                <hr />
+                <div className="">
+                  <label className="headLabel">Gender</label>
+                  <label className="smallLabel">Male</label>
+                </div>
+                <hr />
+                <div className="">
+                  <label className="headLabel">Joining Date</label>
+                  <label className="smallLabel">20/10/2023</label>
+                </div>
+                <hr />
+                <div className="">
+                  <label className="headLabel">End Date</label>
+                  <label className="smallLabel">20/04/2024</label>
+                </div>
+                <hr />
+                <div className="">
+                  <label className="headLabel">Membership</label>
+                  <label className="smallLabel">6 Months</label>
+                </div>
+                <hr />
+              </div>
+            </div>
           </div>
-          <div className="d-flex justify-content-center">
-            <img
-              className="rounded-circle"
-              style={{ width: "80%" }}
-              src={userData.photoUrl || defaultImage}
-              alt="User"
-            />
-          </div>
-          <label className="userLabel mt-3 text-lg-center">{userData.name}</label>
-          <label className="userLabel text-lg-center text-body-tertiary">
-            {userData.contact}
-          </label>
-          <label className="userLabel text-lg-center text-body-tertiary">
-            {userData.address.city}, {userData.address.state}
-          </label>
-          <div className="card mt-5 h-100 shadow p-3">
-            <div>
-              <label className="headLabel">Staff ID</label>
-              <label className="smallLabel">{userData.id}</label>
+          <div className="col-md-9">
+            <div className="card shadow w-100 p-2">
+              <h3>Current PTs</h3>
+              <Table rows={rows} columns={columns} />
             </div>
-            <hr />
-            <div>
-              <label className="headLabel">Email ID</label>
-              <label className="smallLabel">{userData.email}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">Gender</label>
-              <label className="smallLabel">{userData.gender}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">Joining Date</label>
-              <label className="smallLabel">{userData.joiningDate}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">End Date</label>
-              <label className="smallLabel">{userData.endDate}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">Membership</label>
-              <label className="smallLabel">{userData.membershipPeriod}</label>
-            </div>
-            <hr />
-          </div>
-        </div>
-        <div className="w-100 h-100 d-flex flex-column">
-          <div className="card mx-2 shadow w-100 p-3">
-            <h3>Membership History</h3>
-            <StaffTable rows={membershipRows} columns={membershipColumns} />
-          </div>
-          <div className="card mx-2 shadow w-100 p-3">
-            <h3>Payment History</h3>
-            <StaffTable rows={paymentRows} columns={paymentColumns} />
           </div>
         </div>
       </div>
+
     </div>
   );
 }
 
 export default StaffDetails;
+

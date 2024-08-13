@@ -6,21 +6,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "@mui/material";
 import { UserContext } from "../../App";
 import Table from "../inc/table";
+import { endDateGenerator } from "../inc/utilityFuncs";
 
 function UserDetails() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
 
+  const [image, selectImage] = useState({
+    placeholder: defaultImage,
+    files: null,
+  });
+
+
   const { membershipData, paymentData, clientData } = useContext(UserContext);
 
   useEffect(() => {
-    const user = clientData?.find((client) => client.id == userId)
+    const user = membershipData?.find((membership) => membership.membershipBy.id == userId)
     if (user) {
       setUserData(user);
+      console.log(user);
     } else {
       console.error("User not found");
     }
-  }, [userId, clientData]);
+  }, [userId, clientData, membershipData]);
 
   const membershipRows = useMemo(() => {
     return membershipData?.map((membership, index) => ({
@@ -88,69 +96,73 @@ function UserDetails() {
       <h1 className="userHeading mt-3 d-flex justify-content-center">
         User Info
       </h1>
-      <div className="w-100 d-flex">
-        <div className="card shadow p-2">
-          <div className="d-flex justify-content-end">
-            <button className="btn btn-light">
-              <FontAwesomeIcon icon={faPencil} />
-            </button>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-3">
+            <div className="card shadow p-2">
+              <div className="d-flex justify-content-end">
+                <button className="btn btn-light">
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+              </div>
+              <div className="d-flex justify-content-center">
+                <img
+                  className="rounded-circle"
+                  style={{ width: "80%" }}
+                  src={userData.membershipBy.photoUrl || defaultImage}
+                  alt="User"
+                />
+              </div>
+              <label className="userLabel mt-3 text-lg-center">{userData.membershipBy.name}</label>
+              <label className="userLabel text-lg-center text-body-tertiary">
+                {userData.membershipBy.contact}
+              </label>
+              <label className="userLabel text-lg-center text-body-tertiary">
+                {userData.membershipBy.address.city}, {userData.membershipBy.address.state}
+              </label>
+              <div className="card mt-5 h-100 shadow p-3">
+                <div>
+                  <label className="headLabel">Client ID</label>
+                  <label className="smallLabel">{userData.membershipBy.id}</label>
+                </div>
+                <hr />
+                <div>
+                  <label className="headLabel">Email ID</label>
+                  <label className="smallLabel">{userData.membershipBy.email}</label>
+                </div>
+                <hr />
+                <div>
+                  <label className="headLabel">Gender</label>
+                  <label className="smallLabel">{userData.membershipBy.gender}</label>
+                </div>
+                <hr />
+                <div>
+                  <label className="headLabel">Joining Date</label>
+                  <label className="smallLabel">{userData.membershipBy.joiningdate}</label>
+                </div>
+                <hr />
+                <div>
+                  <label className="headLabel">End Date</label>
+                  <label className="smallLabel">{endDateGenerator(userData.startingDate, userData.membershipPeriod)}</label>
+                </div>
+                <hr />
+                <div>
+                  <label className="headLabel">Membership</label>
+                  <label className="smallLabel">{userData.membershipPeriod}</label>
+                </div>
+                <hr />
+              </div>
+            </div>
           </div>
-          <div className="d-flex justify-content-center">
-            <img
-              className="rounded-circle"
-              style={{ width: "80%" }}
-              src={userData.photoUrl || defaultImage}
-              alt="User"
-            />
-          </div>
-          <label className="userLabel mt-3 text-lg-center">{userData.name}</label>
-          <label className="userLabel text-lg-center text-body-tertiary">
-            {userData.contact}
-          </label>
-          <label className="userLabel text-lg-center text-body-tertiary">
-            {userData.address.city}, {userData.address.state}
-          </label>
-          <div className="card mt-5 h-100 shadow p-3">
-            <div>
-              <label className="headLabel">Client ID</label>
-              <label className="smallLabel">{userData.id}</label>
+          <div className="col-md-9">
+            <div className="card shadow w-100 p-2 mb-2">
+              <h3>Membership History</h3>
+              <Table rows={membershipRows} columns={membershipColumns} />
             </div>
-            <hr />
-            <div>
-              <label className="headLabel">Email ID</label>
-              <label className="smallLabel">{userData.email}</label>
+            <div className="card shadow w-100 p-2">
+              <h3>Payment History</h3>
+              <Table rows={paymentRows} columns={paymentColumns} />
             </div>
-            <hr />
-            <div>
-              <label className="headLabel">Gender</label>
-              <label className="smallLabel">{userData.gender}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">Joining Date</label>
-              <label className="smallLabel">{userData.joiningDate}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">End Date</label>
-              <label className="smallLabel">{userData.endDate}</label>
-            </div>
-            <hr />
-            <div>
-              <label className="headLabel">Membership</label>
-              <label className="smallLabel">{userData.membershipPeriod}</label>
-            </div>
-            <hr />
-          </div>
-        </div>
-        <div className="w-100 h-100 d-flex flex-column">
-          <div className="card mx-2 shadow w-100 p-3">
-            <h3>Membership History</h3>
-            <Table rows={membershipRows} columns={membershipColumns} />
-          </div>
-          <div className="card mx-2 shadow w-100 p-3">
-            <h3>Payment History</h3>
-            <Table rows={paymentRows} columns={paymentColumns} />
           </div>
         </div>
       </div>
