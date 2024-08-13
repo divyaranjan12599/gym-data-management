@@ -10,6 +10,7 @@ import AddStaffs from "./components/pages/addStaff";
 import PtMembers from "./components/pages/ptMembers";
 import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
+import StaffDetails from "./components/pages/staffDetails";
 import RecentMemberships from "./components/pages/recentMemberships";
 import Login from "./components/pages/login";
 import Memberships from "./components/pages/memberships";
@@ -110,6 +111,7 @@ function App() {
     fetchEnquiryData();
     fetchStaffData();
     fetchClientPaymentData();
+    fetchClientData()
   }, []);
 
   return (
@@ -132,7 +134,8 @@ function App() {
             <Route path="/enquiries" element={<Enquiries />} />
             <Route path="/recentMemberships" element={<RecentMemberships />} />
             <Route path="/staffAttendance" element={<StaffAttendance />} />
-            <Route path="/userDetails" element={<UserDetails />} />
+            <Route path="/user/:userId" element={<UserDetails />} />
+            <Route path="/staff/:staffId" element={<StaffDetails />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/invoice" element={<Invoice />} />
             <Route path="/invoiceItem" element={<InvoiceItem />} />

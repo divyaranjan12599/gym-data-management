@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Avatar } from "@mui/material";
 import axios from "axios";
 import { UserContext } from "../../App";
-import Table from "../inc/table";
+import StaffTable from "../inc/table";
 
 
 function Staff() {
@@ -61,7 +61,7 @@ function Staff() {
     <div className="container-fluid">
       <h2 className="text-center mt-3">STAFF</h2>
 
-      <Table rows={rows} columns={columns}/>
+      <StaffTable rows={rows} columns={columns}/>
 
     </div>
   );

@@ -5,22 +5,22 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "@mui/material";
 import { UserContext } from "../../App";
-import Table from "../inc/table";
+import StaffTable from "../inc/table";
 
-function UserDetails() {
-  const { userId } = useParams();
+function StaffDetails() {
+  const { staffId } = useParams();
   const [userData, setUserData] = useState(null);
 
-  const { membershipData, paymentData, clientData } = useContext(UserContext);
+  const { membershipData, paymentData, staffData } = useContext(UserContext);
 
   useEffect(() => {
-    const user = clientData?.find((client) => client.id == userId)
-    if (user) {
-      setUserData(user);
+    const staff = staffData?.find((staff) => staff.id == staffId)
+    if (staff) {
+      setUserData(staff);
     } else {
       console.error("User not found");
     }
-  }, [userId, clientData]);
+  }, [staffId, staffData]);
 
   const membershipRows = useMemo(() => {
     return membershipData?.map((membership, index) => ({
@@ -86,7 +86,7 @@ function UserDetails() {
   return (
     <div className="container-fluid">
       <h1 className="userHeading mt-3 d-flex justify-content-center">
-        User Info
+        Staff Info
       </h1>
       <div className="w-100 d-flex">
         <div className="card shadow p-2">
@@ -112,7 +112,7 @@ function UserDetails() {
           </label>
           <div className="card mt-5 h-100 shadow p-3">
             <div>
-              <label className="headLabel">Client ID</label>
+              <label className="headLabel">Staff ID</label>
               <label className="smallLabel">{userData.id}</label>
             </div>
             <hr />
@@ -146,11 +146,11 @@ function UserDetails() {
         <div className="w-100 h-100 d-flex flex-column">
           <div className="card mx-2 shadow w-100 p-3">
             <h3>Membership History</h3>
-            <Table rows={membershipRows} columns={membershipColumns} />
+            <StaffTable rows={membershipRows} columns={membershipColumns} />
           </div>
           <div className="card mx-2 shadow w-100 p-3">
             <h3>Payment History</h3>
-            <Table rows={paymentRows} columns={paymentColumns} />
+            <StaffTable rows={paymentRows} columns={paymentColumns} />
           </div>
         </div>
       </div>
@@ -158,4 +158,4 @@ function UserDetails() {
   );
 }
 
-export default UserDetails;
+export default StaffDetails;
