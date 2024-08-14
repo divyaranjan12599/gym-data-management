@@ -3,6 +3,7 @@ import defaultImage from "../icons/user.png";
 import { faArrowRight, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 import { Avatar } from "@mui/material";
 import clientData from '../inc/clientData.json'
 import Table from "../inc/table";
