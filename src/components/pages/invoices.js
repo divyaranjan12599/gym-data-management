@@ -50,6 +50,7 @@ function Invoices() {
       { field: "amountRemaining", headerName: "Amount Remaining", width: 150 },
       { field: "dueDate", headerName: "Due Date", width: 150 },
       { field: "transactionId", headerName: "Transaction Id", width: 140 },
+      { field: "actions", headerName: "Actions", width: 140 },
       // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
       // {
       //   field: "status",
@@ -90,6 +91,7 @@ function Invoices() {
     // remaining: payment.paymentDetails.amountRemaining,
     status: payment.status || "N/A",
     photoURL: payment.amountPaidBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    actions: "N/A",
   }));
 
   // rows.sort((a, b) => {
@@ -106,7 +108,7 @@ function Invoices() {
 
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">MEMBERS</h2>
+      <h2 className="text-center mt-3">INVOICES</h2>
 
       {/* <<<<<<< Updated upstream
       <Table rows={rows} columns={columns} />

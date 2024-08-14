@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import Home from './components/pages/home';
+import Dashboard from './components/pages/dashboard';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
 import Navbar from "./components/inc/navbar";
@@ -10,6 +10,7 @@ import AddStaffs from "./components/pages/addStaff";
 import PtMembers from "./components/pages/ptMembers";
 import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
+import StaffDetails from "./components/pages/staffDetails";
 import RecentMemberships from "./components/pages/recentMemberships";
 import Login from "./components/pages/login";
 import Memberships from "./components/pages/memberships";
@@ -27,6 +28,7 @@ import InvoiceItem from "./components/inc/invoiceItem";
 import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
+import { endDateGenerator } from "./components/inc/utilityFuncs";
 
 export const UserContext = createContext({})
 
@@ -37,7 +39,7 @@ function App() {
   const [enquiryData, setEnquiryData] = useState([]);
   const [staffData, setStaffData] = useState([]);
   const [userAuth, setUserAuth] = useState({});
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let userInSession = lookInSession("user");
@@ -46,13 +48,13 @@ function App() {
     } else {
       setUserAuth({ access_token: null });
     }
-    setLoading(false); 
+    setLoading(false);
   }, []);
 
   const fetchClientMembershipData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-memberships");
-      console.log("membership details",response.data);
+      console.log("membership details", response.data);
       setMembershipData(response.data);
     } catch (error) {
       console.log(error);
@@ -63,7 +65,7 @@ function App() {
   const fetchClientPaymentData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-paymentDetails");
-      console.log("paymentdetails",response.data);
+      console.log("paymentdetails", response.data);
       setPaymentData(response.data);
     } catch (error) {
       console.log(error);
@@ -74,7 +76,7 @@ function App() {
   const fetchClientData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients");
-      console.log("clients",response.data);
+      console.log("clients", response.data);
       setClientData(response.data);
     } catch (error) {
       console.log(error);
@@ -85,7 +87,7 @@ function App() {
   const fetchEnquiryData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquiries");
-      console.log("enquiry",response.data);
+      console.log("enquiry", response.data);
       setEnquiryData(response.data);
     } catch (error) {
       console.log(error);
@@ -96,7 +98,7 @@ function App() {
   const fetchStaffData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs");
-      console.log("staff",response.data);
+      console.log("staff", response.data);
       setStaffData(response.data);
     } catch (error) {
       console.log(error);
@@ -109,12 +111,13 @@ function App() {
     fetchEnquiryData();
     fetchStaffData();
     fetchClientPaymentData();
+    fetchClientData()
   }, []);
 
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
-        <Navbar/>
+        <Navbar />
         <Routes>
           <Route index element={<Layout />} />
           <Route path="/login" element={<Login />} />
@@ -122,7 +125,7 @@ function App() {
             <Route path="/add_member" element={<AddMembers />} />
             <Route path="/add_enquiry" element={<AddEnquiry />} />
             <Route path="/add_staff" element={<AddStaffs />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/memberships" element={<Memberships />} />
@@ -131,13 +134,14 @@ function App() {
             <Route path="/enquiries" element={<Enquiries />} />
             <Route path="/recentMemberships" element={<RecentMemberships />} />
             <Route path="/staffAttendance" element={<StaffAttendance />} />
-            <Route path="/userDetails" element={<UserDetails />} />
+            <Route path="/user/:userId" element={<UserDetails />} />
+            <Route path="/staff/:staffId" element={<StaffDetails />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/invoice" element={<Invoice />} />
             <Route path="/invoiceItem" element={<InvoiceItem />} />
             <Route path="/invoiceModal" element={<InvoiceModal />} />
             <Route path="/fieldEdits" element={<FieldEdits />} />
-            {/* <Route path="/pts" element={<Pts />} /> */}
+            {/* <Route path="/dateRange" element={<DateRange />} /> */}
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
         </Routes>

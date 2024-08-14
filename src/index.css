@@ -7,24 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Remove focus outline from table cells */
-.MuiDataGrid-cell:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  
-  /* Remove focus outline from buttons and other elements */
-  button:focus, input:focus, textarea:focus, .MuiButtonBase-root:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  
-  /* Remove the default focus ring for all focusable elements inside the component */
-  .container-fluid *:focus {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

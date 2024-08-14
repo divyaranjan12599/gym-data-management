@@ -70,7 +70,7 @@ function Navbar(props) {
             <div className="col-lg-8">
               <ul className="navbar-nav me-4 mb-2 mb-lg-0 d-flex justify-content-end">
                 <li className="nav-item">
-                  <Link to="/home" className={`nav-link m-2 ${location.pathname === '/home' ? 'active' : ''}`}>
+                  <Link to="/dashboard" className={`nav-link m-2 ${location.pathname === '/dashboard' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faDisplay} /> Dashboard
                   </Link>
                 </li>

@@ -28,13 +28,13 @@ function QuickSearchToolbar(props) {
   );
 }
 
-const Table = (props) => {
+const StaffTable = (props) => {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
 
   const handleRowClick = (params) => {
-    const userId = params.row.id;
-    navigate(`/user/${userId}`);
+    const staffId = params.row.id;
+    navigate(`/staff/${staffId}`);
   };
 
   const handleSelectionModelChange = (newSelection) => {
@@ -91,4 +91,4 @@ const Table = (props) => {
   );
 };
 
-export default Table;
+export default StaffTable;
