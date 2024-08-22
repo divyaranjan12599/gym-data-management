@@ -15,7 +15,10 @@
 }
 
 /* Remove focus outline from buttons and other elements */
-button:focus, input:focus, textarea:focus, .MuiButtonBase-root:focus {
+button:focus,
+input:focus,
+textarea:focus,
+.MuiButtonBase-root:focus {
   outline: none !important;
   box-shadow: none !important;
 }
@@ -188,7 +191,7 @@ select.form-control {
 .icon-container {
   position: relative;
   width: 100%;
-} 
+}
 
 .icon-container img {
   width: 80%;

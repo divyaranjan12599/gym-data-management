@@ -8,8 +8,6 @@ import emailjs from 'emailjs-com';
 import { endDateGenerator } from "../inc/utilityFuncs";
 
 function Memberships() {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
 
   let { membershipData } = useContext(UserContext);
 
@@ -70,105 +68,48 @@ function Memberships() {
       //   ),
       // },
     ],
-    []
+    [membershipData]
   );
 
-  //  const rows = clientData
-  const rows = membershipData.map((membership, index) => ({
-    id: membership.membershipBy.id || "N/A",
-    name: membership.membershipBy.name || "N/A",
-    phone: membership.membershipBy.contact || "N/A",
-    email: membership.membershipBy.email || "N/A",
-    package: membership.membershipPeriod || "N/A",
-    startDate: membership.membershipBy.joiningdate || "N/A",
-    endDate: endDateGenerator(membership.membershipBy.joiningdate, membership.membershipPeriod) || "N/A",
-    // amount: membership.paymentDetails.amountPaid,
-    // remaining: membership.paymentDetails.amountRemaining,
-    status: membership.status || "N/A",
-    photoURL: membership.membershipBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-  }));
+  const rows = membershipData
+  .filter((membership) => {
+    const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
+    const currentDate = new Date();
+    return new Date(endDate) > currentDate;
+  })
+  .map((membership) => {
+    const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
+    return {
+      id: membership.membershipBy?.id || "N/A",
+      name: membership.membershipBy?.name || "N/A",
+      phone: membership.membershipBy?.contact || "N/A",
+      email: membership.membershipBy?.email || "N/A",
+      package: membership.membershipPeriod || "N/A",
+      startDate: membership.startingDate || "N/A",
+      endDate: endDate || "N/A",
+      status: membership.status || "N/A",
+      photoURL: membership.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    };
+  });
 
   rows.sort((a, b) => {
-    if (a.id === "N/A" && b.id === "N/A") {
-      return 0; // both ids are invalid
-    } else if (a.id === "N/A") {
-      return 1; // only a.id is invalid, push it to the end
-    } else if (b.id === "N/A") {
-      return -1; // only b.id is invalid, push it to the end
+    if (a.startDate === "N/A" && b.startDate === "N/A") {
+      return 0; // both are invalid
+    } else if (a.startDate === "N/A") {
+      return 1; // a is invalid, push it to the end
+    } else if (b.startDate === "N/A") {
+      return -1; // b is invalid, push it to the end
     } else {
-      return a.id - b.id; // valid ids comparison
+      return new Date(a.startDate) - new Date(b.startDate); // valid dates comparison
     }
   });
+
+  console.log("Mapped Rows:", rows);
 
   return (
     <div className="container-fluid">
       <h2 className="text-center mt-3">MEMBERS</h2>
-
-{/* <<<<<<< Updated upstream
       <Table rows={rows} columns={columns} />
-======= */}
-      {/* <div className="container-fluid d-flex flex-column mt-5">
-        <div className="d-flex flex-row">
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>From</label>
-            <DatePicker
-              id="from-date-picker"
-              className="form-select "
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>To</label>
-            <DatePicker
-              id="to-date-picker"
-              className="form-select "
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3">
-            <label>Search On</label>
-            <select id="expired" class="form-select w-100">
-              <option selected>Expired</option>
-              <option value="1">*-*</option>
-              <option value="2">*-*</option>
-              <option value="3">*-*</option>
-              <option value="4">*-*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Status</label>
-            <select id="status" class="form-select w-100">
-              <option selected>Active</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Package</label>
-            <select id="package" class="form-select w-100">
-              <option selected>All</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
-            Submit
-          </div>
-
-        </div>
-      </div> */}
-
-      <Table rows={rows} columns={columns}/>
-
     </div>
   );
 }

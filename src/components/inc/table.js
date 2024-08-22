@@ -33,6 +33,7 @@ const Table = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const handleRowClick = (params) => {
+    console.log(params);
     const userId = params.row.id;
     navigate(`/user/${userId}`);
   };
