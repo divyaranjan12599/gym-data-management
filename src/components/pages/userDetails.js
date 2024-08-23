@@ -9,11 +9,39 @@ import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import Table from "../inc/table";
 import { endDateGenerator } from "../inc/utilityFuncs";
 import axios from "axios";
+<<<<<<< Updated upstream
 import toast from "react-hot-toast";
+=======
+import { FaMinus, FaPlus } from "react-icons/fa";
+>>>>>>> Stashed changes
 
 function UserDetails() {
-  const { userId } = useParams();
   const [userData, setUserData] = useState(null);
+  const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
+    name: '',
+    email: '',
+    contact: '',
+    address: {
+      areaDetails: '',
+      city: '',
+      state: '',
+      pincode: ''
+    },
+    gender: 'Male', // Default value or fetched from the server
+    joiningdate: '',
+    idproof: {
+      type: '',
+      number: '',
+      frontPicUrl: '',
+      backPicUrl: ''
+    },
+    emergencyContact: {
+      name: '',
+      contact: ''
+    }
+  });
+
+  const { userId } = useParams();
   const [show, setShow] = useState(false);
   const [personalDetailsModalShow, setPersonalDetailsModalShow] = useState(false);
   const [membershipUpdateModalShow, setMembershipUpdateModalShow] = useState(false);
@@ -68,11 +96,13 @@ function UserDetails() {
     }
   }
 
-  const { membershipData, paymentData, clientData } = useContext(UserContext);
+  const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
   const [clientDetails, setClientData] = useState(clientData);
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
 
@@ -94,11 +124,72 @@ function UserDetails() {
     const user = clientData?.find((client) => Number(client.id) === Number(userId))
     if (user) {
       setUserData(user);
-      console.log("user details", user);
+      console.log("user details", user, personalDetailsFormData);
+      setpersonalDetailsFormData({
+        name: userData?.name || '',
+        email: userData?.email || '',
+        contact: userData?.contact || '',
+        address: {
+          areaDetails: userData?.address?.areaDetails || '',
+          city: userData?.address?.city || '',
+          state: userData?.address?.state || '',
+          pincode: userData?.address?.pincode || ''
+        },
+        gender: userData?.gender || 'Male',
+        joiningdate: userData?.joiningdate || '',
+        idproof: {
+          type: userData?.idproof?.type || '',
+          number: userData?.idproof?.number || '',
+          frontPicUrl: userData?.idproof?.frontPicUrl || '',
+          backPicUrl: userData?.idproof?.backPicUrl || ''
+        },
+        emergencyContact: {
+          name: userData?.emergencyContact?.name || '',
+          contact: userData?.emergencyContact?.contact || ''
+        }
+      });
+      console.log("user details", user, personalDetailsFormData);
     } else {
       console.error("User not found");
     }
   }, [userId, clientData, membershipData]);
+
+  const handleStepChange = (step) => {
+    setCurrentStep(step);
+  };
+
+  const [memUpdationformData, setmemUpdationformData] = useState({
+    registrationFees: '',
+    membershipAmount: '',
+    membershipPeriod: '',
+    membershipStartingDate: '',
+    ptFees: '',
+    ptMembershipPeriod: '',
+    ptAssignedTo: '',
+    ptStartingDate: '',
+    amountPaid: '',
+    amountRemaining: '',
+    paymentMode: '',
+    transactionDate: '',
+    transactionId: '',
+    dueDate: '',
+  });
+
+  const handleMemUpdateChange = (e) => {
+    const { name, value } = e.target;
+    setmemUpdationformData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleMemUpdationformSubmit = (e) => {
+    e.preventDefault();
+    // Submit the form data
+    console.log('Submitting membership updation form data:', memUpdationformData);
+    // Call the function to update the membership details in your backend
+    // updateMembershipDetails(formData);
+  };
 
   const membershipRows = useMemo(() => {
     // Filter and map the data
@@ -136,12 +227,52 @@ function UserDetails() {
     });
   }, [membershipData, userId]);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setClientData({
-      ...clientData,
-      [name]: type === 'file' ? files[0] : value,
-    });
+  const handlePersonalDetailsChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === 'radio') {
+      setpersonalDetailsFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    } else if (name.startsWith('address.')) {
+      const addressKey = name.replace('address.', '');
+      setpersonalDetailsFormData(prevData => ({
+        ...prevData,
+        address: {
+          ...prevData.address,
+          [addressKey]: value
+        }
+      }));
+    } else if (name.startsWith('idproof.')) {
+      const idProofKey = name.replace('idproof.', '');
+      setpersonalDetailsFormData(prevData => ({
+        ...prevData,
+        idproof: {
+          ...prevData.idproof,
+          [idProofKey]: value
+        }
+      }));
+    } else if (name.startsWith('emergencyContact.')) {
+      const emergencyContactKey = name.replace('emergencyContact.', '');
+      setpersonalDetailsFormData(prevData => ({
+        ...prevData,
+        emergencyContact: {
+          ...prevData.emergencyContact,
+          [emergencyContactKey]: value
+        }
+      }));
+    } else {
+      setpersonalDetailsFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    }
+  };
+
+  const handlePersonalDetailsSubmit = async (e) => {
+    e.preventDefault();
+    console.log("submit", personalDetailsFormData);
   };
 
   const paymentRows = useMemo(() => {
@@ -189,6 +320,268 @@ function UserDetails() {
                 <button className="btn btn-light" onClick={handleShow}>
                   <FontAwesomeIcon icon={faPencil} />
                 </button>
+                <Modal show={membershipUpdateModalShow} onHide={handleMembershipUpdateModalClose} size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered>
+                  <Modal.Body className="">
+                    {/* <Container> */}
+                    <div className="card">
+                      {currentStep === 1 && (
+                        <>
+                          <div className="card-header border-top border-bottom">
+                            <p className="text-center mb-0">Membership Details</p>
+                          </div>
+                          <div className="w-100 d-flex justify-content-center">
+                            <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                              <div className="row p-2 w-100">
+                                <div className="mb-2 col-lg-6">
+                                  <label>Registration fees</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      name="registrationFees"
+                                      onChange={handleMemUpdateChange}
+                                      value={memUpdationformData.registrationFees}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-lg-6">
+                                  <label>Membership Amount</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      name="membershipAmount"
+                                      onChange={handleMemUpdateChange}
+                                      value={memUpdationformData.membershipAmount}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-4">
+                                  <label>Membership Period</label>
+                                  <select id="membershipPeriod" name="membershipPeriod" onChange={handleMemUpdateChange} value={memUpdationformData.membershipPeriod} class="form-select">
+                                    <option selected>Select</option>
+                                    <option value="monthly">One Month</option>
+                                    <option value="twomonths">Two Months</option>
+                                    <option value="quarterly">Three Months</option>
+                                    <option value="halfyearly">Six Months</option>
+                                    <option value="yearly">Yearly</option>
+                                    {/* <option value="5">Other</option> */}
+                                  </select>
+                                </div>
+                                <div className="mb-2 col-4">
+                                  <label>Starting Date</label>
+                                  <input
+                                    type="date"
+                                    onChange={handleMemUpdateChange}
+                                    name="membershipStartingDate"
+                                    value={memUpdationformData.membershipStartingDate}
+                                    className="form-control"
+                                  />
+                                </div>
+                                <div className="col-4 d-flex align-items-center justify-content-start">
+                                  <button
+                                    className="btn text-black-50 d-flex align-items-center"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setIsVisible(!isVisible);
+                                    }}
+                                  >
+                                    {isVisible ? (
+                                      <>
+                                        <FaMinus className="me-2" />{" "}
+                                        <span className="text-black">Remove PT</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <FaPlus className="me-2" />
+                                        <label className="text-black">Add PT</label>
+                                      </>
+                                    )}
+                                  </button>
+                                  {/* {isVisible ? <label>Remove PT</label> : <label>Add PT</label>} */}
+                                </div>
+                                {isVisible && (
+                                  <div class="card p-0 text-left">
+                                    <div className="card-header border-top border-bottom">
+                                      <p className="text-center mb-0">PT Details</p>
+                                    </div>
+                                    <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                                      <div className="row w-100 mt-2">
+                                        <div className="mb-2 col-lg-6">
+                                          <label>PT fees</label>
+                                          <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                              INR
+                                            </span>
+                                            <input
+                                              type="text"
+                                              className="form-control"
+                                              placeholder="00.00"
+                                              name="ptFees"
+                                              onChange={handleMemUpdateChange}
+                                              value={memUpdationformData.ptFees}
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="mb-2 col-lg-6">
+                                          <label>Membership Period</label>
+                                          <select id="ptMembershipPeriod" onChange={handleMemUpdateChange} name="ptMembershipPeriod" value={memUpdationformData.ptMembershipPeriod} class="form-select">
+                                            <option selected>Select</option>
+                                            <option value="monthly">One Month</option>
+                                            <option value="twomonths">Two Months</option>
+                                            <option value="quarterly">Three Months</option>
+                                            <option value="halfyearly">Six Months</option>
+                                            <option value="yearly">Yearly</option>
+                                          </select>
+                                        </div>
+                                        <div className="mb-2 col-lg-6">
+                                          <label>PT Assigned to</label>
+                                          <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleMemUpdateChange} value={memUpdationformData.ptAssignedTo} class="form-select">
+                                            <option selected>Select Staff</option>
+                                            {staffData.map((staff, index) => (
+                                              <option key={index} value={staff._id}>{staff.name}</option>
+                                            ))}
+                                          </select>
+                                        </div>
+                                        <div className="mb-2 col-6">
+                                          <label>Starting Date</label>
+                                          <input
+                                            type="date"
+                                            onChange={handleMemUpdateChange}
+                                            name="ptStartingDate"
+                                            value={memUpdationformData.ptStartingDate}
+                                            className="form-control"
+                                          />
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
+                                )}
+                              </div>
+                            </form>
+                          </div>
+                        </>
+                      )}
+
+                      {currentStep === 2 && (
+                        <>
+                          <div className="card-header border-top border-bottom">
+                            <p className="text-center mb-0">Payment Details</p>
+                          </div>
+                          <div className="w-100 d-flex justify-content-center">
+                            <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                              <div className="row p-2 w-100">
+                                <div className="mb-2 col-lg-4">
+                                  <label>Amount Paid</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      onChange={handleMemUpdateChange}
+                                      name="amountPaid"
+                                      value={memUpdationformData.amountPaid}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-lg-4">
+                                  <label>Amount Remaining</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      onChange={handleMemUpdateChange}
+                                      name="amountRemaining"
+                                      value={memUpdationformData.amountRemaining}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-lg-4">
+                                  <label>Mode of Payment</label>
+                                  <select id="paymentMode" name="paymentMode" onChange={handleMemUpdateChange} value={memUpdationformData.paymentMode} class="form-select">
+                                    <option selected>Select</option>
+                                    <option value="online">ONLINE</option>
+                                    <option value="CASH">CASH</option>
+                                    <option value="NET_BANKING">NET BANKING</option>
+                                    <option value="DEBIT_CARD">DEBIT CARD</option>
+                                    <option value="CREDIT_CARD">CREDIT CARD</option>
+                                  </select>
+                                </div>
+                                <div className="col-4">
+                                  <label>Transaction Date</label>
+                                  <input
+                                    type="date"
+                                    onChange={handleMemUpdateChange}
+                                    name="transactionDate"
+                                    value={memUpdationformData.transactionDate}
+                                    className="form-control"
+                                  />
+                                </div>
+                                <div className="mb-2 col-4">
+                                  <label>Transaction ID</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    value={memUpdationformData.transactionId}
+                                    onChange={handleMemUpdateChange}
+                                    name="transactionId"
+                                    placeholder="Enter transaction id"
+                                  />
+                                </div>
+                                <div className="col-lg-4">
+                                  <label>Due Date</label>
+                                  <input
+                                    type="date"
+                                    onChange={handleMemUpdateChange}
+                                    name="dueDate"
+                                    value={memUpdationformData.dueDate}
+                                    className="form-control"
+                                    disabled={parseFloat(memUpdationformData.amountRemaining) <= 0}
+                                  />
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </>
+                      )}
+                      <div className="w-100 h-100 py-2">
+                        <Row>
+                          <Col md={6} className="d-flex justify-content-center">
+                            {currentStep > 1 && (
+                              <button type="button" className="btn btn-secondary w-100 me-4 ms-4" onClick={() => handleStepChange(1)}>Back</button>
+                            )}
+                          </Col>
+                          <Col md={6} className="d-flex justify-content-center">
+                            {currentStep < 2 ? (
+                              <button type="button" className="btn btn-primary w-100 me-4" onClick={() => handleStepChange(2)}>Next</button>
+                            ) : (
+                              <button type="submit" className="btn btn-primary w-100 me-4" onClick={handleMemUpdationformSubmit}>Save</button>
+                            )}
+                          </Col>
+                        </Row>
+                      </div>
+                    </div>
+                    {/* </Container> */}
+                  </Modal.Body>
+                </Modal>
+
                 <Modal show={personalDetailsModalShow} onHide={handlePersonalDetailsModalClose} size="lg"
                   aria-labelledby="contained-modal-title-vcenter"
                   centered>
@@ -203,7 +596,7 @@ function UserDetails() {
                                 <div className="mb-2 flex-column col-lg-6 ">
                                   <input
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     className="form-control"
                                     value={1602}
                                     placeholder="Enter Client ID"
@@ -215,10 +608,10 @@ function UserDetails() {
                                 <div className="mb-2 col-lg-6">
                                   <input
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     className="form-control"
                                     name="name"
-                                    value={userData.name}
+                                    value={personalDetailsFormData.name}
                                     placeholder="Enter Full Name"
 
                                   />
@@ -227,9 +620,9 @@ function UserDetails() {
                                 <div className="mb-2 col-lg-6">
                                   <input
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     name="email"
-                                    value={userData.email}
+                                    value={personalDetailsFormData.email}
                                     className="form-control"
                                     placeholder="Enter Email"
                                   />
@@ -242,9 +635,9 @@ function UserDetails() {
                                     </span>
                                     <input
                                       type="number"
-                                      onChange={handleChange}
+                                      onChange={handlePersonalDetailsChange}
                                       name="contact"
-                                      value={userData.contact}
+                                      value={personalDetailsFormData.contact}
                                       class="form-control"
                                       placeholder="Contact Number"
                                       aria-label="Username"
@@ -256,19 +649,9 @@ function UserDetails() {
                                 <div class="mb-2 col-12">
                                   <input
                                     type="text"
-                                    onChange={handleChange} name="address1"
-                                    value={userData.address}
-                                    class="form-control"
-                                    id="inputAddress2"
-                                    placeholder="Apartment, studio, or floor"
-                                  />
-                                </div>
-                                <div class="mb-2 col-12">
-                                  <input
-                                    type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     name="address2"
-                                    value={userData.address.areaDetails}
+                                    value={personalDetailsFormData.address.areaDetails}
                                     class="form-control"
                                     id="inputAddress"
                                     placeholder="Area"
@@ -277,16 +660,16 @@ function UserDetails() {
                                 <div class="mb-2 col-md-6">
                                   <input
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     name="city"
-                                    value={userData.address.city}
+                                    value={personalDetailsFormData.address.city}
                                     class="form-control"
                                     id="inputCity"
                                     placeholder="City"
                                   />
                                 </div>
                                 <div class="mb-2 col-md-4">
-                                  <select id="inputState" name="state" onChange={handleChange} value={userData.address.state} class="form-select">
+                                  <select id="inputState" name="state" onChange={handlePersonalDetailsChange} value={personalDetailsFormData.address.state} class="form-select">
                                     <option selected>State</option>
                                     <option value="Madhya Pradesh">Madhya Pradesh</option>
                                     <option value="Uttar Pradesh">Uttar Pradesh</option>
@@ -296,9 +679,9 @@ function UserDetails() {
                                 <div class="mb-2 col-md-2">
                                   <input
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     name="zip"
-                                    value={userData.address.zip}
+                                    value={personalDetailsFormData.address.pincode}
                                     class="form-control"
                                     id="inputZip"
                                     placeholder="Pincode"
@@ -308,29 +691,29 @@ function UserDetails() {
                                 <div className="col-6">
                                   <label>Gender</label>
                                   <div className="col-md-12 d-flex flex-row">
-                                    <div className="from-check col-4">
+                                    <div className="from-check col-6">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
                                         name="gender"
                                         id="gridRadios1"
                                         value="Male"
-                                        checked={userData.gender === 'Male'}
-                                        onChange={handleChange}
+                                        checked={personalDetailsFormData.gender === 'male'}
+                                        onChange={handlePersonalDetailsChange}
                                       />
                                       <label className="form-check-label" for="gridRadios1">
                                         Male
                                       </label>
                                     </div>
-                                    <div className="from-check col-4">
+                                    <div className="from-check col-6">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
                                         name="gender"
                                         id="gridRadios2"
                                         value="Female"
-                                        checked={userData.gender === 'Female'}
-                                        onChange={handleChange}
+                                        checked={personalDetailsFormData.gender === 'female'}
+                                        onChange={handlePersonalDetailsChange}
                                       />
                                       <label className="form-check-label" for="gridRadios2">
                                         Female
@@ -344,9 +727,9 @@ function UserDetails() {
                                   <label>Joining Date</label>
                                   <input
                                     type="date"
-                                    onChange={handleChange}
+                                    onChange={handlePersonalDetailsChange}
                                     name="joiningDate"
-                                    value={userData.joiningdate}
+                                    value={personalDetailsFormData.joiningdate}
                                     className="form-control"
                                     placeholder="Enter Address"
                                   />
@@ -376,7 +759,7 @@ function UserDetails() {
                             <div className="col-12">
                               <label>ID Proof Details</label>
                               <div className="mb-2 input-group d-flex flex-row">
-                                <select id="idProofType" onChange={handleChange} value={userData.idProofType} name="idProofType" class="form-select custom-col-3">
+                                <select id="idProofType" onChange={handlePersonalDetailsChange} value={personalDetailsFormData.idproof.type} name="idProofType" class="form-select custom-col-3">
                                   <option selected>Select</option>
                                   <option value="adhar">Adhar Card</option>
                                   <option value="pan">PAN Card</option>
@@ -387,8 +770,8 @@ function UserDetails() {
                                 <input
                                   className="form-control custom-col-9"
                                   type="text"
-                                  onChange={handleChange}
-                                  value={userData.idProofNumber}
+                                  onChange={handlePersonalDetailsChange}
+                                  value={personalDetailsFormData.idproof.number}
                                   name="idProofNumber"
                                   id="idProof"
                                   placeholder="id proof number"
@@ -396,7 +779,7 @@ function UserDetails() {
                               </div>
                             </div>
 
-                            <div className="mb-2 col-6 d-flex flex-row">
+                            <div className="mb-2 col-6 d-flex flex-row align-content-center">
                               <label for="idProofFront" class="form-label custom-col-3">
                                 ID Proof Front
                               </label>
@@ -429,9 +812,9 @@ function UserDetails() {
                                     {/* <label>Client Name</label> */}
                                     <input
                                       type="text"
-                                      onChange={handleChange}
+                                      onChange={handlePersonalDetailsChange}
                                       name="emergencyContactName"
-                                      value={userData.emergencyContactName}
+                                      value={personalDetailsFormData.emergencyContact.name}
                                       className="form-control"
                                       placeholder="Name"
                                     />
@@ -445,8 +828,8 @@ function UserDetails() {
                                         type="number"
                                         class="form-control"
                                         name="emergencyContactNumber"
-                                        onChange={handleChange}
-                                        value={userData.emergencyContactNumber}
+                                        onChange={handlePersonalDetailsChange}
+                                        value={personalDetailsFormData.emergencyContact.contact}
                                         placeholder="Contact Number"
                                         aria-label="Username"
                                         aria-describedby="basic-addon1"
@@ -457,7 +840,9 @@ function UserDetails() {
                                 </div>
                               </form>
                             </div>
-
+                            <div className="d-flex justify-content-end mt-3">
+                              <button className="btn btn-primary" onClick={handlePersonalDetailsSubmit}>Save Changes</button>
+                            </div>
                           </div>
                         </form>
                       </div>
@@ -470,17 +855,26 @@ function UserDetails() {
                     <Container>
                       <Row className="">
                         <Col md={4} className="ps-0 pe-0 text-center">
-                          <Button className="w-100 h-100" variant="secondary" onClick={handlePersonalDetailsModalShow}>
+                          <Button className="w-100 h-100" variant="secondary" onClick={() => {
+                            handlePersonalDetailsModalShow();
+                            handleClose();
+                          }}>
                             Update Profile Details
                           </Button>
                         </Col>
                         <Col md={4} className="ps-2 pe-0 text-center">
-                          <Button className="w-100 h-100" variant="primary" onClick={handleMembershipUpdateModalShow}>
+                          <Button className="w-100 h-100" variant="primary" onClick={() => {
+                            handleMembershipUpdateModalShow();
+                            handleClose();
+                          }}>
                             Update Membership
                           </Button>
                         </Col>
                         <Col md={4} className="ps-2 pe-0 text-center">
-                          <Button className="w-100 h-100" variant="danger" onClick={handleDelete}>
+                          <Button className="w-100 h-100" variant="danger" onClick={() => {
+                            handleDelete();
+                            handleClose();
+                          }}>
                             Delete
                           </Button>
                         </Col>
@@ -495,36 +889,36 @@ function UserDetails() {
                 <img
                   className="rounded-circle"
                   style={{ width: "80%" }}
-                  src={userData.photoUrl || defaultImage}
+                  src={userData?.photoUrl || defaultImage}
                   alt="User"
                 />
               </div>
-              <label className="userLabel mt-3 text-lg-center">{userData.name}</label>
+              <label className="userLabel mt-3 text-lg-center">{userData?.name}</label>
               <label className="userLabel text-lg-center text-body-tertiary">
-                {userData.contact}
+                {userData?.contact}
               </label>
               <label className="userLabel text-lg-center text-body-tertiary">
-                {userData.address.city}, {userData.address.state}
+                {userData?.address.city}, {userData?.address.state}
               </label>
               <div className="card mt-5 h-100 shadow p-3">
                 <div>
                   <label className="headLabel">Client ID</label>
-                  <label className="smallLabel">{userData.id}</label>
+                  <label className="smallLabel">{userData?.id}</label>
                 </div>
                 <hr />
                 <div>
                   <label className="headLabel">Email ID</label>
-                  <label className="smallLabel">{userData.email}</label>
+                  <label className="smallLabel">{userData?.email}</label>
                 </div>
                 <hr />
                 <div>
                   <label className="headLabel">Gender</label>
-                  <label className="smallLabel">{userData.gender}</label>
+                  <label className="smallLabel">{userData?.gender}</label>
                 </div>
                 <hr />
                 <div>
                   <label className="headLabel">Joining Date</label>
-                  <label className="smallLabel">{userData.joiningdate}</label>
+                  <label className="smallLabel">{userData?.joiningdate}</label>
                 </div>
               </div>
             </div>
@@ -539,9 +933,9 @@ function UserDetails() {
               <Table rows={paymentRows} columns={paymentColumns} />
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 }
 

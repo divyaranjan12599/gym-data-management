@@ -284,7 +284,7 @@ function AddMembers() {
                         <div className="col-6">
                           <label>Gender</label>
                           <div className="col-md-12 d-flex flex-row">
-                            <div className="from-check col-4">
+                            <div className="from-check col-6">
                               <input
                                 className="form-check-input me-2"
                                 type="radio"
@@ -298,7 +298,7 @@ function AddMembers() {
                                 Male
                               </label>
                             </div>
-                            <div className="from-check col-4">
+                            <div className="from-check col-6">
                               <input
                                 className="form-check-input me-2"
                                 type="radio"
@@ -706,24 +706,16 @@ function AddMembers() {
             </Col>
           </Row>
         </div>
-
-        {/* <div className="d-flex mt-3">
-            {currentStep > 1 && (
-              <button type="button" className="btn btn-secondary" onClick={handlePrev}>Previous</button>
-            )}
-            {currentStep < 3 ? (
-                <button type="button" className="btn btn-primary text-left" onClick={handleNext}>Next</button>
-            ) : (
-              <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Submit</button>
-            )}
-          </div> */}
       </div>
+<<<<<<< Updated upstream
       {/* 
       <div className="col-12 d-flex justify-content-end p-0 mb-4">
         <button onClick={handleSubmit} className="btn btn-primary m-2">
           Submit
         </button>
       </div> */}
+=======
+>>>>>>> Stashed changes
 
     </div>
     // </div >
