@@ -5,6 +5,8 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import axios from "axios"
 import { UserContext } from "../../App";
 import { Col, Row } from "react-bootstrap";
+import toast from "react-hot-toast";
+
 
 const initialClientState = {
   clientName: '',
@@ -76,6 +78,7 @@ function AddMembers() {
     },
       (err, result) => {
         if (result.event === "success") {
+          toast.success("Image uploaded Successfully")
           console.log("Done! Here is the image info: ", result.info);
           setImageURL(result.info.secure_url);
         }
@@ -102,21 +105,21 @@ function AddMembers() {
     e.preventDefault();
     if (currentStep === 1) {
       if (!clientData.clientName || !clientData.email || !clientData.contactNumber) {
-        alert("Please fill out all required fields.");
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
 
     } else if (currentStep === 2) {
       if (!clientData.registrationFees || !clientData.membershipAmount || !clientData.membershipPeriod) {
-        alert("Please fill out all required fields.");
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
 
     } else if (currentStep === 3) {
       if (!clientData.amountPaid || !clientData.amountRemaining || !clientData.paymentMode) {
-        alert("Please fill out all required fields.");
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
@@ -138,9 +141,12 @@ function AddMembers() {
 
     try {
       const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData);
+      toast.success("Client added Successfully")
       console.log('Client created successfully:', response.data);
+      setCurrentStep(1);
       resetClientData();
     } catch (error) {
+      toast.error("Client can't be Added now. Please Try again later!!");
       console.error('Error creating client:', error);
     }
     // Handle form submission, e.g., send clientData to the server
@@ -167,7 +173,7 @@ function AddMembers() {
             <div className="w-100 d-flex justify-content-center">
               <div className="row w-100">
                 <form className="d-flex flex-column justify-content-center align-items-center p-2">
-                  <div class="row w-100">
+                  <div className="row w-100">
                     <div className="main-box col-md-8">
                       <div className="row w-100 h-100">
                         <div className="mb-2 flex-column col-lg-6 ">
@@ -206,8 +212,8 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 flex-column col-lg-6">
-                          <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
+                          <div className="input-group">
+                            <span className="input-group-text" id="basic-addon1">
                               +91
                             </span>
                             <input
@@ -215,7 +221,7 @@ function AddMembers() {
                               onChange={handleChange}
                               name="contactNumber"
                               value={clientData.contactNumber}
-                              class="form-control"
+                              className="form-control"
                               placeholder="Contact Number"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
@@ -223,53 +229,53 @@ function AddMembers() {
                           </div>
                         </div>
 
-                        <div class="mb-2 col-12">
+                        <div className="mb-2 col-12">
                           <input
                             type="text"
                             onChange={handleChange} name="address1"
                             value={clientData.address1}
-                            class="form-control"
+                            className="form-control"
                             id="inputAddress2"
                             placeholder="Apartment, studio, or floor"
                           />
                         </div>
-                        <div class="mb-2 col-12">
+                        <div className="mb-2 col-12">
                           <input
                             type="text"
                             onChange={handleChange}
                             name="address2"
                             value={clientData.address2}
-                            class="form-control"
+                            className="form-control"
                             id="inputAddress"
                             placeholder="Area"
                           />
                         </div>
-                        <div class="mb-2 col-md-6">
+                        <div className="mb-2 col-md-6">
                           <input
                             type="text"
                             onChange={handleChange}
                             name="city"
                             value={clientData.city}
-                            class="form-control"
+                            className="form-control"
                             id="inputCity"
                             placeholder="City"
                           />
                         </div>
-                        <div class="mb-2 col-md-4">
-                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} class="form-select">
+                        <div className="mb-2 col-md-4">
+                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select">
                             <option selected>State</option>
                             <option value="Madhya Pradesh">Madhya Pradesh</option>
                             <option value="Uttar Pradesh">Uttar Pradesh</option>
                             <option value="Maharashtra">Maharashtra</option>
                           </select>
                         </div>
-                        <div class="mb-2 col-md-2">
+                        <div className="mb-2 col-md-2">
                           <input
                             type="text"
                             onChange={handleChange}
                             name="zip"
                             value={clientData.zip}
-                            class="form-control"
+                            className="form-control"
                             id="inputZip"
                             placeholder="Pincode"
                           />
@@ -288,7 +294,7 @@ function AddMembers() {
                                 checked={clientData.gender === 'Male'}
                                 onChange={handleChange}
                               />
-                              <label className="form-check-label" for="gridRadios1">
+                              <label className="form-check-label" htmlFor="gridRadios1">
                                 Male
                               </label>
                             </div>
@@ -302,7 +308,7 @@ function AddMembers() {
                                 checked={clientData.gender === 'Female'}
                                 onChange={handleChange}
                               />
-                              <label className="form-check-label" for="gridRadios2">
+                              <label className="form-check-label" htmlFor="gridRadios2">
                                 Female
                               </label>
                             </div>
@@ -348,7 +354,7 @@ function AddMembers() {
                     <div className="col-12">
                       <label>ID Proof Details</label>
                       <div className="mb-2 input-group d-flex flex-row">
-                        <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" class="form-select custom-col-3">
+                        <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" className="form-select custom-col-3">
                           <option selected>Select</option>
                           <option value="adhar">Adhar Card</option>
                           <option value="pan">PAN Card</option>
@@ -369,7 +375,7 @@ function AddMembers() {
                     </div>
 
                     <div className="mb-2 col-6 d-flex flex-row">
-                      <label for="idProofFront" class="form-label custom-col-3">
+                      <label htmlFor="idProofFront" className="form-label custom-col-3">
                         ID Proof Front
                       </label>
                       <input
@@ -380,7 +386,7 @@ function AddMembers() {
                       />
                     </div>
                     <div className="mb-2 col-6 d-flex flex-row">
-                      <label for="idProofBack" class="form-label custom-col-3">
+                      <label htmlFor="idProofBack" className="form-label custom-col-3">
                         ID Proof Back
                       </label>
                       <input
@@ -391,7 +397,7 @@ function AddMembers() {
                       />
                     </div>
 
-                    <div class="card p-0 text-left">
+                    <div className="card p-0 text-left">
                       <div className="card-header border-top border-bottom">
                         <p className="text-center mb-0">Emergency Contact Details</p>
                       </div>
@@ -409,13 +415,13 @@ function AddMembers() {
                             />
                           </div>
                           <div className="mb-2 flex-column col-lg-6">
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon1">
+                            <div className="input-group">
+                              <span className="input-group-text" id="basic-addon1">
                                 +91
                               </span>
                               <input
                                 type="number"
-                                class="form-control"
+                                className="form-control"
                                 name="emergencyContactNumber"
                                 onChange={handleChange}
                                 value={clientData.emergencyContactNumber}
@@ -444,7 +450,7 @@ function AddMembers() {
             </div>
             <div className="w-100 d-flex justify-content-center">
               {/* Add Membership Details Step */}
-              {/* <div class="card text-left mb-4">
+              {/* <div className="card text-left mb-4">
                 <div className="card-header border-top border-bottom">
                   <p className="text-center mb-0">Add Membership Details</p>
                 </div> */}
@@ -452,8 +458,8 @@ function AddMembers() {
                 <div className="row p-2 w-100">
                   <div className="mb-2 col-lg-6">
                     <label>Registration fees</label>
-                    <div class="input-group">
-                      <span class="input-group-text" id="basic-addon1">
+                    <div className="input-group">
+                      <span className="input-group-text" id="basic-addon1">
                         INR
                       </span>
                       <input
@@ -468,8 +474,8 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-6">
                     <label>Membership Amount</label>
-                    <div class="input-group">
-                      <span class="input-group-text" id="basic-addon1">
+                    <div className="input-group">
+                      <span className="input-group-text" id="basic-addon1">
                         INR
                       </span>
                       <input
@@ -484,7 +490,7 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-4">
                     <label>Membership Period</label>
-                    <select id="membershipPeriod" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} class="form-select">
+                    <select id="membershipPeriod" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} className="form-select">
                       <option selected>Select</option>
                       <option value="monthly">One Month</option>
                       <option value="twomonths">Two Months</option>
@@ -527,7 +533,7 @@ function AddMembers() {
                     {/* {isVisible ? <label>Remove PT</label> : <label>Add PT</label>} */}
                   </div>
                   {isVisible && (
-                    <div class="card p-0 text-left">
+                    <div className="card p-0 text-left">
                       <div className="card-header border-top border-bottom">
                         <p className="text-center mb-0">PT Details</p>
                       </div>
@@ -535,8 +541,8 @@ function AddMembers() {
                         <div className="row w-100 mt-2">
                           <div className="mb-2 col-lg-6">
                             <label>PT fees</label>
-                            <div class="input-group">
-                              <span class="input-group-text" id="basic-addon1">
+                            <div className="input-group">
+                              <span className="input-group-text" id="basic-addon1">
                                 INR
                               </span>
                               <input
@@ -551,7 +557,7 @@ function AddMembers() {
                           </div>
                           <div className="mb-2 col-lg-6">
                             <label>Membership Period</label>
-                            <select id="ptMembershipPeriod" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} class="form-select">
+                            <select id="ptMembershipPeriod" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} className="form-select">
                               <option selected>Select</option>
                               <option value="monthly">One Month</option>
                               <option value="twomonths">Two Months</option>
@@ -562,7 +568,7 @@ function AddMembers() {
                           </div>
                           <div className="mb-2 col-lg-6">
                             <label>PT Assigned to</label>
-                            <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} class="form-select">
+                            <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} className="form-select">
                               <option selected>Select Staff</option>
                               {staffData.map((staff, index) => (
                                 <option key={index} value={staff._id}>{staff.name}</option>
@@ -595,7 +601,7 @@ function AddMembers() {
               <p className="text-center mb-0">Payment Details</p>
             </div>
             <div className="w-100 d-flex justify-content-center">
-              {/* <div class="card text-left mb-2">
+              {/* <div className="card text-left mb-2">
                 <div className="card-header border-top border-bottom">
                   <p className="text-center mb-0">Add Payment Details</p>
                 </div> */}
@@ -603,8 +609,8 @@ function AddMembers() {
                 <div className="row p-2 w-100">
                   <div className="mb-2 col-lg-4">
                     <label>Amount Paid</label>
-                    <div class="input-group">
-                      <span class="input-group-text" id="basic-addon1">
+                    <div className="input-group">
+                      <span className="input-group-text" id="basic-addon1">
                         INR
                       </span>
                       <input
@@ -619,8 +625,8 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Amount Remaining</label>
-                    <div class="input-group">
-                      <span class="input-group-text" id="basic-addon1">
+                    <div className="input-group">
+                      <span className="input-group-text" id="basic-addon1">
                         INR
                       </span>
                       <input
@@ -635,7 +641,7 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Mode of Payment</label>
-                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} class="form-select">
+                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select">
                       <option selected>Select</option>
                       <option value="online">ONLINE</option>
                       <option value="CASH">CASH</option>
@@ -714,7 +720,7 @@ function AddMembers() {
       </div>
       {/* 
       <div className="col-12 d-flex justify-content-end p-0 mb-4">
-        <button onClick={handleSubmit} class="btn btn-primary m-2">
+        <button onClick={handleSubmit} className="btn btn-primary m-2">
           Submit
         </button>
       </div> */}

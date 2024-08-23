@@ -29,6 +29,8 @@ import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
 import { endDateGenerator } from "./components/inc/utilityFuncs";
+import { Toaster } from 'react-hot-toast';
+import { duration } from "@mui/material";
 
 export const UserContext = createContext({})
 
@@ -95,6 +97,7 @@ function App() {
     }
   }
 
+
   const fetchStaffData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs");
@@ -117,34 +120,41 @@ function App() {
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
-          <Route index element={<Layout />} />
+          <Route path="/user" index element={<Layout />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<MainLayout />}>
-            <Route path="/add_member" element={<AddMembers />} />
-            <Route path="/add_enquiry" element={<AddEnquiry />} />
-            <Route path="/add_staff" element={<AddStaffs />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+            <Route path="/add_member" element={<ProtectedRoute><AddMembers /></ProtectedRoute>} />
+            <Route path="/add_enquiry" element={<ProtectedRoute><AddEnquiry /></ProtectedRoute>} />
+            <Route path="/add_staff" element={<ProtectedRoute><AddStaffs /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/memberships" element={<Memberships />} />
-            <Route path="/ptMembers" element={<PtMembers />} />
-            <Route path="/staff" element={<Staff />} />
-            <Route path="/enquiries" element={<Enquiries />} />
-            <Route path="/recentMemberships" element={<RecentMemberships />} />
-            <Route path="/staffAttendance" element={<StaffAttendance />} />
-            <Route path="/user/:userId" element={<UserDetails />} />
-            <Route path="/staff/:staffId" element={<StaffDetails />} />
-            <Route path="/invoices" element={<Invoices />} />
-            <Route path="/invoice" element={<Invoice />} />
-            <Route path="/invoiceItem" element={<InvoiceItem />} />
-            <Route path="/invoiceModal" element={<InvoiceModal />} />
-            <Route path="/fieldEdits" element={<FieldEdits />} />
+            <Route path="/memberships" element={<ProtectedRoute><Memberships /></ProtectedRoute>} />
+            <Route path="/ptMembers" element={<ProtectedRoute><PtMembers /></ProtectedRoute>} />
+            <Route path="/staff" element={<ProtectedRoute><Staff /></ProtectedRoute>} />
+            <Route path="/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
+            <Route path="/recentMemberships" element={<ProtectedRoute><RecentMemberships /></ProtectedRoute>} />
+            <Route path="/staffAttendance" element={<ProtectedRoute><StaffAttendance /></ProtectedRoute>} />
+            <Route path="/user/:userId" element={<ProtectedRoute><UserDetails /></ProtectedRoute>} />
+            <Route path="/staff/:staffId" element={<ProtectedRoute><StaffDetails /></ProtectedRoute>} />
+            <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
+            <Route path="/invoice" element={<ProtectedRoute><Invoice /></ProtectedRoute>} />
+            <Route path="/invoiceItem" element={<ProtectedRoute><InvoiceItem /></ProtectedRoute>} />
+            <Route path="/invoiceModal" element={<ProtectedRoute><InvoiceModal /></ProtectedRoute>} />
+            <Route path="/fieldEdits" element={<ProtectedRoute><FieldEdits /></ProtectedRoute>} />
             {/* <Route path="/dateRange" element={<DateRange />} /> */}
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
         </Routes>
+
+        <Toaster 
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+          }}
+          />
       </Router>
     </UserContext.Provider>
   );

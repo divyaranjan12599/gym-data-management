@@ -9,6 +9,7 @@ import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import Table from "../inc/table";
 import { endDateGenerator } from "../inc/utilityFuncs";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function UserDetails() {
   const { userId } = useParams();
@@ -32,9 +33,11 @@ function UserDetails() {
   const handleUpdatePersonalDetails = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/update-client/" + userId);
+      toast.success("Updated User")
       alert("updated user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
+      toast.error(error);
       console.log(error);
       // setEnquiryData([]);
     }
@@ -42,9 +45,11 @@ function UserDetails() {
   const handleUpdateMembershipDetails = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/delete-client/" + userId);
+      toast.success("User deleted Successfully");
       alert("deleted user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
+      toast.error(error);
       console.log(error);
       // setEnquiryData([]);
     }
@@ -53,9 +58,11 @@ function UserDetails() {
   const handleDelete = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/delete-client/" + userId);
+      toast.success("User deleted Successfully");
       alert("deleted user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
+      toast.error(error);
       console.log(error);
       // setEnquiryData([]);
     }
@@ -79,6 +86,7 @@ function UserDetails() {
     },
       (err, result) => {
         if (result.event === "success") {
+          toast.success("Image Uploaded");
           console.log("Done! Here is the image info: ", result.info);
           setImageURL(result.info.secure_url);
         }

@@ -48,7 +48,7 @@ function Navbar(props) {
   return (
     <Nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand me-0" href="/home">
+        <a className="navbar-brand me-0" href="/">
           Famous Fitness Studio
         </a>
         <button

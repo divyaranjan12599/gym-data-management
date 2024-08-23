@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { UserContext } from "../../App";
+import toast from "react-hot-toast";
 
 function AddEnquiry() {
     const [enquiryData, setEnquiryData] = useState({
@@ -93,9 +94,11 @@ function AddEnquiry() {
 
         try {
             const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-enquiry", postData);
+            toast.success("Enquiry created successfully");
             console.log('Enquiry created successfully:', response.data);
             resetEnquiryData();
         } catch (error) {
+            toast.error("Error creating enquiry");
             console.error('Error creating enquiry:', error);
         }
         // Handle form submission, e.g., send enquiryData to the server

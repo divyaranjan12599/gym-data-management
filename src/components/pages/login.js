@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
 import { storeIsSession } from './session';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 // import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 
 const Login = () => {
@@ -19,7 +20,7 @@ const Login = () => {
 
     useEffect(() => {
         if (token) {
-            navigate('/home ');
+            navigate('/');
         }
     }, [token, navigate]);
 
@@ -30,10 +31,12 @@ const Login = () => {
             storeIsSession("user", JSON.stringify(data))
             setUserAuth(data)
             if (data.token) {
-                navigate('/home ')
+                toast.error("Login Successful")
+                navigate('/')
             }
         })
         .catch(({ response }) => {
+            toast.error(response)
             console.log(response)
         })
     };

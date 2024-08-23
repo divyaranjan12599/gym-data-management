@@ -33,7 +33,7 @@ const Header = () => {
             <li  ><Link
               onClick={() => setMenuOpened(false)}
               to="home"
-              // spy={true}
+              spy={true}
               smooth={true}
               duration={100}
             >Home</Link></li>

@@ -6,6 +6,7 @@ import { UserContext } from "../../App";
 import Table from '../inc/table';
 import emailjs from 'emailjs-com';
 import { endDateGenerator } from "../inc/utilityFuncs";
+import toast from "react-hot-toast";
 
 function Memberships() {
 
@@ -20,8 +21,10 @@ function Memberships() {
 
     emailjs.send('service_dcu0jes', 'template_1jf9e6n', templateParams, 'l9xho7dUwGOfJFNU1')
       .then((response) => {
+        toast.success("Eamil sent");
         console.log('SUCCESS!', response.status, response.text);
       }, (error) => {
+        toast.error("Failed to send Email .Try again later");
         console.log('FAILED...', error);
       });
   };

@@ -10,11 +10,9 @@
 
 .header-menu{
     list-style: none;
-    
-
     display: flex;
     gap: 2rem;
-    color: white;
+    color: white !important;
 }
 
 .header-menu>li:hover{
