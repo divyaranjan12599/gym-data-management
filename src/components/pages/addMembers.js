@@ -683,7 +683,6 @@ function AddMembers() {
                       disabled={parseFloat(clientData.amountRemaining) <= 0}
                     />
                   </div>
-                  {/* )} */}
                 </div>
               </form>
             </div>
@@ -707,8 +706,8 @@ function AddMembers() {
           </Row>
         </div>
       </div>
+
     </div>
-    // </div >
   );
 
 }
