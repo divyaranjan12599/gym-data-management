@@ -707,16 +707,6 @@ function AddMembers() {
           </Row>
         </div>
       </div>
-<<<<<<< Updated upstream
-      {/* 
-      <div className="col-12 d-flex justify-content-end p-0 mb-4">
-        <button onClick={handleSubmit} className="btn btn-primary m-2">
-          Submit
-        </button>
-      </div> */}
-=======
->>>>>>> Stashed changes
-
     </div>
     // </div >
   );

@@ -9,11 +9,8 @@ import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import Table from "../inc/table";
 import { endDateGenerator } from "../inc/utilityFuncs";
 import axios from "axios";
-<<<<<<< Updated upstream
 import toast from "react-hot-toast";
-=======
 import { FaMinus, FaPlus } from "react-icons/fa";
->>>>>>> Stashed changes
 
 function UserDetails() {
   const [userData, setUserData] = useState(null);
@@ -60,10 +57,10 @@ function UserDetails() {
 
   const handleUpdatePersonalDetails = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/update-client/" + userId);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData);
       toast.success("Updated User")
-      alert("updated user", response.data);
-      // setEnquiryData(response.data);
+      // alert("updated user", response.data);
+
     } catch (error) {
       toast.error(error);
       console.log(error);
@@ -72,7 +69,7 @@ function UserDetails() {
   }
   const handleUpdateMembershipDetails = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/delete-client/" + userId);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}` , memUpdationformData);
       toast.success("User deleted Successfully");
       alert("deleted user", response.data);
       // setEnquiryData(response.data);
@@ -85,7 +82,7 @@ function UserDetails() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/delete-client/" + userId);
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
       toast.success("User deleted Successfully");
       alert("deleted user", response.data);
       // setEnquiryData(response.data);
@@ -185,6 +182,7 @@ function UserDetails() {
 
   const handleMemUpdationformSubmit = (e) => {
     e.preventDefault();
+    handleUpdateMembershipDetails();
     // Submit the form data
     console.log('Submitting membership updation form data:', memUpdationformData);
     // Call the function to update the membership details in your backend
@@ -272,6 +270,7 @@ function UserDetails() {
 
   const handlePersonalDetailsSubmit = async (e) => {
     e.preventDefault();
+    handleUpdatePersonalDetails();
     console.log("submit", personalDetailsFormData);
   };
 

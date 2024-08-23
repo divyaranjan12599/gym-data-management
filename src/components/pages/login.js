@@ -31,7 +31,7 @@ const Login = () => {
             storeIsSession("user", JSON.stringify(data))
             setUserAuth(data)
             if (data.token) {
-                toast.error("Login Successful")
+                toast.success("Login Successful")
                 navigate('/')
             }
         })
