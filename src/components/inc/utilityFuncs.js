@@ -1,7 +1,7 @@
 import React from "react";
 
 export function endDateGenerator(startDate, period) {
-  const [year, month, day] = startDate.split('-').map(Number); // Convert to number
+  const [year, month, day] = startDate?.split('-').map(Number); // Convert to number
   let endDate = new Date(year, month - 1, day); // Month is zero-indexed
 
   switch (period) {

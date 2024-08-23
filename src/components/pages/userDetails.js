@@ -70,8 +70,8 @@ function UserDetails() {
   const handleUpdateMembershipDetails = async () => {
     try {
       const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}` , memUpdationformData);
-      toast.success("User deleted Successfully");
-      alert("deleted user", response.data);
+      toast.success("User Membership updated Successfully");
+      // alert("deleted user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
       toast.error(error);
@@ -84,7 +84,7 @@ function UserDetails() {
     try {
       const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
       toast.success("User deleted Successfully");
-      alert("deleted user", response.data);
+      // alert("deleted user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
       toast.error(error);
@@ -94,6 +94,7 @@ function UserDetails() {
   }
 
   const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
+
   const [clientDetails, setClientData] = useState(clientData);
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
@@ -102,6 +103,8 @@ function UserDetails() {
   const [isVisible, setIsVisible] = useState(false);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+
+  
 
   useEffect(() => {
     // console.log(typeof userId, typeof client.id);
@@ -188,6 +191,8 @@ function UserDetails() {
     // Call the function to update the membership details in your backend
     // updateMembershipDetails(formData);
   };
+
+  console.log(membershipData)
 
   const membershipRows = useMemo(() => {
     // Filter and map the data

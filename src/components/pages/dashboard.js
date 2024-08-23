@@ -47,13 +47,13 @@ function Dashboard() {
     );
 
     const memRows = membershipData.map((membership, index) => ({
-        id: membership.membershipBy.id || "N/A",
-        name: membership.membershipBy.name || "N/A",
-        phone: membership.membershipBy.contact || "N/A",
-        email: membership.membershipBy.email || "N/A",
-        package: membership.membershipPeriod || "N/A",
-        startDate: membership.membershipBy.joiningdate || "N/A",
-        endDate: endDateGenerator(membership.membershipBy.joiningdate, membership.membershipPeriod) || "N/A",
+        id: membership?.membershipBy?.id || "N/A",
+        name: membership?.membershipBy?.name || "N/A",
+        phone: membership?.membershipBy?.contact || "N/A",
+        email: membership?.membershipBy?.email || "N/A",
+        package: membership?.membershipPeriod || "N/A",
+        startDate: membership?.membershipBy?.joiningdate || "N/A",
+        // endDate: endDateGenerator(membership?.membershipBy?.joiningdate, membership?.membershipPeriod) || "N/A",
         // amount: membership.paymentDetails.amountPaid,
         // remaining: membership.paymentDetails.amountRemaining,
         status: membership.status || "N/A",
@@ -116,7 +116,7 @@ function Dashboard() {
         []
     );
 
-    const enqRows = enquiryData.map((enquiry, index) => ({
+    const enqRows = enquiryData?.map((enquiry, index) => ({
         id: enquiry.id || "N/A",
         name: enquiry.name || "N/A",
         phone: enquiry.contact || "N/A",
@@ -184,7 +184,7 @@ function Dashboard() {
         []
     );
 
-    const payRows = paymentData.map((payment, index) => ({
+    const payRows = paymentData?.map((payment, index) => ({
         id: payment.amountPaidBy.id || "N/A",
         name: payment.amountPaidBy.name || "N/A",
         phone: payment.amountPaidBy.contact || "N/A",
