@@ -63,37 +63,37 @@ function Invoices() {
       //   editable: true,
       // },
       // {
-      //   field: 'actions',
-      //   headerName: 'Action',
-      //   width: 150,
-      //   renderCell: (params) => (
-      //     <Button
-      //       variant="contained"
-      //       color="primary"
-      //       onClick={() => sendEmail(params.row.email)}
-      //     >
-      //       Remind
-      //     </Button>
-      //   ),
-      // },
+      {  field: 'actions',
+        headerName: 'Invoice Generator',
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {}}
+          >
+            Generate
+          </Button>
+        ),
+      },
     ],
     []
   );
 
   //  const rows = clientData
   const rows = paymentData.map((payment, index) => ({
-    id: payment.amountPaidBy.id || "N/A",
-    name: payment.amountPaidBy.name || "N/A",
-    phone: payment.amountPaidBy.contact || "N/A",
-    email: payment.amountPaidBy.email || "N/A",
-    paymentDate: payment.amountPaidOn || "N/A",
-    amountPaid: payment.amountPaid || "N/A",
-    amountRemaining: payment.amountRemaining || "N/A",
-    dueDate: payment.dueDate || "N/A",
-    transactionId: payment.transactionId || "N/A",
-    // remaining: payment.paymentDetails.amountRemaining,
-    status: payment.status || "N/A",
-    photoURL: payment.amountPaidBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    id: payment?.amountPaidBy?.id || "N/A",
+    name: payment?.amountPaidBy?.name || "N/A",
+    phone: payment?.amountPaidBy?.contact || "N/A",
+    email: payment?.amountPaidBy?.email || "N/A",
+    paymentDate: payment?.amountPaidOn || "N/A",
+    amountPaid: payment?.amountPaid || "N/A",
+    amountRemaining: payment?.amountRemaining || "N/A",
+    dueDate: payment?.dueDate || "N/A",
+    transactionId: payment?.transactionId || "N/A",
+    // remaining: payment?.paymentDetails.amountRemaining,
+    status: payment?.status || "N/A",
+    photoURL: payment?.amountPaidBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
     actions: "N/A",
   }));
 
