@@ -9,10 +9,16 @@ import { UserContext } from "../../App";
 import Table from '../inc/table'
 import emailjs from 'emailjs-com';
 import toast from "react-hot-toast";
+import InvoiceModal from '../inc/invoiceModal';
+import Memberships from "./memberships";
 
 function Invoices() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
 
   let { paymentData } = useContext(UserContext);
 
@@ -33,6 +39,38 @@ function Invoices() {
       });
   };
 
+  const handleGenerateClick = (row) => {
+    const info = {
+      billFrom: "Famous Fitness Studio",
+      billFromAddress: "123 Business Rd.",
+      billFromEmail: "contact@yourcompany.com",
+      gstReg: "GST12345",
+      billTo: row.name,
+      billToAddress: row.address,
+      billToEmail: row.email,
+      invoiceNumber: `INV-${row.id}`,
+      dateOfIssue: new Date().toISOString().split("T")[0],
+      currentDate: new Date().toISOString().split("T")[0],
+      notes: "Thank you for your business!",
+    };
+  
+
+  const membership = [
+    { membershipPlan: "Monthly", personalTrainer: "No P.T.", Period: 1, price: row.amountPaid },
+  ];
+
+  setModalData({
+    info,
+    currency: "INR",
+    total: row.amountPaid,
+    amountDue: row.amountRemaining,
+    membership,
+    subTotal: row.amountPaid,
+    taxAmount: 0,
+    discountAmount: 0
+  });
+  setShowModal(true);
+};
 
   let columns = useMemo(
     () => [
@@ -53,7 +91,6 @@ function Invoices() {
       { field: "amountRemaining", headerName: "Amount Remaining", width: 150 },
       { field: "dueDate", headerName: "Due Date", width: 150 },
       { field: "transactionId", headerName: "Transaction Id", width: 140 },
-      { field: "actions", headerName: "Actions", width: 140 },
       // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
       // {
       //   field: "status",
@@ -70,7 +107,9 @@ function Invoices() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => {}}
+            onClick={() => 
+              handleGenerateClick(params.row)
+            }
           >
             Generate
           </Button>
@@ -91,6 +130,7 @@ function Invoices() {
     amountRemaining: payment?.amountRemaining || "N/A",
     dueDate: payment?.dueDate || "N/A",
     transactionId: payment?.transactionId || "N/A",
+    address: payment?.amountPaidBy?.address.city || "N/A",
     // remaining: payment?.paymentDetails.amountRemaining,
     status: payment?.status || "N/A",
     photoURL: payment?.amountPaidBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
@@ -177,6 +217,13 @@ function Invoices() {
       </div> */}
 
       <Table rows={rows} columns={columns} />
+      {showModal && (
+        <InvoiceModal
+          showModal={showModal}
+          closeModal={() => setShowModal(false)}
+          {...modalData}
+        />
+      )}
 
     </div>
   );
