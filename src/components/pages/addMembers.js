@@ -62,7 +62,7 @@ function AddMembers() {
 
   };
 
-  const [validationErrors, setValidationErrors] = useState({});
+  // const [validationErrors, setValidationErrors] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
 
   const validateStep = () => {
@@ -87,7 +87,7 @@ function AddMembers() {
       // Additional validations for step 3
     }
 
-    setValidationErrors(errors);
+    // setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
   // const handleSubmit = (e) => {
@@ -135,15 +135,16 @@ function AddMembers() {
   const handleNext = (e) => {
     e.preventDefault();
     if (currentStep === 1) {
-      if (!clientData.clientName || !clientData.email || !clientData.contactNumber) {
-        // toast.error("Please fill out all required fields.");
+      if (!clientData.fname || !clientData.lname || !clientData.email || !clientData.contactNumber) {
+        console.log(clientData);
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
 
     } else if (currentStep === 2) {
       if (!clientData.registrationFees || !clientData.membershipAmount || !clientData.membershipPeriod) {
-        // toast.error("Please fill out all required fields.");
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
@@ -228,7 +229,7 @@ function AddMembers() {
                             name="lname"
                             value={clientData.lname}
                             placeholder="Enter Last Name"
-                            required
+                            // required
                           />
                         </div>
 
@@ -240,7 +241,7 @@ function AddMembers() {
                             value={clientData.email}
                             className="form-control"
                             placeholder="Enter Email"
-                            required
+                            // required
                           />
                         </div>
 
@@ -258,7 +259,7 @@ function AddMembers() {
                               placeholder="Contact Number"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                              required
+                              // required
                             />
                           </div>
                         </div>
@@ -271,20 +272,9 @@ function AddMembers() {
                             className="form-control"
                             id="inputAddress2"
                             placeholder="Apartment, studio, or floor"
-                            required
+                            // required
                           />
                         </div>
-                        {/* <div className="mb-2 col-12">
-                          <input
-                            type="text"
-                            onChange={handleChange}
-                            name="address2"
-                            value={clientData.address2}
-                            className="form-control"
-                            id="inputAddress"
-                            placeholder="Area"
-                          />
-                        </div> */}
                         <div className="mb-2 col-md-6">
                           <input
                             type="text"
@@ -294,11 +284,13 @@ function AddMembers() {
                             className="form-control"
                             id="inputCity"
                             placeholder="City"
-                            required
+                            // required
                           />
                         </div>
                         <div className="mb-2 col-md-4">
-                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select" required>
+                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select" 
+                          // required
+                          >
                             <option selected>State</option>
                             <option value="Madhya Pradesh">Madhya Pradesh</option>
                             <option value="Telangana">Telangana</option>
@@ -315,7 +307,7 @@ function AddMembers() {
                             className="form-control"
                             id="inputZip"
                             placeholder="Pincode"
-                            required
+                            // required
                           />
                         </div>
 
@@ -363,7 +355,7 @@ function AddMembers() {
                             value={clientData.joiningDate}
                             className="form-control"
                             placeholder="Enter Address"
-                            required
+                            // required
                           />
                         </div>
                         <div className="col-12">
@@ -463,9 +455,6 @@ function AddMembers() {
                                 onChange={handleChange}
                                 value={clientData.emergencyContactNumber}
                                 placeholder="Contact Number"
-                                aria-label="Username"
-                                aria-describedby="basic-addon1"
-                                aria-hidden
                               />
                             </div>
                           </div>
@@ -657,7 +646,7 @@ function AddMembers() {
                         onChange={handleChange}
                         name="amountPaid"
                         value={clientData.amountPaid}
-                        required
+                        // required
                       />
                     </div>
                   </div>
@@ -679,7 +668,9 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Mode of Payment</label>
-                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select" required>
+                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select" 
+                    // required
+                    >
                       <option selected>Select</option>
                       <option value="online">ONLINE</option>
                       <option value="CASH">CASH</option>

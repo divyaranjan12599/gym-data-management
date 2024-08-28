@@ -14,9 +14,9 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 function UserDetails() {
   const [userData, setUserData] = useState(null);
-  
+
   const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
-  
+
   const [clientDetails, setClientData] = useState(clientData);
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
@@ -25,7 +25,7 @@ function UserDetails() {
   const [isVisible, setIsVisible] = useState(false);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
-  
+
   const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
     id: '',
     name: '',
@@ -52,9 +52,11 @@ function UserDetails() {
   });
   const { userId } = useParams();
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
   const [personalDetailsModalShow, setPersonalDetailsModalShow] = useState(false);
   const [membershipUpdateModalShow, setMembershipUpdateModalShow] = useState(false);
-  
+  const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] = useState(false);
+
   useEffect(() => {
     // console.log(typeof userId, typeof client.id);
     cloudinaryRef.current = window.cloudinary;
@@ -75,7 +77,7 @@ function UserDetails() {
       setUserData(user);
       console.log("user details==", user, personalDetailsFormData);
       setpersonalDetailsFormData({
-        id: user?.id ,
+        id: user?.id,
         name: user?.name || '',
         email: user?.email || '',
         contact: user?.contact || '',
@@ -105,22 +107,26 @@ function UserDetails() {
   }, [userId, clientData, membershipData]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
   const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
   const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
   const handleMembershipUpdateModalClose = () => setMembershipUpdateModalShow(false);
   const handleMembershipUpdateModalShow = () => setMembershipUpdateModalShow(true);
-  
+  const handlePtMembershipUpdateModalClose = () => setPtMembershipUpdateModalShow(false);
+  const handlePtMembershipUpdateModalShow = () => setPtMembershipUpdateModalShow(true);
+
   const [image, selectImage] = useState({
     placeholder: defaultImage,
     files: null,
   });
-  
+
   const handleUpdatePersonalDetails = async () => {
     try {
       const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData);
       toast.success("Updated User")
       // alert("updated user", response.data);
-      
+
     } catch (error) {
       toast.error(error);
       console.log(error);
@@ -129,7 +135,7 @@ function UserDetails() {
   }
   const handleUpdateMembershipDetails = async () => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}` , memUpdationformData);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}`, memUpdationformData);
       toast.success("User Membership updated Successfully");
       // alert("deleted user", response.data);
       // setEnquiryData(response.data);
@@ -139,7 +145,7 @@ function UserDetails() {
       // setEnquiryData([]);
     }
   }
-  
+
   const handleDelete = async () => {
     try {
       const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
@@ -152,8 +158,8 @@ function UserDetails() {
       // setEnquiryData([]);
     }
   }
-  
-  
+
+
 
 
   const handleStepChange = (step) => {
@@ -165,10 +171,6 @@ function UserDetails() {
     membershipAmount: '',
     membershipPeriod: '',
     membershipStartingDate: '',
-    ptFees: '',
-    ptMembershipPeriod: '',
-    ptAssignedTo: '',
-    ptStartingDate: '',
     amountPaid: '',
     amountRemaining: '',
     paymentMode: '',
@@ -185,16 +187,50 @@ function UserDetails() {
     }));
   };
 
+  const [ptmemUpdationformData, setptmemUpdationformData] = useState({
+    ptFees: '',
+    ptMembershipPeriod: '',
+    ptAssignedTo: '',
+    ptStartingDate: '',
+    amountPaid: '',
+    amountRemaining: '',
+    paymentMode: '',
+    transactionDate: '',
+    transactionId: '',
+    dueDate: '',
+  });
+
+  const handlePtMemUpdateChange = (e) => {
+    const { name, value } = e.target;
+    // console.log(ptmemUpdationformData, name, value);
+    setptmemUpdationformData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
   const handleMemUpdationformSubmit = (e) => {
     e.preventDefault();
     handleUpdateMembershipDetails();
-    // Submit the form data
+    handleStepChange(1);
     console.log('Submitting membership updation form data:', memUpdationformData);
-    // Call the function to update the membership details in your backend
-    // updateMembershipDetails(formData);
   };
 
-  console.log(membershipData)
+  const handlePtMemUpdationformSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userData._id}`, ptmemUpdationformData);
+      toast.success("User Pt Membership updated Successfully");
+      handleStepChange(1);
+      // alert("deleted user", response.data);
+      // setEnquiryData(response.data);
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+      // setEnquiryData([]);
+    }
+    console.log('Submitting membership updation form data:', memUpdationformData);
+  };
 
   const membershipRows = useMemo(() => {
     // Filter and map the data
@@ -278,19 +314,20 @@ function UserDetails() {
   const handlePersonalDetailsSubmit = async (e) => {
     e.preventDefault();
     handleUpdatePersonalDetails();
+    handleStepChange(1);
     console.log("submit", personalDetailsFormData);
   };
 
   const paymentRows = useMemo(() => {
     return (paymentData || [])
-    .filter((payment) => Number(payment.amountPaidBy?.id) === Number(userId))
-    .map((payment, index) => ({
-      id: payment?.amountPaidBy?.id || index, // Use index as a fallback unique id
-      amount_paid: payment?.amountPaid || "N/A",
-      amount_remaining: payment?.amountRemaining || "N/A",
-      mode: payment?.mode || "N/A",
-      due_date: payment?.dueDate || "N/A",
-    }));
+      .filter((payment) => Number(payment.amountPaidBy?.id) === Number(userId))
+      .map((payment, index) => ({
+        id: payment?.amountPaidBy?.id || index, // Use index as a fallback unique id
+        amount_paid: payment?.amountPaid || "N/A",
+        amount_remaining: payment?.amountRemaining || "N/A",
+        mode: payment?.mode || "N/A",
+        due_date: payment?.dueDate || "N/A",
+      }));
   }, [paymentData]);
 
   const membershipColumns = useMemo(() => [
@@ -302,8 +339,8 @@ function UserDetails() {
 
   const paymentColumns = useMemo(
     () => [
-      { field: "id", headerName: "Client ID", flex: 1},
-      { field: "mode", headerName: "Mode", flex: 1},
+      { field: "id", headerName: "Client ID", flex: 1 },
+      { field: "mode", headerName: "Mode", flex: 1 },
       { field: "amount_paid", headerName: "Amount Paid", flex: 1 },
       { field: "amount_remaining", headerName: "Amount Remaining", flex: 1 },
       { field: "due_date", headerName: "Due Date", flex: 1 },
@@ -325,9 +362,185 @@ function UserDetails() {
           <div className="col-md-3">
             <div className="card shadow p-2">
               <div className="d-flex justify-content-end">
+
                 <button className="btn btn-light" onClick={handleShow}>
                   <FontAwesomeIcon icon={faPencil} />
                 </button>
+
+                <Modal show={ptmembershipUpdateModalShow} onHide={handlePtMembershipUpdateModalClose} size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered>
+                  <Modal.Body className="">
+                    {/* <Container> */}
+                    <div className="card">
+                      {currentStep === 1 && (
+                        <>
+                          <div className="card-header border-top border-bottom">
+                            <p className="text-center mb-0">PT Details</p>
+                          </div>
+                          <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                            <div className="row w-100 mt-2">
+                              <div className="mb-2 col-lg-6">
+                                <label>PT fees</label>
+                                <div class="input-group">
+                                  <span class="input-group-text" id="basic-addon1">
+                                    INR
+                                  </span>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="00.00"
+                                    name="ptFees"
+                                    onChange={handlePtMemUpdateChange}
+                                    value={ptmemUpdationformData.ptFees}
+                                  />
+                                </div>
+                              </div>
+                              <div className="mb-2 col-lg-6">
+                                <label>Membership Period</label>
+                                <select id="ptMembershipPeriod" onChange={handlePtMemUpdateChange} name="ptMembershipPeriod" value={ptmemUpdationformData.ptMembershipPeriod} class="form-select">
+                                  <option selected>Select</option>
+                                  <option value="monthly">One Month</option>
+                                  <option value="twomonths">Two Months</option>
+                                  <option value="quarterly">Three Months</option>
+                                  <option value="halfyearly">Six Months</option>
+                                  <option value="yearly">Yearly</option>
+                                </select>
+                              </div>
+                              <div className="mb-2 col-lg-6">
+                                <label>PT Assigned to</label>
+                                <select id="ptAssignedTo" name="ptAssignedTo" onChange={handlePtMemUpdateChange} value={ptmemUpdationformData.ptAssignedTo} class="form-select">
+                                  <option selected>Select Staff</option>
+                                  {staffData.map((staff, index) => (
+                                    <option key={index} value={staff._id}>{staff.name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="mb-2 col-6">
+                                <label>Starting Date</label>
+                                <input
+                                  type="date"
+                                  onChange={handlePtMemUpdateChange}
+                                  name="ptStartingDate"
+                                  value={ptmemUpdationformData.ptStartingDate}
+                                  className="form-control"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </>
+                      )}
+
+                      {currentStep === 2 && (
+                        <>
+                          <div className="card-header border-top border-bottom">
+                            <p className="text-center mb-0">Payment Details</p>
+                          </div>
+                          <div className="w-100 d-flex justify-content-center">
+                            <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                              <div className="row p-2 w-100">
+                                <div className="mb-2 col-lg-4">
+                                  <label>Amount Paid</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      onChange={handlePtMemUpdateChange}
+                                      name="amountPaid"
+                                      value={ptmemUpdationformData.amountPaid}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-lg-4">
+                                  <label>Amount Remaining</label>
+                                  <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      INR
+                                    </span>
+                                    <input
+                                      type="number"
+                                      className="form-control"
+                                      placeholder="00.00"
+                                      onChange={handlePtMemUpdateChange}
+                                      name="amountRemaining"
+                                      value={ptmemUpdationformData.amountRemaining}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="mb-2 col-lg-4">
+                                  <label>Mode of Payment</label>
+                                  <select id="paymentMode" name="paymentMode" onChange={handlePtMemUpdateChange} value={ptmemUpdationformData.paymentMode} class="form-select">
+                                    <option selected>Select</option>
+                                    <option value="online">ONLINE</option>
+                                    <option value="CASH">CASH</option>
+                                    <option value="NET_BANKING">NET BANKING</option>
+                                    <option value="DEBIT_CARD">DEBIT CARD</option>
+                                    <option value="CREDIT_CARD">CREDIT CARD</option>
+                                  </select>
+                                </div>
+                                <div className="col-4">
+                                  <label>Transaction Date</label>
+                                  <input
+                                    type="date"
+                                    onChange={handlePtMemUpdateChange}
+                                    name="transactionDate"
+                                    value={ptmemUpdationformData.transactionDate}
+                                    className="form-control"
+                                  />
+                                </div>
+                                <div className="mb-2 col-4">
+                                  <label>Transaction ID</label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    value={ptmemUpdationformData.transactionId}
+                                    onChange={handlePtMemUpdateChange}
+                                    name="transactionId"
+                                    placeholder="Enter transaction id"
+                                  />
+                                </div>
+                                {(parseFloat(ptmemUpdationformData.amountRemaining) > 0) &&
+                                  <div className="col-lg-4">
+                                    <label>Due Date</label>
+                                    <input
+                                      type="date"
+                                      onChange={handlePtMemUpdateChange}
+                                      name="dueDate"
+                                      value={ptmemUpdationformData.dueDate}
+                                      className="form-control"
+                                    />
+                                  </div>
+                                }
+                              </div>
+                            </form>
+                          </div>
+                        </>
+                      )}
+                      <div className="w-100 h-100 py-2">
+                        <Row>
+                          <Col md={6} className="d-flex justify-content-center">
+                            {currentStep > 1 && (
+                              <button type="button" className="btn btn-secondary w-100 me-4 ms-4" onClick={() => handleStepChange(1)}>Back</button>
+                            )}
+                          </Col>
+                          <Col md={6} className="d-flex justify-content-center">
+                            {currentStep < 2 ? (
+                              <button type="button" className="btn btn-primary w-100 me-4" onClick={() => handleStepChange(2)}>Next</button>
+                            ) : (
+                              <button type="submit" className="btn btn-primary w-100 me-4" onClick={handlePtMemUpdationformSubmit}>Save</button>
+                            )}
+                          </Col>
+                        </Row>
+                      </div>
+                    </div>
+                    {/* </Container> */}
+                  </Modal.Body>
+                </Modal>
+
                 <Modal show={membershipUpdateModalShow} onHide={handleMembershipUpdateModalClose} size="lg"
                   aria-labelledby="contained-modal-title-vcenter"
                   centered>
@@ -396,85 +609,6 @@ function UserDetails() {
                                     className="form-control"
                                   />
                                 </div>
-                                <div className="col-4 d-flex align-items-center justify-content-start">
-                                  <button
-                                    className="btn text-black-50 d-flex align-items-center"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      setIsVisible(!isVisible);
-                                    }}
-                                  >
-                                    {isVisible ? (
-                                      <>
-                                        <FaMinus className="me-2" />{" "}
-                                        <span className="text-black">Remove PT</span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <FaPlus className="me-2" />
-                                        <label className="text-black">Add PT</label>
-                                      </>
-                                    )}
-                                  </button>
-                                  {/* {isVisible ? <label>Remove PT</label> : <label>Add PT</label>} */}
-                                </div>
-                                {isVisible && (
-                                  <div class="card p-0 text-left">
-                                    <div className="card-header border-top border-bottom">
-                                      <p className="text-center mb-0">PT Details</p>
-                                    </div>
-                                    <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                                      <div className="row w-100 mt-2">
-                                        <div className="mb-2 col-lg-6">
-                                          <label>PT fees</label>
-                                          <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon1">
-                                              INR
-                                            </span>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              placeholder="00.00"
-                                              name="ptFees"
-                                              onChange={handleMemUpdateChange}
-                                              value={memUpdationformData.ptFees}
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="mb-2 col-lg-6">
-                                          <label>Membership Period</label>
-                                          <select id="ptMembershipPeriod" onChange={handleMemUpdateChange} name="ptMembershipPeriod" value={memUpdationformData.ptMembershipPeriod} class="form-select">
-                                            <option selected>Select</option>
-                                            <option value="monthly">One Month</option>
-                                            <option value="twomonths">Two Months</option>
-                                            <option value="quarterly">Three Months</option>
-                                            <option value="halfyearly">Six Months</option>
-                                            <option value="yearly">Yearly</option>
-                                          </select>
-                                        </div>
-                                        <div className="mb-2 col-lg-6">
-                                          <label>PT Assigned to</label>
-                                          <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleMemUpdateChange} value={memUpdationformData.ptAssignedTo} class="form-select">
-                                            <option selected>Select Staff</option>
-                                            {staffData.map((staff, index) => (
-                                              <option key={index} value={staff._id}>{staff.name}</option>
-                                            ))}
-                                          </select>
-                                        </div>
-                                        <div className="mb-2 col-6">
-                                          <label>Starting Date</label>
-                                          <input
-                                            type="date"
-                                            onChange={handleMemUpdateChange}
-                                            name="ptStartingDate"
-                                            value={memUpdationformData.ptStartingDate}
-                                            className="form-control"
-                                          />
-                                        </div>
-                                      </div>
-                                    </form>
-                                  </div>
-                                )}
                               </div>
                             </form>
                           </div>
@@ -553,17 +687,18 @@ function UserDetails() {
                                     placeholder="Enter transaction id"
                                   />
                                 </div>
-                                <div className="col-lg-4">
-                                  <label>Due Date</label>
-                                  <input
-                                    type="date"
-                                    onChange={handleMemUpdateChange}
-                                    name="dueDate"
-                                    value={memUpdationformData.dueDate}
-                                    className="form-control"
-                                    disabled={parseFloat(memUpdationformData.amountRemaining) <= 0}
-                                  />
-                                </div>
+                                {(parseFloat(memUpdationformData.amountRemaining) > 0) &&
+                                  <div className="col-lg-4">
+                                    <label>Due Date</label>
+                                    <input
+                                      type="date"
+                                      onChange={handleMemUpdateChange}
+                                      name="dueDate"
+                                      value={memUpdationformData.dueDate}
+                                      className="form-control"
+                                    />
+                                  </div>
+                                }
                               </div>
                             </form>
                           </div>
@@ -858,6 +993,32 @@ function UserDetails() {
                     {/* </Container> */}
                   </Modal.Body>
                 </Modal>
+
+                <Modal show={show2} onHide={handleClose2} centered className="custom-modal">
+                  <Modal.Body className="">
+                    <Container>
+                      <Row className="">
+                        <Col md={6} className="ps-0 pe-0 text-center">
+                          <Button className="w-100 h-100" variant="secondary" onClick={() => {
+                            handleMembershipUpdateModalShow();
+                            handleClose2();
+                          }}>
+                            Renewal
+                          </Button>
+                        </Col>
+                        <Col md={6} className="ps-2 pe-0 text-center">
+                          <Button className="w-100 h-100" variant="primary" onClick={() => {
+                            handlePtMembershipUpdateModalShow();
+                            handleClose2();
+                          }}>
+                            Personal Training
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Container>
+                  </Modal.Body>
+                </Modal>
+
                 <Modal show={show} onHide={handleClose} centered className="custom-modal">
                   <Modal.Body className="">
                     <Container>
@@ -872,7 +1033,7 @@ function UserDetails() {
                         </Col>
                         <Col md={4} className="ps-2 pe-0 text-center">
                           <Button className="w-100 h-100" variant="primary" onClick={() => {
-                            handleMembershipUpdateModalShow();
+                            handleShow2();
                             handleClose();
                           }}>
                             Update Membership

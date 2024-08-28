@@ -37,6 +37,7 @@ export const UserContext = createContext({})
 function App() {
   const [clientData, setClientData] = useState([]);
   const [membershipData, setMembershipData] = useState([]);
+  const [ptmembershipData, setPtMembershipData] = useState([]);
   const [paymentData, setPaymentData] = useState([]);
   const [enquiryData, setEnquiryData] = useState([]);
   const [staffData, setStaffData] = useState([]);
@@ -58,6 +59,17 @@ function App() {
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-memberships");
       console.log("membership details", response.data);
       setMembershipData(response.data);
+    } catch (error) {
+      console.log(error);
+      setMembershipData([]);
+    }
+  }
+
+  const fetchPtMembershipData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-ptDetails");
+      console.log("pt membership details", response.data);
+      setPtMembershipData(response.data);
     } catch (error) {
       console.log(error);
       setMembershipData([]);
@@ -111,6 +123,7 @@ function App() {
 
   useEffect(() => {
     fetchClientMembershipData();
+    fetchPtMembershipData();
     fetchEnquiryData();
     fetchStaffData();
     fetchClientPaymentData();
@@ -118,7 +131,7 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userAuth, setUserAuth, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
+    <UserContext.Provider value={{ userAuth, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
         {/* <Navbar /> */}
         <Routes>
