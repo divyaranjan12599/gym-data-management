@@ -25,15 +25,15 @@ function StaffDetails() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "email", headerName: "Email ID", width: 150 },
-      { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      { field: "status", headerName: "Status", width: 140 },
-      { field: "amount", headerName: "Amount Paid", width: 140 },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "email", headerName: "Email ID", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "package", headerName: "Package", flex: 1 },
+      { field: "startDate", headerName: "Start Date", flex: 1 },
+      { field: "endDate", headerName: "End Date", flex: 1 },
+      { field: "status", headerName: "Status", flex: 1 },
+      { field: "amount", headerName: "Amount Paid", flex: 1 },
       {
         field: "remaining",
         headerName: "Remaining Amount",
@@ -46,10 +46,10 @@ function StaffDetails() {
 
   const paymentColumns = useMemo(
     () => [
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "mode", headerName: "Mode", width: 90 },
-      { field: "amount_paid", headerName: "Amount Paid", width: 140 },
-      { field: "due_date", headerName: "Due Date", width: 140 },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "mode", headerName: "Mode", flex: 1},
+      { field: "amount_paid", headerName: "Amount Paid", flex: 1 },
+      { field: "due_date", headerName: "Due Date", flex: 1 },
     ],
     []
   );

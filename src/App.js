@@ -131,6 +131,7 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+
             <Route path="/memberships" element={<ProtectedRoute><Memberships /></ProtectedRoute>} />
             <Route path="/ptMembers" element={<ProtectedRoute><PtMembers /></ProtectedRoute>} />
             <Route path="/staff" element={<ProtectedRoute><Staff /></ProtectedRoute>} />
@@ -144,6 +145,21 @@ function App() {
             <Route path="/invoiceItem" element={<ProtectedRoute><InvoiceItem /></ProtectedRoute>} />
             <Route path="/invoiceModal" element={<ProtectedRoute><InvoiceModal /></ProtectedRoute>} />
             <Route path="/fieldEdits" element={<ProtectedRoute><FieldEdits /></ProtectedRoute>} />
+
+            {/* <Route path="/memberships" element={<Memberships />} />
+            <Route path="/ptMembers" element={<PtMembers />} />
+            <Route path="/staff" element={<Staff />} />
+            <Route path="/enquiries" element={<Enquiries />} />
+            <Route path="/recentMemberships" element={<RecentMemberships />} />
+            <Route path="/staffAttendance" element={<StaffAttendance />} />
+            <Route path="/user/:userId" element={<UserDetails />} />
+            <Route path="/staff/:staffId" element={<StaffDetails />} />
+            <Route path="/invoices" element={<Invoices />} />
+            <Route path="/invoiceGenerator" element={<InvoiceGenerator />} />
+            <Route path="/invoiceItem" element={<InvoiceItem />} />
+            <Route path="/invoiceModal" element={<InvoiceModal />} />
+            <Route path="/fieldEdits" element={<FieldEdits />} />
+
             {/* <Route path="/dateRange" element={<DateRange />} /> */}
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>

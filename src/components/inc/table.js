@@ -38,6 +38,7 @@ const Table = (props) => {
     navigate(`/user/${userId}`);
   };
 
+
   const handleSelectionModelChange = (newSelection) => {
     setSelectedRows(newSelection);
   };
@@ -47,7 +48,7 @@ const Table = (props) => {
       <div className="m-4">
         <DataGrid
           className="data-grid p-2"
-          onRowClick={handleRowClick}
+          // onRowClick={handleRowClick}
           sx={{
             width: "100%",
             height: 500,

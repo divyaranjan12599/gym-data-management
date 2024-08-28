@@ -10,18 +10,6 @@ import { UserContext } from "../../App";
 import AddEnquiry from "./addEnquiry";
 import Table from "../inc/table";
 
-// components={{
-//               Toolbar: QuickSearchToolbar,
-//             }}
-//             componentsProps={{
-//               toolbar: {
-//                 showQuickFilter: true,
-//                 quickFilterProps: {
-//                   debounceMs: 500,
-//                 },
-//               },
-//             }}
-
 function Enquiries() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -40,23 +28,16 @@ function Enquiries() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "email", headerName: "Email", width: 180 },
-      { field: "enquiryDate", headerName: "Enquiry Date", width: 150 },
-      { field: "lastFollowUpDate", headerName: "Last FollowUp Date", width: 150 },
-      { field: "referredBy", headerName: "Referred By", width: 150 },
-      { field: "attainBy", headerName: "Attained By", width: 150 },
-      { field: "intrestedOn", headerName: "Intrested On", width: 140 },
-      { field: "source", headerName: "Source", width: 140 },
-      // {
-      //   field: "status",
-      //   headerName: "Status",
-      //   width: 100,
-      //   type: "boolean",
-      //   editable: true,
-      // },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "email", headerName: "Email", flex: 1 },
+      { field: "enquiryDate", headerName: "Enquiry Date", flex: 1 },
+      { field: "lastFollowUpDate", headerName: "Last FollowUp Date", flex: 1 },
+      { field: "referredBy", headerName: "Referred By", flex: 1 },
+      { field: "attainBy", headerName: "Attained By", flex: 1 },
+      { field: "intrestedOn", headerName: "Intrested On", flex: 1 },
+      { field: "source", headerName: "Source", flex: 1 },
     ],
     []
   );

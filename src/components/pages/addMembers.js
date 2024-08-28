@@ -9,18 +9,19 @@ import toast from "react-hot-toast";
 
 
 const initialClientState = {
-  clientName: '',
+  fname: '',
+  lname: '',
   email: '',
   contactNumber: '',
   picUrl: "",
   address1: '',
   address2: '',
-  city: '',
-  state: '',
+  city: 'Hyderabad',
+  state: 'Telangana',
   zip: '',
-  gender: '',
+  gender: 'Male',
   membershipStartingDate: '',
-  joiningDate: '',
+  joiningDate: new Date().toLocaleDateString(),
   idProofType: '',
   idProofNumber: '',
   idProofFront: null,
@@ -28,22 +29,24 @@ const initialClientState = {
   emergencyContactName: '',
   emergencyContactNumber: '',
   registrationFees: "",
-  membershipPeriod: '',
+  membershipPeriod: 'monthly',
   membershipAmount: '',
   amountPaid: '',
   amountRemaining: '',
-  startingDate: '',
-  ptStartingDate: '',
+  startingDate: new Date().toLocaleDateString(),
+  ptStartingDate: new Date().toLocaleDateString(),
   dueDate: '',
   transactionDate: '',
-  paymentMode: 'select',
+  paymentMode: 'online',
   transactionId: '',
   ptFees: '',
-  ptMembershipPeriod: '',
+  ptMembershipPeriod: 'monthly',
   ptAssignedTo: '',
 }
+
+
 function AddMembers() {
-  const [currentStep, setCurrentStep] = useState(1);
+  // const [currentStep, setCurrentStep] = useState(1);
   // cloudinary setup
 
   const [imageURL, setImageURL] = useState(null);
@@ -59,6 +62,34 @@ function AddMembers() {
 
   };
 
+  const [validationErrors, setValidationErrors] = useState({});
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const validateStep = () => {
+    const errors = {};
+
+    if (currentStep === 1) {
+      if (!clientData.fname) errors.fname = 'First Name is required';
+      if (!clientData.lname) errors.lname = 'First Name is required';
+      if (!clientData.email) errors.email = 'Email is required';
+      if (!clientData.contactNumber) errors.contactNumber = 'Contact Number is required';
+      if (!clientData.address1) errors.address1 = 'Address is required';
+      if (!clientData.city) errors.city = 'City is required';
+      if (!clientData.state) errors.state = 'State is required';
+      if (!clientData.zip) errors.zip = 'Pincode is required';
+      // Additional validations can be added here for step 1
+    } else if (currentStep === 2) {
+      // Example validations for step 2 (add your fields and rules)
+      // Additional validations for step 2
+    } else if (currentStep === 3) {
+      // Example validations for step 3 (add your fields and rules)
+      if (!clientData.joiningDate) errors.joiningDate = 'Joining Date is required';
+      // Additional validations for step 3
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   console.log(client);
@@ -105,21 +136,21 @@ function AddMembers() {
     e.preventDefault();
     if (currentStep === 1) {
       if (!clientData.clientName || !clientData.email || !clientData.contactNumber) {
-        toast.error("Please fill out all required fields.");
+        // toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
 
     } else if (currentStep === 2) {
       if (!clientData.registrationFees || !clientData.membershipAmount || !clientData.membershipPeriod) {
-        toast.error("Please fill out all required fields.");
+        // toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
 
     } else if (currentStep === 3) {
       if (!clientData.amountPaid || !clientData.amountRemaining || !clientData.paymentMode) {
-        toast.error("Please fill out all required fields.");
+        // toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
@@ -174,18 +205,19 @@ function AddMembers() {
               <div className="row w-100">
                 <form className="d-flex flex-column justify-content-center align-items-center p-2">
                   <div className="row w-100">
-                    <div className="main-box col-md-8">
+                    <div className="main-box col-8">
                       <div className="row w-100 h-100">
                         <div className="mb-2 flex-column col-lg-6 ">
                           <input
                             type="text"
                             onChange={handleChange}
+                            name="fname"
                             className="form-control"
-                            value={1602}
-                            placeholder="Enter Client ID"
-                            disabled
+                            value={clientData.fname}
+                            placeholder="Enter First Name"
+                            // disabled
                           />
-                          <span className="text-muted">*previous client id: 1601</span>
+                          {/* <span className="text-muted">*previous client id: 1601</span> */}
                         </div>
 
                         <div className="mb-2 col-lg-6">
@@ -193,10 +225,10 @@ function AddMembers() {
                             type="text"
                             onChange={handleChange}
                             className="form-control"
-                            name="clientName"
-                            value={clientData.clientName}
-                            placeholder="Enter Full Name"
-
+                            name="lname"
+                            value={clientData.lname}
+                            placeholder="Enter Last Name"
+                            required
                           />
                         </div>
 
@@ -208,6 +240,7 @@ function AddMembers() {
                             value={clientData.email}
                             className="form-control"
                             placeholder="Enter Email"
+                            required
                           />
                         </div>
 
@@ -225,6 +258,7 @@ function AddMembers() {
                               placeholder="Contact Number"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
+                              required
                             />
                           </div>
                         </div>
@@ -237,9 +271,10 @@ function AddMembers() {
                             className="form-control"
                             id="inputAddress2"
                             placeholder="Apartment, studio, or floor"
+                            required
                           />
                         </div>
-                        <div className="mb-2 col-12">
+                        {/* <div className="mb-2 col-12">
                           <input
                             type="text"
                             onChange={handleChange}
@@ -249,7 +284,7 @@ function AddMembers() {
                             id="inputAddress"
                             placeholder="Area"
                           />
-                        </div>
+                        </div> */}
                         <div className="mb-2 col-md-6">
                           <input
                             type="text"
@@ -259,12 +294,14 @@ function AddMembers() {
                             className="form-control"
                             id="inputCity"
                             placeholder="City"
+                            required
                           />
                         </div>
                         <div className="mb-2 col-md-4">
-                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select">
+                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select" required>
                             <option selected>State</option>
                             <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="Telangana">Telangana</option>
                             <option value="Uttar Pradesh">Uttar Pradesh</option>
                             <option value="Maharashtra">Maharashtra</option>
                           </select>
@@ -278,6 +315,7 @@ function AddMembers() {
                             className="form-control"
                             id="inputZip"
                             placeholder="Pincode"
+                            required
                           />
                         </div>
 
@@ -325,6 +363,52 @@ function AddMembers() {
                             value={clientData.joiningDate}
                             className="form-control"
                             placeholder="Enter Address"
+                            required
+                          />
+                        </div>
+                        <div className="col-12">
+                          <label>ID Proof Details</label>
+                          <div className="mb-2 input-group d-flex flex-row">
+                            <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" className="form-select custom-col-3">
+                              <option selected>Select</option>
+                              <option value="adhar">Adhar Card</option>
+                              <option value="pan">PAN Card</option>
+                              <option value="license">License</option>
+                              {/* <option value="4">Other</option> */}
+                            </select>
+
+                            <input
+                              className="form-control custom-col-9"
+                              type="text"
+                              onChange={handleChange}
+                              value={clientData.idProofNumber}
+                              name="idProofNumber"
+                              id="idProof"
+                              placeholder="id proof number"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mb-2 col-6">
+                          <label htmlFor="idProofFront" className="form-label">
+                            ID Proof Front
+                          </label>
+                          <input
+                            className="form-control"
+                            type="file"
+                            name="idProofFront"
+                            id="idProofFront"
+                          />
+                        </div>
+                        <div className="mb-2 col-6">
+                          <label htmlFor="idProofBack" className="form-label">
+                            ID Proof Back
+                          </label>
+                          <input
+                            className="form-control"
+                            type="file"
+                            name="idProofBack"
+                            id="idProofBack"
                           />
                         </div>
 
@@ -344,66 +428,19 @@ function AddMembers() {
                                 src={image.placeholder}
                                 alt=""
                               />
-
                             </>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-12">
-                      <label>ID Proof Details</label>
-                      <div className="mb-2 input-group d-flex flex-row">
-                        <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" className="form-select custom-col-3">
-                          <option selected>Select</option>
-                          <option value="adhar">Adhar Card</option>
-                          <option value="pan">PAN Card</option>
-                          <option value="license">License</option>
-                          {/* <option value="4">Other</option> */}
-                        </select>
-
-                        <input
-                          className="form-control custom-col-9"
-                          type="text"
-                          onChange={handleChange}
-                          value={clientData.idProofNumber}
-                          name="idProofNumber"
-                          id="idProof"
-                          placeholder="id proof number"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mb-2 col-6 d-flex flex-row">
-                      <label htmlFor="idProofFront" className="form-label custom-col-3">
-                        ID Proof Front
-                      </label>
-                      <input
-                        className="form-control custom-col-9"
-                        type="file"
-                        name="idProofFront"
-                        id="idProofFront"
-                      />
-                    </div>
-                    <div className="mb-2 col-6 d-flex flex-row">
-                      <label htmlFor="idProofBack" className="form-label custom-col-3">
-                        ID Proof Back
-                      </label>
-                      <input
-                        className="form-control custom-col-9"
-                        type="file"
-                        name="idProofBack"
-                        id="idProofBack"
-                      />
-                    </div>
-
-                    <div className="card p-0 text-left">
-                      <div className="card-header border-top border-bottom">
+                    <div className="p-0 border-bottom">
+                      <div className="border-top border-bottom">
                         <p className="text-center mb-0">Emergency Contact Details</p>
                       </div>
-                      <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                      <form className="d-flex flex-column justify-content-center align-items-center w-100">
                         <div className="row w-100 mt-2">
-                          <div className="mb-2 col-lg-6">
+                          <div className="col-lg-6">
                             {/* <label>Client Name</label> */}
                             <input
                               type="text"
@@ -414,7 +451,7 @@ function AddMembers() {
                               placeholder="Name"
                             />
                           </div>
-                          <div className="mb-2 flex-column col-lg-6">
+                          <div className="flex-column col-lg-6">
                             <div className="input-group">
                               <span className="input-group-text" id="basic-addon1">
                                 +91
@@ -620,6 +657,7 @@ function AddMembers() {
                         onChange={handleChange}
                         name="amountPaid"
                         value={clientData.amountPaid}
+                        required
                       />
                     </div>
                   </div>
@@ -641,7 +679,7 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Mode of Payment</label>
-                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select">
+                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select" required>
                       <option selected>Select</option>
                       <option value="online">ONLINE</option>
                       <option value="CASH">CASH</option>
@@ -671,25 +709,26 @@ function AddMembers() {
                       placeholder="Enter transaction id"
                     />
                   </div>
-                  {/* {parseFloat(clientData.amountRemaining) > 0 && ( */}
-                  <div className="col-lg-4">
-                    <label>Due Date</label>
-                    <input
-                      type="date"
-                      onChange={handleChange}
-                      name="dueDate"
-                      value={clientData.dueDate}
-                      className="form-control"
-                      disabled={parseFloat(clientData.amountRemaining) <= 0}
-                    />
-                  </div>
+                  {parseFloat(clientData.amountRemaining) > 0 && (
+                    <div className="col-lg-4">
+                      <label>Due Date</label>
+                      <input
+                        type="date"
+                        onChange={handleChange}
+                        name="dueDate"
+                        value={clientData.dueDate}
+                        className="form-control"
+                      // disabled={parseFloat(clientData.amountRemaining) <= 0}
+                      />
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
           </>
         )}
 
-        <div className="w-100 h-100 py-2">
+        <div className="w-100 h-100 mb-2">
           <Row>
             <Col md={6} className="d-flex justify-content-center">
               {currentStep > 1 && (

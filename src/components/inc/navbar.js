@@ -149,11 +149,11 @@ function Navbar(props) {
                         Recent Memberships
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link className="dropdown-item" to="/staffAttendance">
                         Staff Attendance
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link className="dropdown-item" to="/enquiries">
                         Enquiries

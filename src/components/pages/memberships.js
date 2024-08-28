@@ -6,11 +6,27 @@ import { UserContext } from "../../App";
 import Table from '../inc/table';
 import emailjs from 'emailjs-com';
 import { endDateGenerator } from "../inc/utilityFuncs";
+
 import toast from "react-hot-toast";
 
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+
 function Memberships() {
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const navigate = useNavigate();
+
 
   let { membershipData } = useContext(UserContext);
+
+  const handleRowClick = (row) => {
+    const userId = row.id;
+    console.log(row)
+    navigate(`/user/${userId}`);
+  };
 
   const sendEmail = (row) => {
     const templateParams = {
@@ -40,15 +56,15 @@ function Memberships() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "email", headerName: "Email ID", width: 150 },
-      { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      // { field: "amount", headerName: "Amount Paid", width: 140 },
-      // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "email", headerName: "Email ID", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "package", headerName: "Package", flex: 1 },
+      { field: "startDate", headerName: "Start Date", flex: 1 },
+      { field: "endDate", headerName: "End Date", flex: 1 },
+      // { field: "amount", headerName: "Amount Paid", flex: 1 },
+      // { field: "remaining", headerName: "Remaining Amount", flex: 1, editable: true },
       // {
       //   field: "status",
       //   headerName: "Status",
@@ -56,20 +72,18 @@ function Memberships() {
       //   type: "boolean",
       //   editable: true,
       // },
-      // {
-      //   field: 'actions',
-      //   headerName: 'Action',
-      //   width: 150,
-      //   renderCell: (params) => (
-      //     <Button
-      //       variant="contained"
-      //       color="primary"
-      //       onClick={() => sendEmail(params.row.email)}
-      //     >
-      //       Remind
-      //     </Button>
-      //   ),
-      // },
+      {
+        field: 'actions',
+        headerName: 'View',
+        flex: 1,
+        renderCell: (params) => (
+          <Button 
+          className="btn btn-light"
+          onClick={()=>{handleRowClick(params.row)}}>
+            <FontAwesomeIcon icon={faEye} />
+          </Button>
+        ),
+      },
     ],
     [membershipData]
   );

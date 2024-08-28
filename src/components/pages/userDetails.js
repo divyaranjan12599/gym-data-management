@@ -14,7 +14,20 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 function UserDetails() {
   const [userData, setUserData] = useState(null);
+  
+  const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
+  
+  const [clientDetails, setClientData] = useState(clientData);
+  const [imageURL, setImageURL] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
+  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+  const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+  
   const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
+    id: '',
     name: '',
     email: '',
     contact: '',
@@ -37,72 +50,11 @@ function UserDetails() {
       contact: ''
     }
   });
-
   const { userId } = useParams();
   const [show, setShow] = useState(false);
   const [personalDetailsModalShow, setPersonalDetailsModalShow] = useState(false);
   const [membershipUpdateModalShow, setMembershipUpdateModalShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
-  const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
-  const handleMembershipUpdateModalClose = () => setMembershipUpdateModalShow(false);
-  const handleMembershipUpdateModalShow = () => setMembershipUpdateModalShow(true);
-
-  const [image, selectImage] = useState({
-    placeholder: defaultImage,
-    files: null,
-  });
-
-  const handleUpdatePersonalDetails = async () => {
-    try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData);
-      toast.success("Updated User")
-      // alert("updated user", response.data);
-
-    } catch (error) {
-      toast.error(error);
-      console.log(error);
-      // setEnquiryData([]);
-    }
-  }
-  const handleUpdateMembershipDetails = async () => {
-    try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}` , memUpdationformData);
-      toast.success("User deleted Successfully");
-      alert("deleted user", response.data);
-      // setEnquiryData(response.data);
-    } catch (error) {
-      toast.error(error);
-      console.log(error);
-      // setEnquiryData([]);
-    }
-  }
-
-  const handleDelete = async () => {
-    try {
-      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
-      toast.success("User deleted Successfully");
-      alert("deleted user", response.data);
-      // setEnquiryData(response.data);
-    } catch (error) {
-      toast.error(error);
-      console.log(error);
-      // setEnquiryData([]);
-    }
-  }
-
-  const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
-  const [clientDetails, setClientData] = useState(clientData);
-  const [imageURL, setImageURL] = useState(null);
-  const cloudinaryRef = useRef();
-  const widgetRef = useRef();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
-  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
-  const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
-
+  
   useEffect(() => {
     // console.log(typeof userId, typeof client.id);
     cloudinaryRef.current = window.cloudinary;
@@ -121,28 +73,29 @@ function UserDetails() {
     const user = clientData?.find((client) => Number(client.id) === Number(userId))
     if (user) {
       setUserData(user);
-      console.log("user details", user, personalDetailsFormData);
+      console.log("user details==", user, personalDetailsFormData);
       setpersonalDetailsFormData({
-        name: userData?.name || '',
-        email: userData?.email || '',
-        contact: userData?.contact || '',
+        id: user?.id ,
+        name: user?.name || '',
+        email: user?.email || '',
+        contact: user?.contact || '',
         address: {
-          areaDetails: userData?.address?.areaDetails || '',
-          city: userData?.address?.city || '',
-          state: userData?.address?.state || '',
-          pincode: userData?.address?.pincode || ''
+          areaDetails: user?.address?.areaDetails || '',
+          city: user?.address?.city || '',
+          state: user?.address?.state || '',
+          pincode: user?.address?.pincode || ''
         },
-        gender: userData?.gender || 'Male',
-        joiningdate: userData?.joiningdate || '',
+        gender: user?.gender || 'Male',
+        joiningdate: user?.joiningdate || '',
         idproof: {
-          type: userData?.idproof?.type || '',
-          number: userData?.idproof?.number || '',
-          frontPicUrl: userData?.idproof?.frontPicUrl || '',
-          backPicUrl: userData?.idproof?.backPicUrl || ''
+          type: user?.idproof?.type || '',
+          number: user?.idproof?.number || '',
+          frontPicUrl: user?.idproof?.frontPicUrl || '',
+          backPicUrl: user?.idproof?.backPicUrl || ''
         },
         emergencyContact: {
-          name: userData?.emergencyContact?.name || '',
-          contact: userData?.emergencyContact?.contact || ''
+          name: user?.emergencyContact?.name || '',
+          contact: user?.emergencyContact?.contact || ''
         }
       });
       console.log("user details", user, personalDetailsFormData);
@@ -150,6 +103,58 @@ function UserDetails() {
       console.error("User not found");
     }
   }, [userId, clientData, membershipData]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
+  const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
+  const handleMembershipUpdateModalClose = () => setMembershipUpdateModalShow(false);
+  const handleMembershipUpdateModalShow = () => setMembershipUpdateModalShow(true);
+  
+  const [image, selectImage] = useState({
+    placeholder: defaultImage,
+    files: null,
+  });
+  
+  const handleUpdatePersonalDetails = async () => {
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData);
+      toast.success("Updated User")
+      // alert("updated user", response.data);
+      
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+      // setEnquiryData([]);
+    }
+  }
+  const handleUpdateMembershipDetails = async () => {
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}` , memUpdationformData);
+      toast.success("User Membership updated Successfully");
+      // alert("deleted user", response.data);
+      // setEnquiryData(response.data);
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+      // setEnquiryData([]);
+    }
+  }
+  
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
+      toast.success("User deleted Successfully");
+      // alert("deleted user", response.data);
+      // setEnquiryData(response.data);
+    } catch (error) {
+      toast.error(error);
+      console.log(error);
+      // setEnquiryData([]);
+    }
+  }
+  
+  
+
 
   const handleStepChange = (step) => {
     setCurrentStep(step);
@@ -189,10 +194,12 @@ function UserDetails() {
     // updateMembershipDetails(formData);
   };
 
+  console.log(membershipData)
+
   const membershipRows = useMemo(() => {
     // Filter and map the data
     const rows = (membershipData || [])
-      .filter((membership) => Number(membership.membershipBy.id) === Number(userId))
+      .filter((membership) => Number(membership.membershipBy?.id) === Number(userId))
       .map((membership, index) => {
         const startingDate = new Date(membership?.startingDate);
         const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
@@ -275,7 +282,9 @@ function UserDetails() {
   };
 
   const paymentRows = useMemo(() => {
-    return (paymentData || []).map((payment, index) => ({
+    return (paymentData || [])
+    .filter((payment) => Number(payment.amountPaidBy?.id) === Number(userId))
+    .map((payment, index) => ({
       id: payment?.amountPaidBy?.id || index, // Use index as a fallback unique id
       amount_paid: payment?.amountPaid || "N/A",
       amount_remaining: payment?.amountRemaining || "N/A",
@@ -285,19 +294,19 @@ function UserDetails() {
   }, [paymentData]);
 
   const membershipColumns = useMemo(() => [
-    { field: "package", headerName: "Package", width: 180 },
-    { field: "startDate", headerName: "Start Date", width: 150 },
-    { field: "endDate", headerName: "End Date", width: 150 },
-    { field: "status", headerName: "Status", width: 140 },
+    { field: "package", headerName: "Package", flex: 1 },
+    { field: "startDate", headerName: "Start Date", flex: 1 },
+    { field: "endDate", headerName: "End Date", flex: 1 },
+    { field: "status", headerName: "Status", flex: 1 },
   ], []);
 
   const paymentColumns = useMemo(
     () => [
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "mode", headerName: "Mode", width: 90 },
-      { field: "amount_paid", headerName: "Amount Paid", width: 140 },
-      { field: "amount_remaining", headerName: "Amount Remaining", width: 140 },
-      { field: "due_date", headerName: "Due Date", width: 140 },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "mode", headerName: "Mode", flex: 1},
+      { field: "amount_paid", headerName: "Amount Paid", flex: 1 },
+      { field: "amount_remaining", headerName: "Amount Remaining", flex: 1 },
+      { field: "due_date", headerName: "Due Date", flex: 1 },
     ],
     []
   );
@@ -590,18 +599,18 @@ function UserDetails() {
                       <div className="row w-100">
                         <form className="d-flex flex-column justify-content-center align-items-center p-2">
                           <div class="row w-100">
-                            <div className="main-box col-md-8">
+                            <div className="main-box custom-col-9">
                               <div className="row w-100 h-100">
                                 <div className="mb-2 flex-column col-lg-6 ">
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
                                     className="form-control"
-                                    value={1602}
+                                    value={personalDetailsFormData.id}
                                     placeholder="Enter Client ID"
                                     disabled
                                   />
-                                  <span className="text-muted">*previous client id: 1601</span>
+                                  {/* <span className="text-muted">*previous client id: 1601</span> */}
                                 </div>
 
                                 <div className="mb-2 col-lg-6">
@@ -736,7 +745,7 @@ function UserDetails() {
                               </div>
                             </div>
 
-                            <div className="pic-box col-4">
+                            <div className="pic-box custom-col-3">
                               <div className="card p-2 w-100 h-100 align-items-center justify-content-center" onClick={() => widgetRef.current.open()}>
                                 <div className="icon-container">
                                   {imageURL ? (
@@ -924,11 +933,11 @@ function UserDetails() {
           </div>
           <div className="col-md-9">
             <div className="card shadow w-100 p-2 mb-2">
-              <h3>Past Memberships</h3>
+              <h3 className="mx-4 mt-2">Past Memberships</h3>
               <Table rows={membershipRows} columns={membershipColumns} />
             </div>
             <div className="card shadow w-100 p-2">
-              <h3>Payment History</h3>
+              <h3 className="mx-4 mt-2">Payment History</h3>
               <Table rows={paymentRows} columns={paymentColumns} />
             </div>
           </div>
