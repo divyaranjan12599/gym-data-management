@@ -56,15 +56,15 @@ function Memberships() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "email", headerName: "Email ID", width: 150 },
-      { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      // { field: "amount", headerName: "Amount Paid", width: 140 },
-      // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "email", headerName: "Email ID", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "package", headerName: "Package", flex: 1 },
+      { field: "startDate", headerName: "Start Date", flex: 1 },
+      { field: "endDate", headerName: "End Date", flex: 1 },
+      // { field: "amount", headerName: "Amount Paid", flex: 1 },
+      // { field: "remaining", headerName: "Remaining Amount", flex: 1, editable: true },
       // {
       //   field: "status",
       //   headerName: "Status",
@@ -74,8 +74,8 @@ function Memberships() {
       // },
       {
         field: 'actions',
-        headerName: 'User Details',
-        width: 150,
+        headerName: 'View',
+        flex: 1,
         renderCell: (params) => (
           <Button 
           className="btn btn-light"

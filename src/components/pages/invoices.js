@@ -82,6 +82,7 @@ function Invoices() {
         sortable: false,
         filterable: false,
       },
+<<<<<<< HEAD
       { field: "id", headerName: "Client ID", width: 90 },
       { field: "name", headerName: "Name", width: 150 },
       { field: "email", headerName: "Email ID", width: 150 },
@@ -92,6 +93,19 @@ function Invoices() {
       { field: "dueDate", headerName: "Due Date", width: 150 },
       { field: "transactionId", headerName: "Transaction Id", width: 140 },
       // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
+=======
+      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "email", headerName: "Email ID", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "paymentDate", headerName: "Payment On", flex: 1 },
+      { field: "amountPaid", headerName: "Amount Paid", flex: 1 },
+      { field: "amountRemaining", headerName: "Amount Remaining", flex: 1 },
+      { field: "dueDate", headerName: "Due Date", flex: 1 },
+      { field: "transactionId", headerName: "Transaction Id", flex: 1 },
+      // { field: "actions", headerName: "Actions", flex: 1 },
+      // { field: "remaining", headerName: "Remaining Amount", flex: 1, editable: true },
+>>>>>>> e727422bfa0be881069544d905d333f896dd08e6
       // {
       //   field: "status",
       //   headerName: "Status",
@@ -101,7 +115,7 @@ function Invoices() {
       // },
       // {
       {  field: 'actions',
-        headerName: 'Invoice Generator',
+        headerName: 'Generate Invoice',
         width: 150,
         renderCell: (params) => (
           <Button
@@ -119,7 +133,6 @@ function Invoices() {
     []
   );
 
-  //  const rows = clientData
   const rows = paymentData.map((payment, index) => ({
     id: payment?.amountPaidBy?.id || "N/A",
     name: payment?.amountPaidBy?.name || "N/A",
@@ -137,84 +150,9 @@ function Invoices() {
     actions: "N/A",
   }));
 
-  // rows.sort((a, b) => {
-  //   if (a.id === "N/A" && b.id === "N/A") {
-  //     return 0; // both ids are invalid
-  //   } else if (a.id === "N/A") {
-  //     return 1; // only a.id is invalid, push it to the end
-  //   } else if (b.id === "N/A") {
-  //     return -1; // only b.id is invalid, push it to the end
-  //   } else {
-  //     return a.id - b.id; // valid ids comparison
-  //   }
-  // });
-
   return (
     <div className="container-fluid">
       <h2 className="text-center mt-3">INVOICES</h2>
-
-      {/* <<<<<<< Updated upstream
-      <Table rows={rows} columns={columns} />
-======= */}
-      {/* <div className="container-fluid d-flex flex-column mt-5">
-        <div className="d-flex flex-row">
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>From</label>
-            <DatePicker
-              id="from-date-picker"
-              className="form-select "
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>To</label>
-            <DatePicker
-              id="to-date-picker"
-              className="form-select "
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3">
-            <label>Search On</label>
-            <select id="expired" class="form-select w-100">
-              <option selected>Expired</option>
-              <option value="1">*-*</option>
-              <option value="2">*-*</option>
-              <option value="3">*-*</option>
-              <option value="4">*-*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Status</label>
-            <select id="status" class="form-select w-100">
-              <option selected>Active</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Package</label>
-            <select id="package" class="form-select w-100">
-              <option selected>All</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
-            Submit
-          </div>
-
-        </div>
-      </div> */}
 
       <Table rows={rows} columns={columns} />
       {showModal && (
