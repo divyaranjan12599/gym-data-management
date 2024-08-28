@@ -82,7 +82,7 @@ function Invoices() {
         sortable: false,
         filterable: false,
       },
-<<<<<<< HEAD
+
       { field: "id", headerName: "Client ID", width: 90 },
       { field: "name", headerName: "Name", width: 150 },
       { field: "email", headerName: "Email ID", width: 150 },
@@ -93,19 +93,6 @@ function Invoices() {
       { field: "dueDate", headerName: "Due Date", width: 150 },
       { field: "transactionId", headerName: "Transaction Id", width: 140 },
       // { field: "remaining", headerName: "Remaining Amount", width: 140, editable: true },
-=======
-      { field: "id", headerName: "Client ID", flex: 1},
-      { field: "name", headerName: "Name", flex: 1 },
-      { field: "email", headerName: "Email ID", flex: 1 },
-      { field: "phone", headerName: "Phone Number", flex: 1 },
-      { field: "paymentDate", headerName: "Payment On", flex: 1 },
-      { field: "amountPaid", headerName: "Amount Paid", flex: 1 },
-      { field: "amountRemaining", headerName: "Amount Remaining", flex: 1 },
-      { field: "dueDate", headerName: "Due Date", flex: 1 },
-      { field: "transactionId", headerName: "Transaction Id", flex: 1 },
-      // { field: "actions", headerName: "Actions", flex: 1 },
-      // { field: "remaining", headerName: "Remaining Amount", flex: 1, editable: true },
->>>>>>> e727422bfa0be881069544d905d333f896dd08e6
       // {
       //   field: "status",
       //   headerName: "Status",
