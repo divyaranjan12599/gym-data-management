@@ -2,11 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import Dashboard from './components/pages/dashboard';
 import About from './components/pages/about';
 import Contact from './components/pages/contact';
-import Navbar from "./components/inc/navbar";
 import AddMembers from "./components/pages/addMembers";
 import AddEnquiry from "./components/pages/addEnquiry";
 import AddStaffs from "./components/pages/addStaff";
-// import Pts from "./components/pages/pt";
 import PtMembers from "./components/pages/ptMembers";
 import Staff from "./components/pages/staff";
 import StaffAttendance from "./components/pages/staffAttendance";
@@ -20,7 +18,6 @@ import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
 import UserDetails from "./components/pages/userDetails";
-import Layout from "./Layout/Layout";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import MainLayout from "./components/pages/MainLayout";
 import Invoice from "./components/pages/invoice";
@@ -141,7 +138,6 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-
             <Route path="/memberships" element={<ProtectedRoute><Memberships /></ProtectedRoute>} />
             <Route path="/ptMembers" element={<ProtectedRoute><PtMembers /></ProtectedRoute>} />
             <Route path="/staff" element={<ProtectedRoute><Staff /></ProtectedRoute>} />
@@ -155,23 +151,6 @@ function App() {
             <Route path="/invoiceItem" element={<ProtectedRoute><InvoiceItem /></ProtectedRoute>} />
             <Route path="/invoiceModal" element={<ProtectedRoute><InvoiceModal /></ProtectedRoute>} />
             <Route path="/fieldEdits" element={<ProtectedRoute><FieldEdits /></ProtectedRoute>} />
-
-            {/* <Route path="/memberships" element={<Memberships />} />
-            <Route path="/ptMembers" element={<PtMembers />} />
-            <Route path="/staff" element={<Staff />} />
-            <Route path="/enquiries" element={<Enquiries />} />
-            <Route path="/recentMemberships" element={<RecentMemberships />} />
-            <Route path="/staffAttendance" element={<StaffAttendance />} />
-            <Route path="/user/:userId" element={<UserDetails />} />
-            <Route path="/staff/:staffId" element={<StaffDetails />} />
-            <Route path="/invoices" element={<Invoices />} />
-            <Route path="/invoiceGenerator" element={<InvoiceGenerator />} />
-            <Route path="/invoiceItem" element={<InvoiceItem />} />
-            <Route path="/invoiceModal" element={<InvoiceModal />} />
-            <Route path="/fieldEdits" element={<FieldEdits />} />
-
-            {/* <Route path="/dateRange" element={<DateRange />} /> */}
-            {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Route>
         </Routes>
 
