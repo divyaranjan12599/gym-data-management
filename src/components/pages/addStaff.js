@@ -65,14 +65,14 @@ function AddStaffs() {
         try {
             const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-staff", postData);
             toast.success("Staff Added successfully");
-            console.log('Staff Added successfully:', response.data);
+            // console.log('Staff Added successfully:', response.data);
             resetStaffData();
         } catch (error) {
             toast.error("Error creating staff")
             console.error('Error creating Staff:', error);
         }
         // Handle form submission, e.g., send staffData to the server
-        console.log('Form submitted:', staffData);
+        // console.log('Form submitted:', staffData);
     };
 
     const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
@@ -88,7 +88,7 @@ function AddStaffs() {
             (err, result) => {
                 if (result.event === "success") {
                     toast.success("Image uploaded Successfully")
-                    console.log("Done! Here is the image info: ", result.info);
+                    // console.log("Done! Here is the image info: ", result.info);
                     setImageURL(result.info.secure_url);
                 }
             });

@@ -32,10 +32,10 @@ function Invoices() {
     emailjs.send('service_dcu0jes', 'template_1jf9e6n', templateParams, 'l9xho7dUwGOfJFNU1')
       .then((response) => {
         toast.success("Email sent");
-        console.log('SUCCESS!', response.status, response.text);
+        // console.log('SUCCESS!', response.status, response.text);
       }, (error) => {
         toast.error("Failed to Send Email. Try again later");
-        console.log('FAILED...', error);
+        // console.log('FAILED...', error);
       });
   };
 

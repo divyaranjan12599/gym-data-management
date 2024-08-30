@@ -92,7 +92,7 @@ function AddMembers() {
   };
   // const handleSubmit = (e) => {
   //   e.preventDefault();
-  //   console.log(client);
+  //   // console.log(client);
   //   // Submit the client data to the backend
   // };
 
@@ -110,7 +110,7 @@ function AddMembers() {
       (err, result) => {
         if (result.event === "success") {
           toast.success("Image uploaded Successfully")
-          console.log("Done! Here is the image info: ", result.info);
+          // console.log("Done! Here is the image info: ", result.info);
           setImageURL(result.info.secure_url);
         }
       });
@@ -136,7 +136,7 @@ function AddMembers() {
     e.preventDefault();
     if (currentStep === 1) {
       if (!clientData.fname || !clientData.lname || !clientData.email || !clientData.contactNumber) {
-        console.log(clientData);
+        // console.log(clientData);
         toast.error("Please fill out all required fields.");
         return;
       }
@@ -174,7 +174,7 @@ function AddMembers() {
     try {
       const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData);
       toast.success("Client added Successfully")
-      console.log('Client created successfully:', response.data);
+      // console.log('Client created successfully:', response.data);
       setCurrentStep(1);
       resetClientData();
     } catch (error) {
@@ -182,7 +182,7 @@ function AddMembers() {
       console.error('Error creating client:', error);
     }
     // Handle form submission, e.g., send clientData to the server
-    console.log('Form submitted:', clientData);
+    // console.log('Form submitted:', clientData);
   };
 
   let { staffData } = useContext(UserContext);

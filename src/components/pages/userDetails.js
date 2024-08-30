@@ -68,14 +68,14 @@ function UserDetails() {
       (err, result) => {
         if (result.event === "success") {
           toast.success("Image Uploaded");
-          console.log("Done! Here is the image info: ", result.info);
+          // console.log("Done! Here is the image info: ", result.info);
           setImageURL(result.info.secure_url);
         }
       });
     const user = clientData?.find((client) => Number(client.id) === Number(userId))
     if (user) {
       setUserData(user);
-      console.log("user details==", user, personalDetailsFormData);
+      // console.log("user details==", user, personalDetailsFormData);
       setpersonalDetailsFormData({
         id: user?.id,
         name: user?.name || '',
@@ -100,7 +100,7 @@ function UserDetails() {
           contact: user?.emergencyContact?.contact || ''
         }
       });
-      console.log("user details", user, personalDetailsFormData);
+      // console.log("user details", user, personalDetailsFormData);
     } else {
       console.error("User not found");
     }
@@ -129,7 +129,7 @@ function UserDetails() {
 
     } catch (error) {
       toast.error(error);
-      console.log(error);
+      // console.log(error);
       // setEnquiryData([]);
     }
   }
@@ -141,7 +141,7 @@ function UserDetails() {
       // setEnquiryData(response.data);
     } catch (error) {
       toast.error(error);
-      console.log(error);
+      // console.log(error);
       // setEnquiryData([]);
     }
   }
@@ -154,7 +154,7 @@ function UserDetails() {
       // setEnquiryData(response.data);
     } catch (error) {
       toast.error(error);
-      console.log(error);
+      // console.log(error);
       // setEnquiryData([]);
     }
   }
@@ -213,23 +213,24 @@ function UserDetails() {
     e.preventDefault();
     handleUpdateMembershipDetails();
     handleStepChange(1);
-    console.log('Submitting membership updation form data:', memUpdationformData);
+    // console.log('Submitting membership updation form data:', memUpdationformData);
   };
 
   const handlePtMemUpdationformSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userData._id}`, ptmemUpdationformData);
+      // console.log(ptmemUpdationformData);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userData._id}`, ptmemUpdationformData);
       toast.success("User Pt Membership updated Successfully");
       handleStepChange(1);
       // alert("deleted user", response.data);
       // setEnquiryData(response.data);
     } catch (error) {
-      toast.error(error);
-      console.log(error);
+      toast.error(error.message);
+      // console.log(error);
       // setEnquiryData([]);
     }
-    console.log('Submitting membership updation form data:', memUpdationformData);
+    // console.log('Submitting membership updation form data:', memUpdationformData);
   };
 
   const membershipRows = useMemo(() => {
@@ -315,7 +316,7 @@ function UserDetails() {
     e.preventDefault();
     handleUpdatePersonalDetails();
     handleStepChange(1);
-    console.log("submit", personalDetailsFormData);
+    // console.log("submit", personalDetailsFormData);
   };
 
   const paymentRows = useMemo(() => {

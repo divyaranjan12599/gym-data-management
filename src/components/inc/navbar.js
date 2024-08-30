@@ -70,7 +70,7 @@ function Navbar(props) {
             <div className="col-lg-8">
               <ul className="navbar-nav me-4 mb-2 mb-lg-0 d-flex justify-content-end">
                 <li className="nav-item">
-                  <Link to="/dashboard" className={`nav-link m-2 ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+                  <Link to="/dashboard" className={`nav-link m-2 ${(location.pathname === '/dashboard')||(location.pathname === '/') ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faDisplay} /> Dashboard
                   </Link>
                 </li>
@@ -85,7 +85,7 @@ function Navbar(props) {
                   </Link>
                 </li> */}
                 <li className="nav-item">
-                  <Link to="/invoices" className={`nav-link m-2 ${location.pathname === '/' ? 'active' : ''}`}>
+                  <Link to="/invoices" className={`nav-link m-2 ${location.pathname === '/invoices' ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faFileInvoiceDollar} /> Invoices
                   </Link>
                 </li>
@@ -123,7 +123,7 @@ function Navbar(props) {
                 <li
                   className="nav-item dropstart"
                   onMouseEnter={() => handleDropdownToggle(true, 2)}
-                  onMouseLeave={() => handleDropdownToggle(false, 2)}
+                  onMouseLeave={() => handleDropdownToggle(true, 2)}
                 >
                   <a className={`nav-link m-2 ${(location.pathname === '/staff' || location.pathname === '/ptMembers' || location.pathname === '/recentMemberships' || location.pathname === '/staffAttendance' || location.pathname === '/enquiries') ? 'active' : ''}`} role="button" aria-expanded="false">
                     <FontAwesomeIcon icon={faLayerGroup} /> More{" "}

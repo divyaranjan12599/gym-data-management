@@ -40,7 +40,7 @@ function AddEnquiry() {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        console.log(name, value, type, checked, enquiryData);
+        // console.log(name, value, type, checked, enquiryData);
         if (type === 'checkbox') {
             setEnquiryData((prevState) => {
                 const updatedEnquiredFor = checked
@@ -83,7 +83,7 @@ function AddEnquiry() {
         });
     };
 
-    console.log(enquiryData.attainedBy);
+    // console.log(enquiryData.attainedBy);
 
 
     const handleSubmit = async (e) => {
@@ -95,14 +95,14 @@ function AddEnquiry() {
         try {
             const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-enquiry", postData);
             toast.success("Enquiry created successfully");
-            console.log('Enquiry created successfully:', response.data);
+            // console.log('Enquiry created successfully:', response.data);
             resetEnquiryData();
         } catch (error) {
             toast.error("Error creating enquiry");
             console.error('Error creating enquiry:', error);
         }
         // Handle form submission, e.g., send enquiryData to the server
-        console.log('Form submitted:', enquiryData);
+        // console.log('Form submitted:', enquiryData);
     };
 
     return (

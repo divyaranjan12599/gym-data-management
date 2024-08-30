@@ -24,7 +24,7 @@ function Memberships() {
 
   const handleRowClick = (row) => {
     const userId = row.id;
-    console.log(row)
+    // console.log(row)
     navigate(`/user/${userId}`);
   };
 
@@ -38,10 +38,10 @@ function Memberships() {
     emailjs.send('service_dcu0jes', 'template_1jf9e6n', templateParams, 'l9xho7dUwGOfJFNU1')
       .then((response) => {
         toast.success("Eamil sent");
-        console.log('SUCCESS!', response.status, response.text);
+        // console.log('SUCCESS!', response.status, response.text);
       }, (error) => {
         toast.error("Failed to send Email .Try again later");
-        console.log('FAILED...', error);
+        // console.log('FAILED...', error);
       });
   };
 
@@ -121,7 +121,7 @@ function Memberships() {
     }
   });
 
-  console.log("Mapped Rows:", rows);
+  // console.log("Mapped Rows:", rows);
 
   return (
     <div className="container-fluid">

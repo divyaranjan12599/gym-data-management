@@ -28,9 +28,7 @@ import InvoiceItem from "./components/inc/invoiceItem";
 import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
-import { endDateGenerator } from "./components/inc/utilityFuncs";
 import { Toaster } from 'react-hot-toast';
-import { duration } from "@mui/material";
 
 export const UserContext = createContext({})
 
@@ -138,6 +136,7 @@ function App() {
           <Route path="/user" index element={<Layout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="/dashboard" />} />
             <Route path="/add_member" element={<ProtectedRoute><AddMembers /></ProtectedRoute>} />
             <Route path="/add_enquiry" element={<ProtectedRoute><AddEnquiry /></ProtectedRoute>} />
             <Route path="/add_staff" element={<ProtectedRoute><AddStaffs /></ProtectedRoute>} />
@@ -178,12 +177,12 @@ function App() {
           </Route>
         </Routes>
 
-        <Toaster 
+        <Toaster
           position="top-center"
           toastOptions={{
             duration: 3000,
           }}
-          />
+        />
       </Router>
     </UserContext.Provider>
   );

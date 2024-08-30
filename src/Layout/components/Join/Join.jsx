@@ -7,7 +7,7 @@ const Join = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        console.log(form.current.user_email.value);
+        // console.log(form.current.user_email.value);
       };
 
   return (

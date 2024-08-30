@@ -37,11 +37,11 @@ const Login = () => {
         })
         .catch(({ response }) => {
             toast.error(response)
-            console.log(response)
+            // console.log(response)
         })
     };
 
-    console.log("first", userAuth)
+    // console.log("first", userAuth)
 
     return (
         <div class="container d-flex align-items-center justify-content-center w-100 h-100">
