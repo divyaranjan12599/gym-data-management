@@ -24,7 +24,6 @@ function Memberships() {
 
   const handleRowClick = (row) => {
     const userId = row.id;
-    // console.log(row)
     navigate(`/user/${userId}`);
   };
 
@@ -56,7 +55,7 @@ function Memberships() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", flex: 1},
+      // { field: "id", headerName: "Client ID", flex: 1},
       { field: "name", headerName: "Name", flex: 1 },
       { field: "email", headerName: "Email ID", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
@@ -97,7 +96,7 @@ function Memberships() {
   .map((membership) => {
     const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
     return {
-      id: membership.membershipBy?.id || "N/A",
+      id: membership.membershipBy?._id || "N/A",
       name: membership.membershipBy?.name || "N/A",
       phone: membership.membershipBy?.contact || "N/A",
       email: membership.membershipBy?.email || "N/A",

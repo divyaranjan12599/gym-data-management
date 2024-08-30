@@ -58,7 +58,7 @@ function UserDetails() {
   const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] = useState(false);
 
   useEffect(() => {
-    // console.log(typeof userId, typeof client.id);
+    console.log("user details pge",clientData);
     cloudinaryRef.current = window.cloudinary;
     widgetRef.current = cloudinaryRef.current.createUploadWidget({
       cloudName: CLOUD_NAME,
@@ -72,10 +72,10 @@ function UserDetails() {
           setImageURL(result.info.secure_url);
         }
       });
-    const user = clientData?.find((client) => Number(client.id) === Number(userId))
+    const user = clientData?.find((client) => client._id === userId)
     if (user) {
       setUserData(user);
-      // console.log("user details==", user, personalDetailsFormData);
+      console.log("user details==", user);
       setpersonalDetailsFormData({
         id: user?.id,
         name: user?.name || '',
@@ -233,10 +233,10 @@ function UserDetails() {
     // console.log('Submitting membership updation form data:', memUpdationformData);
   };
 
+  console.log(membershipData);
   const membershipRows = useMemo(() => {
-    // Filter and map the data
     const rows = (membershipData || [])
-      .filter((membership) => Number(membership.membershipBy?.id) === Number(userId))
+      .filter((membership) => membership.membershipBy?._id === userId)
       .map((membership, index) => {
         const startingDate = new Date(membership?.startingDate);
         const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
@@ -316,12 +316,12 @@ function UserDetails() {
     e.preventDefault();
     handleUpdatePersonalDetails();
     handleStepChange(1);
-    // console.log("submit", personalDetailsFormData);
   };
+  console.log("submit", paymentData);
 
   const paymentRows = useMemo(() => {
     return (paymentData || [])
-      .filter((payment) => Number(payment.amountPaidBy?.id) === Number(userId))
+      .filter((payment) => payment.amountPaidBy?._id === userId)
       .map((payment, index) => ({
         id: payment?.amountPaidBy?.id || index, // Use index as a fallback unique id
         amount_paid: payment?.amountPaid || "N/A",

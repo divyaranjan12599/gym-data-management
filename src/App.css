@@ -29,8 +29,6 @@ textarea:focus,
   box-shadow: none !important;
 }
 
-
-
 .App {
   text-align: center;
   mix-blend-mode: overlay !important;
@@ -58,6 +56,10 @@ textarea:focus,
   color: white;
 }
 
+h2 {
+  font-family: cursive;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -77,23 +79,24 @@ textarea:focus,
   border-radius: 5px;
 
   &:hover {
-    color: white;
-    background-color: #9c9c9c;
+    color: white !important;
+    background-color: #d098e2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
   }
 
   &:active {
-    color: rgb(111, 111, 111);
-    background-color: #b0b0b0;
+    color: rgb(255, 251, 251) !important;
+    background-color: #af7bc1;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     transform: scale(1);
   }
 }
 
 .nav-link.active {
-  color: rgb(74, 73, 73);
-  background-color: #d4d4d4;
+  font-weight: bold !important ;
+  color: rgb(255, 251, 251) !important;
+  background-color: #874e9a;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transform: scale(1.05);
@@ -144,7 +147,7 @@ textarea:focus,
   cursor: pointer;
 }
 
-.pic-box{
+.pic-box {
   /* background-color: #61dafb;
   border: 2px solid #282c34;
   height: 100px; */

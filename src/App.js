@@ -131,10 +131,8 @@ function App() {
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
       <Router>
-        {/* <Navbar /> */}
         <Routes>
-          <Route path="/user" index element={<Layout />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" index element={<Login />} />
           <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
             <Route index element={<Navigate to="/dashboard" />} />
             <Route path="/add_member" element={<ProtectedRoute><AddMembers /></ProtectedRoute>} />
