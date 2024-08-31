@@ -216,7 +216,7 @@ function AddMembers() {
                             className="form-control"
                             value={clientData.fname}
                             placeholder="Enter First Name"
-                            // disabled
+                          // disabled
                           />
                           {/* <span className="text-muted">*previous client id: 1601</span> */}
                         </div>
@@ -229,7 +229,7 @@ function AddMembers() {
                             name="lname"
                             value={clientData.lname}
                             placeholder="Enter Last Name"
-                            // required
+                          // required
                           />
                         </div>
 
@@ -241,7 +241,7 @@ function AddMembers() {
                             value={clientData.email}
                             className="form-control"
                             placeholder="Enter Email"
-                            // required
+                          // required
                           />
                         </div>
 
@@ -259,7 +259,7 @@ function AddMembers() {
                               placeholder="Contact Number"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                              // required
+                            // required
                             />
                           </div>
                         </div>
@@ -272,7 +272,7 @@ function AddMembers() {
                             className="form-control"
                             id="inputAddress2"
                             placeholder="Apartment, studio, or floor"
-                            // required
+                          // required
                           />
                         </div>
                         <div className="mb-2 col-md-6">
@@ -284,11 +284,11 @@ function AddMembers() {
                             className="form-control"
                             id="inputCity"
                             placeholder="City"
-                            // required
+                          // required
                           />
                         </div>
                         <div className="mb-2 col-md-4">
-                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select" 
+                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select"
                           // required
                           >
                             <option selected>State</option>
@@ -307,7 +307,7 @@ function AddMembers() {
                             className="form-control"
                             id="inputZip"
                             placeholder="Pincode"
-                            // required
+                          // required
                           />
                         </div>
 
@@ -355,7 +355,7 @@ function AddMembers() {
                             value={clientData.joiningDate}
                             className="form-control"
                             placeholder="Enter Address"
-                            // required
+                          // required
                           />
                         </div>
                         <div className="col-12">
@@ -427,13 +427,13 @@ function AddMembers() {
                     </div>
 
                     <div className="p-0 border-bottom">
-                      <div className="border-top border-bottom">
-                        <p className="text-center mb-0">Emergency Contact Details</p>
+                      <div className="border-top border-bottom ">
+                        <p className="text-center mt-3 mb-2">Emergency Contact Details</p>
                       </div>
                       <form className="d-flex flex-column justify-content-center align-items-center w-100">
                         <div className="row w-100 mt-2">
-                          <div className="col-lg-6">
-                            {/* <label>Client Name</label> */}
+                          <div className="col-lg-6 mb-2">
+                            <label>Name</label>
                             <input
                               type="text"
                               onChange={handleChange}
@@ -444,6 +444,7 @@ function AddMembers() {
                             />
                           </div>
                           <div className="flex-column col-lg-6">
+                            <label>Contact</label>
                             <div className="input-group">
                               <span className="input-group-text" id="basic-addon1">
                                 +91
@@ -618,11 +619,6 @@ function AddMembers() {
                 </div>
               </form>
             </div>
-          </>
-        )}
-
-        {currentStep === 3 && (
-          <>
             <div className="card-header border-top border-bottom">
               <p className="text-center mb-0">Payment Details</p>
             </div>
@@ -646,7 +642,7 @@ function AddMembers() {
                         onChange={handleChange}
                         name="amountPaid"
                         value={clientData.amountPaid}
-                        // required
+                      // required
                       />
                     </div>
                   </div>
@@ -668,7 +664,7 @@ function AddMembers() {
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Mode of Payment</label>
-                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select" 
+                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select"
                     // required
                     >
                       <option selected>Select</option>
@@ -717,6 +713,7 @@ function AddMembers() {
               </form>
             </div>
           </>
+
         )}
 
         <div className="w-100 h-100 mb-2">
@@ -727,7 +724,7 @@ function AddMembers() {
               )}
             </Col>
             <Col md={6} className="d-flex justify-content-center">
-              {currentStep < 3 ? (
+              {currentStep < 2 ? (
                 <button type="button" className="btn btn-primary w-100 me-4" onClick={handleNext}>Next</button>
               ) : (
                 <button type="submit" className="btn btn-primary w-100 me-4" onClick={handleSubmit}>Submit</button>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import defaultImage from "../icons/user.png";
-import { faArrowRight, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Avatar } from "@mui/material";
@@ -61,7 +61,7 @@ function StaffDetails() {
   return (
     <div className="container-fluid">
       <h1 className="userHeading mt-3 d-flex justify-content-center">
-        User Info
+        Staff Info
       </h1>
       <div className="container-fluid">
         <div className="row">

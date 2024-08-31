@@ -25,7 +25,7 @@ function Staff() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "id", headerName: "Staff ID", flex: 1},
       { field: "name", headerName: "Name", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
       { field: "package", headerName: "Package", flex: 1 },
@@ -45,7 +45,7 @@ function Staff() {
   );
   
   const rows =  staffData.map((staff, index) => ({
-    id: staff.id || "N/A",
+    // id: staff.id || "N/A",
     name: staff.name || "N/A",
     phone: staff.contact || "N/A",
     package: staff.package || "N/A",

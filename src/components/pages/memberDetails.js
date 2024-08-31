@@ -10,9 +10,8 @@ import Table from "../inc/table";
 import { endDateGenerator } from "../inc/utilityFuncs";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { FaMinus, FaPlus } from "react-icons/fa";
 
-function UserDetails() {
+function MemberDetails() {
   const [userData, setUserData] = useState(null);
 
   const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
@@ -22,7 +21,6 @@ function UserDetails() {
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
   const [currentStep, setCurrentStep] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
 
@@ -202,7 +200,6 @@ function UserDetails() {
 
   const handlePtMemUpdateChange = (e) => {
     const { name, value } = e.target;
-    // console.log(ptmemUpdationformData, name, value);
     setptmemUpdationformData((prevData) => ({
       ...prevData,
       [name]: value
@@ -233,7 +230,7 @@ function UserDetails() {
     // console.log('Submitting membership updation form data:', memUpdationformData);
   };
 
-  console.log(membershipData);
+  // console.log(membershipData);
   const membershipRows = useMemo(() => {
     const rows = (membershipData || [])
       .filter((membership) => membership.membershipBy?._id === userId)
@@ -323,7 +320,7 @@ function UserDetails() {
     return (paymentData || [])
       .filter((payment) => payment.amountPaidBy?._id === userId)
       .map((payment, index) => ({
-        id: payment?.amountPaidBy?.id || index, // Use index as a fallback unique id
+        id: payment?.amountPaidBy?.id || index,
         amount_paid: payment?.amountPaid || "N/A",
         amount_remaining: payment?.amountRemaining || "N/A",
         mode: payment?.mode || "N/A",
@@ -356,7 +353,7 @@ function UserDetails() {
   return (
     <div className="container-fluid">
       <h1 className="userHeading mt-3 d-flex justify-content-center">
-        User Info
+        Member Info
       </h1>
       <div className="container-fluid">
         <div className="row">
@@ -1109,4 +1106,4 @@ function UserDetails() {
   );
 }
 
-export default UserDetails;
+export default MemberDetails;

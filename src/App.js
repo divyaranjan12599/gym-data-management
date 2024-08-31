@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "r
 import axios from "axios";
 import { lookInSession } from "./components/pages/session";
 import Enquiries from "./components/pages/Enquiries";
-import UserDetails from "./components/pages/userDetails";
+import MemberDetails from "./components/pages/memberDetails";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
 import MainLayout from "./components/pages/MainLayout";
 import Invoice from "./components/pages/invoice";
@@ -144,7 +144,7 @@ function App() {
             <Route path="/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
             <Route path="/recentMemberships" element={<ProtectedRoute><RecentMemberships /></ProtectedRoute>} />
             <Route path="/staffAttendance" element={<ProtectedRoute><StaffAttendance /></ProtectedRoute>} />
-            <Route path="/user/:userId" element={<ProtectedRoute><UserDetails /></ProtectedRoute>} />
+            <Route path="/user/:userId" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
             <Route path="/staff/:staffId" element={<ProtectedRoute><StaffDetails /></ProtectedRoute>} />
             <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
             <Route path="/invoice" element={<ProtectedRoute><Invoice /></ProtectedRoute>} />
