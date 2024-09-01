@@ -385,29 +385,6 @@ function AddMembers() {
                           </div>
                         </div>
 
-                        <div className="mb-2 col-6">
-                          <label htmlFor="idProofFront" className="form-label">
-                            ID Proof Front
-                          </label>
-                          <input
-                            className="form-control"
-                            type="file"
-                            name="idProofFront"
-                            id="idProofFront"
-                          />
-                        </div>
-                        <div className="mb-2 col-6">
-                          <label htmlFor="idProofBack" className="form-label">
-                            ID Proof Back
-                          </label>
-                          <input
-                            className="form-control"
-                            type="file"
-                            name="idProofBack"
-                            id="idProofBack"
-                          />
-                        </div>
-
                       </div>
                     </div>
 

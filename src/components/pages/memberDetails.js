@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import defaultImage from "../icons/user.png";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ function MemberDetails() {
   const [userData, setUserData] = useState(null);
 
   const { userAuth: { token }, membershipData, paymentData, clientData, staffData } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const [clientDetails, setClientData] = useState(clientData);
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
@@ -23,8 +23,6 @@ function MemberDetails() {
   const [currentStep, setCurrentStep] = useState(1);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
-
-  console.log("setClientData", clientDetails)
 
   const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
     id: '',
@@ -131,12 +129,9 @@ function MemberDetails() {
         }
       );
       toast.success("Updated User")
-      // alert("updated user", response.data);
 
     } catch (error) {
       toast.error(error);
-      // console.log(error);
-      // setEnquiryData([]);
     }
   }
   const handleUpdateMembershipDetails = async () => {
@@ -168,8 +163,7 @@ function MemberDetails() {
         }
       );
       toast.success("User deleted Successfully");
-      // alert("deleted user", response.data);
-      // setEnquiryData(response.data);
+      navigate("/membership");
     } catch (error) {
       toast.error(error);
       // console.log(error);
@@ -1073,8 +1067,6 @@ function MemberDetails() {
                         </Col>
                       </Row>
                     </Container>
-
-
                   </Modal.Body>
                 </Modal>
               </div>
