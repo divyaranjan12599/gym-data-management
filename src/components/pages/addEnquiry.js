@@ -56,7 +56,7 @@ function AddEnquiry() {
         }
     };
 
-    let { staffData } = useContext(UserContext);
+    let { userAuth: { token }, staffData } = useContext(UserContext);
 
     const [lastFollowUpDateTime, setlastFollowUpDateTime] = useState(new Date());
     const [enquiryOnDateTime, setEnquiryOnDateTime] = useState(new Date());
@@ -93,7 +93,11 @@ function AddEnquiry() {
         };
 
         try {
-            const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-enquiry", postData);
+            const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-enquiry", postData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             toast.success("Enquiry created successfully");
             // console.log('Enquiry created successfully:', response.data);
             resetEnquiryData();

@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 function MemberDetails() {
   const [userData, setUserData] = useState(null);
 
-  const { membershipData, paymentData, clientData, staffData } = useContext(UserContext);
+  const { userAuth: { token }, membershipData, paymentData, clientData, staffData } = useContext(UserContext);
 
   const [clientDetails, setClientData] = useState(clientData);
   const [imageURL, setImageURL] = useState(null);
@@ -23,6 +23,8 @@ function MemberDetails() {
   const [currentStep, setCurrentStep] = useState(1);
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+
+  console.log("setClientData", clientDetails)
 
   const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
     id: '',
@@ -56,7 +58,7 @@ function MemberDetails() {
   const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] = useState(false);
 
   useEffect(() => {
-    console.log("user details pge",clientData);
+    console.log("user details pge", clientData);
     cloudinaryRef.current = window.cloudinary;
     widgetRef.current = cloudinaryRef.current.createUploadWidget({
       cloudName: CLOUD_NAME,
@@ -121,7 +123,13 @@ function MemberDetails() {
 
   const handleUpdatePersonalDetails = async () => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${userData._id}`, personalDetailsFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       toast.success("Updated User")
       // alert("updated user", response.data);
 
@@ -133,7 +141,13 @@ function MemberDetails() {
   }
   const handleUpdateMembershipDetails = async () => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}`, memUpdationformData);
+      const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${userData._id}`, memUpdationformData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       toast.success("User Membership updated Successfully");
       // alert("deleted user", response.data);
       // setEnquiryData(response.data);
@@ -146,7 +160,13 @@ function MemberDetails() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId);
+      const response = await axios.delete(process.env.REACT_APP_SERVER_URL + "/user/delete-client/" + userId,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       toast.success("User deleted Successfully");
       // alert("deleted user", response.data);
       // setEnquiryData(response.data);
@@ -217,7 +237,13 @@ function MemberDetails() {
     e.preventDefault();
     try {
       // console.log(ptmemUpdationformData);
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userData._id}`, ptmemUpdationformData);
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userData._id}`, ptmemUpdationformData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       toast.success("User Pt Membership updated Successfully");
       handleStepChange(1);
       // alert("deleted user", response.data);

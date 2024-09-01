@@ -172,7 +172,11 @@ function AddMembers() {
     };
 
     try {
-      const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData);
+      const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       toast.success("Client added Successfully")
       // console.log('Client created successfully:', response.data);
       setCurrentStep(1);
@@ -185,7 +189,7 @@ function AddMembers() {
     // console.log('Form submitted:', clientData);
   };
 
-  let { staffData } = useContext(UserContext);
+  let { userAuth: { token }, staffData } = useContext(UserContext);
 
   return (
     <div className="container">

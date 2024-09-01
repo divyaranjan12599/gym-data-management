@@ -49,9 +49,17 @@ function App() {
     setLoading(false);
   }, []);
 
+
+
   const fetchClientMembershipData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-memberships");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-memberships",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("membership details", response.data);
       setMembershipData(response.data);
     } catch (error) {
@@ -62,7 +70,13 @@ function App() {
 
   const fetchPtMembershipData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-ptDetails");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-ptDetails",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("pt membership details", response.data);
       setPtMembershipData(response.data);
     } catch (error) {
@@ -73,7 +87,13 @@ function App() {
 
   const fetchClientPaymentData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-paymentDetails");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-paymentDetails",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("paymentdetails", response.data);
       setPaymentData(response.data);
     } catch (error) {
@@ -84,7 +104,13 @@ function App() {
 
   const fetchClientData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-clients",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("clients", response.data);
       setClientData(response.data);
     } catch (error) {
@@ -95,7 +121,13 @@ function App() {
 
   const fetchEnquiryData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquiries");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-enquiries",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("enquiry", response.data);
       setEnquiryData(response.data);
     } catch (error) {
@@ -107,7 +139,13 @@ function App() {
 
   const fetchStaffData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs");
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
       console.log("staff", response.data);
       setStaffData(response.data);
     } catch (error) {
@@ -116,14 +154,18 @@ function App() {
     }
   }
 
+  console.log(clientData)
+
   useEffect(() => {
-    fetchClientMembershipData();
-    fetchPtMembershipData();
-    fetchEnquiryData();
-    fetchStaffData();
-    fetchClientPaymentData();
-    fetchClientData()
-  }, []);
+    if (userAuth.token) {
+      fetchClientMembershipData();
+      fetchPtMembershipData();
+      fetchEnquiryData();
+      fetchStaffData();
+      fetchClientPaymentData();
+      fetchClientData()
+    }
+  }, [userAuth]);
 
   return (
     <UserContext.Provider value={{ userAuth, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>

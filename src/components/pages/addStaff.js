@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import defaultImage from "../icons/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import axios from "axios";
 import toast from "react-hot-toast";
+import { UserContext } from "../../App";
 
 const initialStaffState = {
     staffName: '',
@@ -27,6 +28,8 @@ const initialStaffState = {
 };
 
 function AddStaffs() {
+
+    const {userAuth:{token}} = useContext(UserContext)
 
 
     const [staffData, setStaffData] = useState(initialStaffState);
@@ -63,7 +66,13 @@ function AddStaffs() {
         };
 
         try {
-            const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-staff", postData);
+            const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-staff", postData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
             toast.success("Staff Added successfully");
             // console.log('Staff Added successfully:', response.data);
             resetStaffData();
