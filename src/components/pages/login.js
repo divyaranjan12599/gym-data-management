@@ -36,8 +36,8 @@ const Login = () => {
             }
         })
         .catch(({ response }) => {
-            toast.error(response)
-            // console.log(response)
+            toast.error(response.data.message)
+            console.log(response)
         })
     };
 

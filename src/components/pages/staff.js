@@ -45,7 +45,7 @@ function Staff() {
   );
   
   const rows =  staffData.map((staff, index) => ({
-    // id: staff.id || "N/A",
+    id: index + 1 || "N/A",
     name: staff.name || "N/A",
     phone: staff.contact || "N/A",
     package: staff.package || "N/A",

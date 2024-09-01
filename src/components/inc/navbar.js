@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,8 +7,14 @@ import {
 import Nav from 'react-bootstrap/Nav';
 import { logOutUser } from "../pages/session";
 import { Modal } from "react-bootstrap";
+import { toast } from "react-hot-toast"
+import axios from "axios"
+import { UserContext } from "../../App";
 
 function Navbar(props) {
+
+  const { userAuth: { token } } = useContext(UserContext)
+
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,8 +37,6 @@ function Navbar(props) {
 
   const handleChangePassChange = (e) => {
     const { name, value, type, files } = e.target;
-    console.log(name, value);
-
     setChangePass({
       ...changePassData,
       [name]: value,
@@ -50,9 +54,35 @@ function Navbar(props) {
     })
   }
 
-  const handlePassChangeModalSubmit = (e) => {
+  const handlePassChangeModalSubmit = async (e) => {
     e.preventDefault();
-    console.log(changePassData);
+    if (changePassData.prevPass === changePassData.newPass) {
+      toast.error("Your New password is same as old Password. Keep the new password different");
+      return;
+    }
+    if (changePassData.newPass !== changePassData.newPass2) {
+      toast.error("Re-Enter New Password correctly..");
+      return;
+    } else {
+      try {
+        const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/change-password", { oldPassword: changePassData.prevPass, newPassword: changePassData.newPass }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        toast.success("Password Updated Successfully");
+        setChangePass({
+          prevPass: '',
+          newPass: '',
+          newPass2: '',
+        })
+        handlePassChangeModalClose();
+        // console.log('Enquiry created successfully:', response.data);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        console.error('Error Updating Password: ', error);
+      }
+    }
 
   }
 
