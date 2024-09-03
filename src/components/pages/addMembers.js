@@ -1,49 +1,53 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import defaultImage from "../icons/user.png";
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FaPlus, FaMinus } from "react-icons/fa";
 // import { Avatar } from '@mui/material';
-import axios from "axios"
+import axios from "axios";
 import { UserContext } from "../../App";
 import { Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
-
+import {
+  faExclamationTriangle,
+  faFileInvoiceDollar,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactDatePicker from "react-datepicker";
 
 const initialClientState = {
-  fname: '',
-  lname: '',
-  email: '',
-  contactNumber: '',
+  fname: "",
+  lname: "",
+  email: "",
+  contactNumber: "",
   picUrl: "",
-  address1: '',
-  address2: '',
-  city: 'Hyderabad',
-  state: 'Telangana',
-  zip: '',
-  gender: 'Male',
-  membershipStartingDate: '',
+  address1: "",
+  address2: "",
+  city: "Hyderabad",
+  state: "Telangana",
+  zip: "",
+  gender: "Male",
+  membershipStartingDate: "",
   joiningDate: new Date().toLocaleDateString(),
-  idProofType: '',
-  idProofNumber: '',
+  idProofType: "",
+  idProofNumber: "",
   idProofFront: null,
   idProofBack: null,
-  emergencyContactName: '',
-  emergencyContactNumber: '',
+  emergencyContactName: "",
+  emergencyContactNumber: "",
   registrationFees: "",
-  membershipPeriod: 'monthly',
-  membershipAmount: '',
-  amountPaid: '',
-  amountRemaining: '',
+  membershipPeriod: "monthly",
+  membershipAmount: "",
+  amountPaid: "",
+  amountRemaining: "",
   startingDate: new Date().toLocaleDateString(),
   ptStartingDate: new Date().toLocaleDateString(),
-  dueDate: '',
-  transactionDate: '',
-  paymentMode: 'online',
-  transactionId: '',
-  ptFees: '',
-  ptMembershipPeriod: 'monthly',
-  ptAssignedTo: '',
-}
-
+  dueDate: "",
+  transactionDate: "",
+  paymentMode: "online",
+  transactionId: "",
+  ptFees: "",
+  ptMembershipPeriod: "monthly",
+  ptAssignedTo: "",
+};
 
 function AddMembers() {
   // const [currentStep, setCurrentStep] = useState(1);
@@ -59,35 +63,63 @@ function AddMembers() {
     setClientData(initialClientState);
     // resting the image url
     setImageURL(null);
-
   };
 
-  // const [validationErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
 
   const validateStep = () => {
     const errors = {};
 
     if (currentStep === 1) {
-      if (!clientData.fname) errors.fname = 'First Name is required';
-      if (!clientData.lname) errors.lname = 'First Name is required';
-      if (!clientData.email) errors.email = 'Email is required';
-      if (!clientData.contactNumber) errors.contactNumber = 'Contact Number is required';
-      if (!clientData.address1) errors.address1 = 'Address is required';
-      if (!clientData.city) errors.city = 'City is required';
-      if (!clientData.state) errors.state = 'State is required';
-      if (!clientData.zip) errors.zip = 'Pincode is required';
+      if (!clientData.fname) errors.fname = "First Name is required";
+      if (!clientData.lname) errors.lname = "First Name is required";
+      if (!clientData.email) errors.email = "Email is required";
+      if (!clientData.contactNumber)
+        errors.contactNumber = "Contact Number is required";
+      if (!clientData.address1) errors.address1 = "Address is required";
+      if (!clientData.joiningDate) errors.joiningDate = "Join date required";
+      if (!clientData.city) errors.city = "City is required";
+      if (!clientData.state) errors.state = "State is required";
+      if (!clientData.zip) errors.zip = "Pincode is required";
+      if (!clientData.idProofNumber) errors.idProofNumber = "id proof required";
+      if (!clientData.idProofBack) errors.idProofBack = "id proof required";
+      if (!clientData.idProofFront) errors.idProofFront = "id proof required";
+      if (!clientData.emergencyContactNumber)
+        errors.emergencyContactNumber = "Number required";
+      if (!clientData.emergencyContactName)
+        errors.emergencyContactName = "Name required";
       // Additional validations can be added here for step 1
     } else if (currentStep === 2) {
-      // Example validations for step 2 (add your fields and rules)
+      if (!clientData.registrationFees)
+        errors.registrationFees = "Field required";
+      if (!clientData.membershipAmount)
+        errors.membershipAmount = "Field required";
+      if (!clientData.membershipPeriod)
+        errors.membershipPeriod = "Field required";
+      if (!clientData.membershipStartingDate)
+        errors.membershipStartingDate = "Field required";
+      if (!clientData.membershipAmount)
+        errors.membershipAmount = "Field required";
+      if (!clientData.ptFees) errors.ptFees = "Field required";
+      if (!clientData.ptMembershipPeriod)
+        errors.ptMembershipPeriod = "Field required";
+      if (!clientData.ptAssignedTo) errors.ptAssignedTo = "Field required";
+      if (!clientData.ptStartingDate) errors.ptStartingDate = "Field required";
       // Additional validations for step 2
     } else if (currentStep === 3) {
-      // Example validations for step 3 (add your fields and rules)
-      if (!clientData.joiningDate) errors.joiningDate = 'Joining Date is required';
+      if (!clientData.amountPaid) errors.amountPaid = "Field required";
+      if (!clientData.amountRemaining)
+        errors.amountRemaining = "Field required";
+      if (!clientData.paymentMode) errors.paymentMode = "Field required";
+      if (!clientData.transactionDate)
+        errors.transactionDate = "Field required";
+      if (!clientData.transactionId) errors.transactionId = "Field required";
+      if (!clientData.dueDate) errors.dueDate = "Field required";
       // Additional validations for step 3
     }
 
-    // setValidationErrors(errors);
+    setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
   // const handleSubmit = (e) => {
@@ -96,24 +128,26 @@ function AddMembers() {
   //   // Submit the client data to the backend
   // };
 
-
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
-    widgetRef.current = cloudinaryRef.current.createUploadWidget({
-      cloudName: CLOUD_NAME,
-      uploadPreset: UPLOAD_PRESENT,
-      multiple: true
-    },
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: CLOUD_NAME,
+        uploadPreset: UPLOAD_PRESENT,
+        multiple: true,
+      },
       (err, result) => {
         if (result.event === "success") {
-          toast.success("Image uploaded Successfully")
+          toast.success("Image uploaded Successfully");
           // console.log("Done! Here is the image info: ", result.info);
+
           setImageURL(result.info.secure_url);
         }
-      });
+      }
+    );
   }, []);
 
   //profile box image
@@ -128,29 +162,42 @@ function AddMembers() {
     const { name, value, type, files } = e.target;
     setClientData({
       ...clientData,
-      [name]: type === 'file' ? files[0] : value,
+      [name]: type === "file" ? files[0] : value,
     });
   };
 
   const handleNext = (e) => {
     e.preventDefault();
+    validateStep();
     if (currentStep === 1) {
-      if (!clientData.fname || !clientData.lname || !clientData.email || !clientData.contactNumber) {
+      if (
+        !clientData.fname ||
+        !clientData.lname ||
+        !clientData.email ||
+        !clientData.contactNumber
+      ) {
         // console.log(clientData);
         toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
-
     } else if (currentStep === 2) {
-      if (!clientData.registrationFees || !clientData.membershipAmount || !clientData.membershipPeriod) {
+      if (
+        !clientData.registrationFees ||
+        !clientData.membershipAmount ||
+        !clientData.idProofType ||
+        !clientData.membershipPeriod
+      ) {
         toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
-
     } else if (currentStep === 3) {
-      if (!clientData.amountPaid || !clientData.amountRemaining || !clientData.paymentMode) {
+      if (
+        !clientData.amountPaid ||
+        !clientData.amountRemaining ||
+        !clientData.paymentMode
+      ) {
         // toast.error("Please fill out all required fields.");
         return;
       }
@@ -168,28 +215,34 @@ function AddMembers() {
     e.preventDefault();
     const postData = {
       ...clientData,
-      picUrl: imageURL
+      picUrl: imageURL,
     };
 
     try {
-      const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/create-client", postData, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await axios.post(
+        process.env.REACT_APP_SERVER_URL + "/user/create-client",
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
-      toast.success("Client added Successfully")
+      );
+      toast.success("Client added Successfully");
       // console.log('Client created successfully:', response.data);
       setCurrentStep(1);
       resetClientData();
     } catch (error) {
       toast.error("Client can't be Added now. Please Try again later!!");
-      console.error('Error creating client:', error);
+      console.error("Error creating client:", error);
     }
     // Handle form submission, e.g., send clientData to the server
-    // console.log('Form submitted:', clientData);
   };
 
-  let { userAuth: { token }, staffData } = useContext(UserContext);
+  let {
+    userAuth: { token },
+    staffData,
+  } = useContext(UserContext);
 
   return (
     <div className="container">
@@ -200,11 +253,10 @@ function AddMembers() {
       </div>
 
       <div className="card mb-4">
-
         {currentStep === 1 && (
           <>
-            <div className="card-header border-top border-bottom">
-              <p className="text-center mb-0">Personal Details</p>
+            <div className="card-header borderBottom-top borderBottom-bottom">
+              <h5 className="text-center mb-0">Personal Details</h5>
             </div>
             <div className="w-100 d-flex justify-content-center">
               <div className="row w-100">
@@ -219,10 +271,27 @@ function AddMembers() {
                             name="fname"
                             className="form-control"
                             value={clientData.fname}
-                            placeholder="Enter First Name"
-                          // disabled
+                            placeholder={
+                              validationErrors.fname
+                                ? `First name is required !!`
+                                : "Enter First Name"
+                            }
+                            style={{
+                              borderBottom: validationErrors.fname
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.fname
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
-                          {/* <span className="text-muted">*previous client id: 1601</span> */}
+                          <style>
+                            {`
+  .form-control::placeholder {
+    color: var(--placeholder-color);
+  }
+`}
+                          </style>
                         </div>
 
                         <div className="mb-2 col-lg-6">
@@ -232,9 +301,27 @@ function AddMembers() {
                             className="form-control"
                             name="lname"
                             value={clientData.lname}
-                            placeholder="Enter Last Name"
-                          // required
+                            placeholder={
+                              validationErrors.lname
+                                ? `Last name is required!!`
+                                : "Enter Last Name"
+                            }
+                            style={{
+                              borderBottom: validationErrors.lname
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.lname
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
+                          <style>
+                            {`
+.form-control::placeholder {
+  color: var(--placeholder-color);
+  }
+  `}
+                          </style>
                         </div>
 
                         <div className="mb-2 col-lg-6">
@@ -244,14 +331,28 @@ function AddMembers() {
                             name="email"
                             value={clientData.email}
                             className="form-control"
-                            placeholder="Enter Email"
-                          // required
+                            placeholder={
+                              validationErrors.email
+                                ? `Email ID required !!`
+                                : "Enter Email ID"
+                            }
+                            style={{
+                              borderBottom: validationErrors.email
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.email
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
                         </div>
 
                         <div className="mb-2 flex-column col-lg-6">
                           <div className="input-group">
-                            <span className="input-group-text" id="basic-addon1">
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
                               +91
                             </span>
                             <input
@@ -260,10 +361,23 @@ function AddMembers() {
                               name="contactNumber"
                               value={clientData.contactNumber}
                               className="form-control"
-                              placeholder="Contact Number"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            // required
+                              // required
+                              placeholder={
+                                validationErrors.contactNumber
+                                  ? `Contact Number Invalid...`
+                                  : "Enter Contact Number"
+                              }
+                              style={{
+                                borderBottom: validationErrors.contactNumber
+                                  ? "2px inset red"
+                                  : "2px solid #ced4da",
+                                "--placeholder-color":
+                                  validationErrors.contactNumber
+                                    ? "red"
+                                    : "#6c757d",
+                              }}
                             />
                           </div>
                         </div>
@@ -271,12 +385,25 @@ function AddMembers() {
                         <div className="mb-2 col-12">
                           <input
                             type="text"
-                            onChange={handleChange} name="address1"
+                            onChange={handleChange}
+                            name="address1"
                             value={clientData.address1}
                             className="form-control"
                             id="inputAddress2"
-                            placeholder="Apartment, studio, or floor"
-                          // required
+                            // required
+                            placeholder={
+                              validationErrors.address1
+                                ? `Field required...`
+                                : "Apartment, studio, or floor"
+                            }
+                            style={{
+                              borderBottom: validationErrors.address1
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.address1
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
                         </div>
                         <div className="mb-2 col-md-6">
@@ -287,21 +414,58 @@ function AddMembers() {
                             value={clientData.city}
                             className="form-control"
                             id="inputCity"
-                            placeholder="City"
-                          // required
+                            // required
+                            placeholder={
+                              validationErrors.city
+                                ? `City input required !!`
+                                : "Enter city"
+                            }
+                            style={{
+                              borderBottom: validationErrors.city
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.city
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
                         </div>
                         <div className="mb-2 col-md-4">
-                          <select id="inputState" name="state" onChange={handleChange} value={clientData.state} className="form-select"
-                          // required
+                          <select
+                            id="inputState"
+                            name="state"
+                            onChange={handleChange}
+                            value={clientData.state}
+                            className="form-select"
+                            style={{
+                              borderBottom: validationErrors.state
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                            }}
                           >
-                            <option selected>State</option>
-                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option
+                              value=""
+                              disabled
+                              selected={!clientData.state}
+                              style={{
+                                color: validationErrors.state
+                                  ? "red"
+                                  : "#6c757d",
+                              }}
+                            >
+                              {validationErrors.state
+                                ? "State input required!!"
+                                : "State"}
+                            </option>
+                            <option value="Madhya Pradesh">
+                              Madhya Pradesh
+                            </option>
                             <option value="Telangana">Telangana</option>
                             <option value="Uttar Pradesh">Uttar Pradesh</option>
                             <option value="Maharashtra">Maharashtra</option>
                           </select>
                         </div>
+
                         <div className="mb-2 col-md-2">
                           <input
                             type="text"
@@ -310,8 +474,20 @@ function AddMembers() {
                             value={clientData.zip}
                             className="form-control"
                             id="inputZip"
-                            placeholder="Pincode"
-                          // required
+                            // required
+                            placeholder={
+                              validationErrors.zip
+                                ? `pincode requi...`
+                                : "Pincode"
+                            }
+                            style={{
+                              borderBottom: validationErrors.zip
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.zip
+                                ? "red"
+                                : "#6c757d",
+                            }}
                           />
                         </div>
 
@@ -325,10 +501,13 @@ function AddMembers() {
                                 name="gender"
                                 id="gridRadios1"
                                 value="Male"
-                                checked={clientData.gender === 'Male'}
+                                checked={clientData.gender === "Male"}
                                 onChange={handleChange}
                               />
-                              <label className="form-check-label" htmlFor="gridRadios1">
+                              <label
+                                className="form-check-label"
+                                htmlFor="gridRadios1"
+                              >
                                 Male
                               </label>
                             </div>
@@ -339,20 +518,22 @@ function AddMembers() {
                                 name="gender"
                                 id="gridRadios2"
                                 value="Female"
-                                checked={clientData.gender === 'Female'}
+                                checked={clientData.gender === "Female"}
                                 onChange={handleChange}
                               />
-                              <label className="form-check-label" htmlFor="gridRadios2">
+                              <label
+                                className="form-check-label"
+                                htmlFor="gridRadios2"
+                              >
                                 Female
                               </label>
                             </div>
-
                           </div>
                         </div>
 
-                        <div className="col-6">
+                        <div className="col-6 d-flex flex-column">
                           <label>Joining Date</label>
-                          <input
+                          {/* <input
                             type="date"
                             onChange={handleChange}
                             name="joiningDate"
@@ -360,13 +541,66 @@ function AddMembers() {
                             className="form-control"
                             placeholder="Enter Address"
                           // required
+                            style={{
+                              borderBottom: validationErrors.joiningDate
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color": validationErrors.joiningDate
+                                ? "red"
+                                : "#6c757d",
+                            }} */}
+                          <ReactDatePicker
+                            // selected={enquiryData.lastFollowUpOn}
+                            selected={clientData.joiningDate}
+                            onChange={handleChange}
+                            name="joiningDate"
+                            // showTimeSelect
+                            // timeFormat="HH:mm"
+                            // timeIntervals={15}
+                            dateFormat="MMMM d, yyyy"
+                            className="form-control"
                           />
                         </div>
                         <div className="col-12">
                           <label>ID Proof Details</label>
-                          <div className="mb-2 input-group d-flex flex-row">
-                            <select id="idProofType" onChange={handleChange} value={clientData.idProofType} name="idProofType" className="form-select custom-col-3">
-                              <option selected>Select</option>
+                          <div
+                            className="mb-2 input-group d-flex flex-row"
+                            style={{
+                              borderBottom: validationErrors.idProofNumber
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color":
+                                validationErrors.idProofNumber
+                                  ? "red"
+                                  : "#6c757d",
+                            }}
+                          >
+                            <select
+                              id="idProofType"
+                              onChange={handleChange}
+                              value={clientData.idProofType}
+                              name="idProofType"
+                              className="form-select custom-col-3"
+                              style={{
+                                borderBottom: validationErrors.idProofType
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                              }}
+                            >
+                              <option
+                                value=""
+                                disabled
+                                selected={!clientData.idProofType}
+                                style={{
+                                  color: validationErrors.idProofType
+                                    ? "red"
+                                    : "#6c757d",
+                                }}
+                              >
+                                {validationErrors.idProofType
+                                  ? "Please select!!!"
+                                  : "Select"}
+                              </option>
                               <option value="adhar">Adhar Card</option>
                               <option value="pan">PAN Card</option>
                               <option value="license">License</option>
@@ -380,20 +614,74 @@ function AddMembers() {
                               value={clientData.idProofNumber}
                               name="idProofNumber"
                               id="idProof"
-                              placeholder="id proof number"
+                              placeholder={
+                                validationErrors.idProofNumber
+                                  ? "ID proof required..."
+                                  : "ID proof number"
+                              }
                             />
                           </div>
                         </div>
-
+                        <div className="mb-2 col-6">
+                          <label htmlFor="idProofFront" className="form-label">
+                            ID Proof Front
+                          </label>
+                          <input
+                            className="form-control"
+                            type="file"
+                            name="idProofFront"
+                            id="idProofFront"
+                            onChange={handleChange}
+                            value={clientData.idProofFront}
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            // required
+                            style={{
+                              borderBottom: validationErrors.idProofFront
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color":
+                                validationErrors.idProofFront
+                                  ? "red"
+                                  : "#6c757d",
+                            }}
+                          />
+                        </div>
+                        <div className="mb-2 col-6">
+                          <label htmlFor="idProofBack" className="form-label">
+                            ID Proof Back
+                          </label>
+                          <input
+                            className="form-control"
+                            type="file"
+                            name="idProofBack"
+                            id="idProofBack"
+                            style={{
+                              borderBottom: validationErrors.idProofBack
+                                ? "2px inset red"
+                                : "1px solid #ced4da",
+                              "--placeholder-color":
+                                validationErrors.idProofBack
+                                  ? "red"
+                                  : "#6c757d",
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
-
                     <div className="pic-box col-4">
-                      <div className="card p-2 w-100 h-100 align-items-center justify-content-center" onClick={() => widgetRef.current.open()}>
+                      <div
+                        className="card p-2 w-100 h-100 align-items-center justify-content-center"
+                        onClick={() => widgetRef.current.open()}
+                      >
                         <div className="icon-container">
                           {imageURL ? (
-                            <img src={imageURL} alt="" className="p-1 w-100 h-100" />
+                            <img
+                              src={imageURL}
+                              alt=""
+                              className="p-1 w-100 h-100"
+                            />
                           ) : (
                             <>
                               <img
@@ -409,7 +697,9 @@ function AddMembers() {
 
                     <div className="p-0 border-bottom">
                       <div className="border-top border-bottom ">
-                        <p className="text-center mt-3 mb-2">Emergency Contact Details</p>
+                        <h5 className="text-center mt-3 mb-2 ">
+                          Emergency Contact Details
+                        </h5>
                       </div>
                       <form className="d-flex flex-column justify-content-center align-items-center w-100">
                         <div className="row w-100 mt-2">
@@ -421,13 +711,30 @@ function AddMembers() {
                               name="emergencyContactName"
                               value={clientData.emergencyContactName}
                               className="form-control"
-                              placeholder="Name"
+                              placeholder={
+                                validationErrors.emergencyContactName
+                                  ? `This field is required!!`
+                                  : "Enter emergency name"
+                              }
+                              style={{
+                                borderBottom:
+                                  validationErrors.emergencyContactName
+                                    ? "2px inset red"
+                                    : "1px solid #ced4da",
+                                "--placeholder-color":
+                                  validationErrors.emergencyContactName
+                                    ? "red"
+                                    : "#6c757d",
+                              }}
                             />
                           </div>
                           <div className="flex-column col-lg-6">
                             <label>Contact</label>
                             <div className="input-group">
-                              <span className="input-group-text" id="basic-addon1">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
                                 +91
                               </span>
                               <input
@@ -436,14 +743,27 @@ function AddMembers() {
                                 name="emergencyContactNumber"
                                 onChange={handleChange}
                                 value={clientData.emergencyContactNumber}
-                                placeholder="Contact Number"
+                                placeholder={
+                                  validationErrors.emergencyContactNumber
+                                    ? `This field is required!!`
+                                    : "Enter emergency number"
+                                }
+                                style={{
+                                  borderBottom:
+                                    validationErrors.emergencyContactNumber
+                                      ? "2px inset red"
+                                      : "1px solid #ced4da",
+                                  "--placeholder-color":
+                                    validationErrors.emergencyContactNumber
+                                      ? "red"
+                                      : "#6c757d",
+                                }}
                               />
                             </div>
                           </div>
                         </div>
                       </form>
                     </div>
-
                   </div>
                 </form>
               </div>
@@ -453,13 +773,13 @@ function AddMembers() {
 
         {currentStep === 2 && (
           <>
-            <div className="card-header border-top border-bottom">
-              <p className="text-center mb-0">Membership Details</p>
+            <div className="card-header borderBottom-top borderBottom-bottom">
+              <h5 className="text-center mb-0">Membership Details</h5>
             </div>
             <div className="w-100 d-flex justify-content-center">
               {/* Add Membership Details Step */}
               {/* <div className="card text-left mb-4">
-                <div className="card-header border-top border-bottom">
+                <div className="card-header borderBottom-top borderBottom-bottom">
                   <p className="text-center mb-0">Add Membership Details</p>
                 </div> */}
               <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
@@ -473,10 +793,23 @@ function AddMembers() {
                       <input
                         type="number"
                         className="form-control"
-                        placeholder="00.00"
                         name="registrationFees"
                         onChange={handleChange}
                         value={clientData.registrationFees}
+                        placeholder={
+                          validationErrors.registrationFees
+                            ? `Enter the amount!!`
+                            : "00.00"
+                        }
+                        style={{
+                          borderBottom: validationErrors.registrationFees
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color":
+                            validationErrors.registrationFees
+                              ? "red"
+                              : "#6c757d",
+                        }}
                       />
                     </div>
                   </div>
@@ -489,16 +822,43 @@ function AddMembers() {
                       <input
                         type="number"
                         className="form-control"
-                        placeholder="00.00"
                         name="membershipAmount"
                         onChange={handleChange}
                         value={clientData.membershipAmount}
+                        placeholder={
+                          validationErrors.membershipAmount
+                            ? `Enter the amount!!`
+                            : "00.00"
+                        }
+                        style={{
+                          borderBottom: validationErrors.membershipAmount
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color":
+                            validationErrors.membershipAmount
+                              ? "red"
+                              : "#6c757d",
+                        }}
                       />
                     </div>
                   </div>
                   <div className="mb-2 col-4">
                     <label>Membership Period</label>
-                    <select id="membershipPeriod" name="membershipPeriod" onChange={handleChange} value={clientData.membershipPeriod} className="form-select">
+                    <select
+                      id="membershipPeriod"
+                      name="membershipPeriod"
+                      onChange={handleChange}
+                      value={clientData.membershipPeriod}
+                      className="form-select"
+                      style={{
+                        borderBottom: validationErrors.membershipPeriod
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color": validationErrors.membershipPeriod
+                          ? "red"
+                          : "#6c757d",
+                      }}
+                    >
                       <option selected>Select</option>
                       <option value="monthly">One Month</option>
                       <option value="twomonths">Two Months</option>
@@ -516,6 +876,15 @@ function AddMembers() {
                       name="membershipStartingDate"
                       value={clientData.membershipStartingDate}
                       className="form-control"
+                      style={{
+                        borderBottom: validationErrors.membershipStartingDate
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color":
+                          validationErrors.membershipStartingDate
+                            ? "red"
+                            : "#6c757d",
+                      }}
                     />
                   </div>
                   <div className="col-4 d-flex align-items-center justify-content-start">
@@ -542,7 +911,7 @@ function AddMembers() {
                   </div>
                   {isVisible && (
                     <div className="card p-0 text-left">
-                      <div className="card-header border-top border-bottom">
+                      <div className="card-header borderBottom-top borderBottom-bottom">
                         <p className="text-center mb-0">PT Details</p>
                       </div>
                       <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
@@ -550,22 +919,53 @@ function AddMembers() {
                           <div className="mb-2 col-lg-6">
                             <label>PT fees</label>
                             <div className="input-group">
-                              <span className="input-group-text" id="basic-addon1">
+                              <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                              >
                                 INR
                               </span>
                               <input
                                 type="text"
                                 className="form-control"
-                                placeholder="00.00"
                                 name="ptFees"
                                 onChange={handleChange}
                                 value={clientData.ptFees}
+                                placeholder={
+                                  validationErrors.ptFees
+                                    ? `This field is required!!`
+                                    : "00.00"
+                                }
+                                style={{
+                                  borderBottom: validationErrors.ptFees
+                                    ? "2px inset red"
+                                    : "1px solid #ced4da",
+                                  "--placeholder-color": validationErrors.ptFees
+                                    ? "red"
+                                    : "#6c757d",
+                                }}
                               />
                             </div>
                           </div>
                           <div className="mb-2 col-lg-6">
                             <label>Membership Period</label>
-                            <select id="ptMembershipPeriod" onChange={handleChange} name="ptMembershipPeriod" value={clientData.ptMembershipPeriod} className="form-select">
+                            <select
+                              id="ptMembershipPeriod"
+                              onChange={handleChange}
+                              name="ptMembershipPeriod"
+                              value={clientData.ptMembershipPeriod}
+                              className="form-select"
+                              style={{
+                                borderBottom:
+                                  validationErrors.ptMembershipPeriod
+                                    ? "2px inset red"
+                                    : "1px solid #ced4da",
+                                "--placeholder-color":
+                                  validationErrors.ptMembershipPeriod
+                                    ? "red"
+                                    : "#6c757d",
+                              }}
+                            >
                               <option selected>Select</option>
                               <option value="monthly">One Month</option>
                               <option value="twomonths">Two Months</option>
@@ -576,10 +976,27 @@ function AddMembers() {
                           </div>
                           <div className="mb-2 col-lg-6">
                             <label>PT Assigned to</label>
-                            <select id="ptAssignedTo" name="ptAssignedTo" onChange={handleChange} value={clientData.ptAssignedTo} className="form-select">
+                            <select
+                              id="ptAssignedTo"
+                              name="ptAssignedTo"
+                              onChange={handleChange}
+                              value={clientData.ptAssignedTo}
+                              className="form-select"
+                              style={{
+                                borderBottom: validationErrors.ptAssignedTo
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                                "--placeholder-color":
+                                  validationErrors.ptAssignedTo
+                                    ? "red"
+                                    : "#6c757d",
+                              }}
+                            >
                               <option selected>Select Staff</option>
                               {staffData.map((staff, index) => (
-                                <option key={index} value={staff._id}>{staff.name}</option>
+                                <option key={index} value={staff._id}>
+                                  {staff.name}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -591,6 +1008,15 @@ function AddMembers() {
                               name="ptStartingDate"
                               value={clientData.ptStartingDate}
                               className="form-control"
+                              style={{
+                                borderBottom: validationErrors.ptStartingDate
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                                "--placeholder-color":
+                                  validationErrors.ptStartingDate
+                                    ? "red"
+                                    : "#6c757d",
+                              }}
                             />
                           </div>
                         </div>
@@ -601,11 +1027,11 @@ function AddMembers() {
               </form>
             </div>
             <div className="card-header border-top border-bottom">
-              <p className="text-center mb-0">Payment Details</p>
+              <h5 className="text-center mb-0">Payment Details</h5>
             </div>
             <div className="w-100 d-flex justify-content-center">
               {/* <div className="card text-left mb-2">
-                <div className="card-header border-top border-bottom">
+                <div className="card-header borderBottom-top borderBottom-bottom">
                   <p className="text-center mb-0">Add Payment Details</p>
                 </div> */}
               <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
@@ -619,11 +1045,23 @@ function AddMembers() {
                       <input
                         type="number"
                         className="form-control"
-                        placeholder="00.00"
                         onChange={handleChange}
                         name="amountPaid"
                         value={clientData.amountPaid}
-                      // required
+                        // required
+                        placeholder={
+                          validationErrors.amountPaid
+                            ? `Enter the amount !!`
+                            : "00.00"
+                        }
+                        style={{
+                          borderBottom: validationErrors.amountPaid
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.amountPaid
+                            ? "red"
+                            : "#6c757d",
+                        }}
                       />
                     </div>
                   </div>
@@ -636,17 +1074,44 @@ function AddMembers() {
                       <input
                         type="number"
                         className="form-control"
-                        placeholder="00.00"
                         onChange={handleChange}
                         name="amountRemaining"
                         value={clientData.amountRemaining}
+                        placeholder={
+                          validationErrors.amountRemaining
+                            ? `Enter the amount !!`
+                            : "00.00"
+                        }
+                        style={{
+                          borderBottom: validationErrors.amountRemaining
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color":
+                            validationErrors.amountRemaining
+                              ? "red"
+                              : "#6c757d",
+                        }}
                       />
                     </div>
                   </div>
                   <div className="mb-2 col-lg-4">
                     <label>Mode of Payment</label>
-                    <select id="paymentMode" name="paymentMode" onChange={handleChange} value={clientData.paymentMode} className="form-select"
-                    // required
+
+                    <select
+                      id="paymentMode"
+                      name="paymentMode"
+                      onChange={handleChange}
+                      value={clientData.paymentMode}
+                      className="form-select"
+                      // required
+                      style={{
+                        borderBottom: validationErrors.paymentMode
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color": validationErrors.paymentMode
+                          ? "red"
+                          : "#6c757d",
+                      }}
                     >
                       <option selected>Select</option>
                       <option value="online">ONLINE</option>
@@ -664,6 +1129,14 @@ function AddMembers() {
                       name="transactionDate"
                       value={clientData.transactionDate}
                       className="form-control"
+                      style={{
+                        borderBottom: validationErrors.transactionDate
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color": validationErrors.transactionDate
+                          ? "red"
+                          : "#6c757d",
+                      }}
                     />
                   </div>
                   <div className="mb-2 col-4">
@@ -674,7 +1147,19 @@ function AddMembers() {
                       value={clientData.transactionId}
                       onChange={handleChange}
                       name="transactionId"
-                      placeholder="Enter transaction id"
+                      placeholder={
+                        validationErrors.transactionId
+                          ? `Please enter the ID...`
+                          : "Enter transaction ID"
+                      }
+                      style={{
+                        borderBottom: validationErrors.transactionId
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color": validationErrors.transactionId
+                          ? "red"
+                          : "#6c757d",
+                      }}
                     />
                   </div>
                   {parseFloat(clientData.amountRemaining) > 0 && (
@@ -686,7 +1171,15 @@ function AddMembers() {
                         name="dueDate"
                         value={clientData.dueDate}
                         className="form-control"
-                      // disabled={parseFloat(clientData.amountRemaining) <= 0}
+                        // disabled={parseFloat(clientData.amountRemaining) <= 0}
+                        style={{
+                          borderBottom: validationErrors.dueDate
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.dueDate
+                            ? "red"
+                            : "#6c757d",
+                        }}
                       />
                     </div>
                   )}
@@ -694,30 +1187,45 @@ function AddMembers() {
               </form>
             </div>
           </>
-
         )}
 
         <div className="w-100 h-100 mb-2">
           <Row>
             <Col md={6} className="d-flex justify-content-center">
               {currentStep > 1 && (
-                <button type="button" className="btn btn-secondary w-100 me-4 ms-4" onClick={handlePrev}>Previous</button>
+                <button
+                  type="button"
+                  className="btn btn-secondary w-100 me-4 ms-4"
+                  onClick={handlePrev}
+                >
+                  Previous
+                </button>
               )}
             </Col>
             <Col md={6} className="d-flex justify-content-center">
               {currentStep < 2 ? (
-                <button type="button" className="btn btn-primary w-100 me-4" onClick={handleNext}>Next</button>
+                <button
+                  type="button"
+                  className="btn btn-primary w-100 me-4"
+                  onClick={handleNext}
+                >
+                  Next
+                </button>
               ) : (
-                <button type="submit" className="btn btn-primary w-100 me-4" onClick={handleSubmit}>Submit</button>
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100 me-4"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
               )}
             </Col>
           </Row>
         </div>
       </div>
-
     </div>
   );
-
 }
 
 export default AddMembers;

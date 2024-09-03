@@ -6,6 +6,24 @@ import { UserContext } from "../../App";
 import toast from "react-hot-toast";
 
 function AddEnquiry() {
+
+    const[validationErrors, setValidationErrors] = useState({});
+    const validateStep = () => {
+        const errors = {};
+
+        if(!enquiryData.visitorName) errors.visitorName = "Please enter name";
+        if(!enquiryData.value) errors.value = "Please enter name";
+        if(!enquiryData.source) errors.source = "Please enter name";
+        if(!enquiryData.enquiredFor) errors.enquiredFor = "Please enter name";
+        if(!enquiryData.interestedOn) errors.interestedOn = "Please enter name";
+        if(!enquiryData.attainedBy) errors.attainedBy = "Please enter name";
+        if(!enquiryData.email) errors.email = "Please enter name";
+        if(!enquiryData.address) errors.address = "Please enter name";
+
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    }
+
     const [enquiryData, setEnquiryData] = useState({
         visitorName: '',
         phone: '',
@@ -88,6 +106,8 @@ function AddEnquiry() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        validateStep();
+
         const postData = {
             ...enquiryData
         };
@@ -130,8 +150,28 @@ function AddEnquiry() {
                                 name="visitorName"
                                 value={enquiryData.visitorName}
                                 className="form-control"
-                                placeholder="Fullname"
-                                required />
+                                required  
+                                placeholder={
+                                    validationErrors.visitorName
+                                      ? `First name is required !!`
+                                      : "Full Name"
+                                  }
+                                  style={{
+                                    borderBottom: validationErrors.visitorName
+                                      ? "2px inset red"
+                                      : "1px solid #ced4da",
+                                    "--placeholder-color": validationErrors.visitorName
+                                      ? "red"
+                                      : "#6c757d",
+                                  }}
+                                />
+                                <style>
+                                  {`
+        .form-control::placeholder {
+          color: var(--placeholder-color);
+        }
+      `}
+                                </style>
                         </div>
                         <div className="mb-2 col-lg-6">
                             <label>Phone*</label>
@@ -145,13 +185,33 @@ function AddEnquiry() {
                                     name="phone"
                                     value={enquiryData.value}
                                     className="form-control"
-                                    placeholder="contact number"
+                                    placeholder={
+                                        validationErrors.value
+                                          ? `Contact number is required !!`
+                                          : "Contact number"
+                                      }
+                                      style={{
+                                        borderBottom: validationErrors.value
+                                          ? "2px inset red"
+                                          : "1px solid #ced4da",
+                                        "--placeholder-color": validationErrors.value
+                                          ? "red"
+                                          : "#6c757d",
+                                      }}
                                     required />
                             </div>
                         </div>
                         <div className="mb-2 col-lg-6">
                             <label>Source*</label>
-                            <select id="idProofType" className="form-select" onChange={handleChange} name="source" value={enquiryData.source} required>
+                            <select id="idProofType" className="form-select" onChange={handleChange} name="source" value={enquiryData.source}
+                              style={{
+                                borderBottom: validationErrors.source
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                                "--placeholder-color": validationErrors.source
+                                  ? "red"
+                                  : "#6c757d",
+                              }} required>
                                 <option selected>Select</option>
                                 <option value="walk-in">Walk In</option>
                                 <option value="social-media">Social Media</option>
@@ -221,7 +281,15 @@ function AddEnquiry() {
 
                         <div className="mb-2 col-lg-6">
                             <label>Interested On</label>
-                            <select id="idProofType" name="interestedOn" onChange={handleChange} value={enquiryData.interestedOn} className="form-select">
+                            <select id="idProofType" name="interestedOn" onChange={handleChange} value={enquiryData.interestedOn} className="form-select"
+                              style={{
+                                borderBottom: validationErrors.interestedOn
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                                "--placeholder-color": validationErrors.interestedOn
+                                  ? "red"
+                                  : "#6c757d",
+                              }}>
                                 <option selected>Select Package</option>
                                 <option value="monthly">Monthly Package</option>
                                 <option value="twomonths">Quaterly Package</option>
@@ -232,7 +300,15 @@ function AddEnquiry() {
                         </div>
                         <div className="mb-2 col-lg-6">
                             <label>Attain By</label>
-                            <select id="idProofType" name="attainedBy" value={enquiryData.attainedBy} onChange={handleChange} className="form-select">
+                            <select id="idProofType" name="attainedBy" value={enquiryData.attainedBy} onChange={handleChange} className="form-select"
+                              style={{
+                                borderBottom: validationErrors.attainedBy
+                                  ? "2px inset red"
+                                  : "1px solid #ced4da",
+                                "--placeholder-color": validationErrors.attainedBy
+                                  ? "red"
+                                  : "#6c757d",
+                              }}>
                                 <option selected>Select Staff</option>
                                 {staffData.map((staff, index) => (
                                     <option key={index} value={staff._id}>{staff.name}</option>
@@ -247,7 +323,19 @@ function AddEnquiry() {
                                 name="email"
                                 value={enquiryData.email}
                                 className="form-control"
-                                placeholder="asd123@gmail.com"
+                                placeholder={
+                                    validationErrors.email
+                                      ? `Email is required !!`
+                                      : "example@Email.com"
+                                  }
+                                  style={{
+                                    borderBottom: validationErrors.email
+                                      ? "2px inset red"
+                                      : "1px solid #ced4da",
+                                    "--placeholder-color": validationErrors.email
+                                      ? "red"
+                                      : "#6c757d",
+                                  }}
                             />
                         </div>
                         <div className="mb-2 col-lg-6">
@@ -258,7 +346,19 @@ function AddEnquiry() {
                                 name="address"
                                 value={enquiryData.address}
                                 className="form-control"
-                                placeholder="eg. 123, Colony, Hyderabad"
+                                placeholder={
+                                    validationErrors.address
+                                      ? `Address required !!`
+                                      : "eg. 123, colony, hyderabad..."
+                                  }
+                                  style={{
+                                    borderBottom: validationErrors.address
+                                      ? "2px inset red"
+                                      : "1px solid #ced4da",
+                                    "--placeholder-color": validationErrors.address
+                                      ? "red"
+                                      : "#6c757d",
+                                  }}
                             />
                         </div>
                         <div className="mb-2 col-lg-6">
