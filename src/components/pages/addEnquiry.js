@@ -119,7 +119,7 @@ function AddEnquiry() {
                 }
             });
             toast.success("Enquiry created successfully");
-            // console.log('Enquiry created successfully:', response.data);
+            window.location.reload();
             resetEnquiryData();
         } catch (error) {
             toast.error("Error creating enquiry");

@@ -372,9 +372,9 @@ function MemberDetails() {
 
   return (
     <div className="container-fluid">
-      <h1 className="userHeading mt-3 d-flex justify-content-center">
+      <h2 className="userHeading mt-3 d-flex justify-content-center">
         Member Info
-      </h1>
+      </h2>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-3">
@@ -1083,14 +1083,15 @@ function MemberDetails() {
                 {userData?.contact}
               </label>
               <label className="userLabel text-lg-center text-body-tertiary">
+                {userData?.address.areaDetails}
+              </label>
+              <label className="userLabel text-lg-center text-body-tertiary">
                 {userData?.address.city}, {userData?.address.state}
               </label>
+              <label className="userLabel text-lg-center text-body-tertiary">
+                {userData?.address.pincode}
+              </label>
               <div className="card mt-5 h-100 shadow p-3">
-                <div>
-                  <label className="headLabel">Client ID</label>
-                  <label className="smallLabel">{userData?.id}</label>
-                </div>
-                <hr />
                 <div>
                   <label className="headLabel">Email ID</label>
                   <label className="smallLabel">{userData?.email}</label>

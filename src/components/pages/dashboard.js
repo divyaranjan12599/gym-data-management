@@ -21,7 +21,6 @@ function Dashboard() {
                 sortable: false,
                 filterable: false,
             },
-            { field: "id", headerName: "Client ID", flex:  1},
             { field: "name", headerName: "Name", flex: 1 },
             { field: "email", headerName: "Email ID", flex:    1 },
             { field: "phone", headerName: "Phone Number", flex:    1 },
@@ -47,7 +46,7 @@ function Dashboard() {
     );
 
     const memRows = membershipData.map((membership, index) => ({
-        id: membership?.membershipBy?.id || "N/A",
+        id: index,
         name: membership?.membershipBy?.name || "N/A",
         phone: membership?.membershipBy?.contact || "N/A",
         email: membership?.membershipBy?.email || "N/A",
@@ -102,7 +101,6 @@ function Dashboard() {
                 sortable: false,
                 filterable: false,
             },
-            { field: "id", headerName: "Client ID", flex:  1},
             { field: "name", headerName: "Name", flex: 1 },
             { field: "phone", headerName: "Phone Number", flex:    1 },
             { field: "email", headerName: "Email", flex:   1 },
@@ -117,7 +115,7 @@ function Dashboard() {
     );
 
     const enqRows = enquiryData?.map((enquiry, index) => ({
-        id: enquiry?.id || "N/A",
+        id: index,
         name: enquiry?.name || "N/A",
         phone: enquiry?.contact || "N/A",
         email: enquiry?.email || "N/A",
@@ -157,7 +155,6 @@ function Dashboard() {
                 sortable: false,
                 filterable: false,
             },
-            { field: "id", headerName: "Client ID", flex:  1},
             { field: "name", headerName: "Name", flex: 1 },
             { field: "email", headerName: "Email ID", flex:    1 },
             { field: "phone", headerName: "Phone Number", flex:    1 },
@@ -185,7 +182,7 @@ function Dashboard() {
     );
 
     const payRows = paymentData?.map((payment, index) => ({
-        id: payment?.amountPaidBy?.id || "N/A",
+        id: index,
         name: payment?.amountPaidBy?.name || "N/A",
         phone: payment?.amountPaidBy?.contact || "N/A",
         email: payment?.amountPaidBy?.email || "N/A",
@@ -217,38 +214,8 @@ function Dashboard() {
     });
 
     return (
-        <div className="container mt-2">
+        <div className="container-fluid mt-2">
             <div class="row justify-content-around">
-                <div className="col-6">
-                    <div className="card mb-2 text-center">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary"><FontAwesomeIcon icon={faMessage} />Send Message</a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            2 days ago
-                        </div>
-                    </div>
-                </div>
-                <div className="col-6">
-                    <div className="card mb-2 text-center">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary"><FontAwesomeIcon icon={faMessage} />Send Message</a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            2 days ago
-                        </div>
-                    </div>
-                </div>
                 <div className="col-12">
                     <div className="card mb-2 text-center">
                         <h3>Payment Reminders</h3>

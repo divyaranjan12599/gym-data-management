@@ -50,9 +50,6 @@ const initialClientState = {
 };
 
 function AddMembers() {
-  // const [currentStep, setCurrentStep] = useState(1);
-  // cloudinary setup
-
   const [imageURL, setImageURL] = useState(null);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
@@ -122,11 +119,6 @@ function AddMembers() {
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // console.log(client);
-  //   // Submit the client data to the backend
-  // };
 
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
   const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
@@ -138,6 +130,7 @@ function AddMembers() {
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESENT,
         multiple: true,
+        folder: "GDMTool"
       },
       (err, result) => {
         if (result.event === "success") {
@@ -176,11 +169,9 @@ function AddMembers() {
         !clientData.email ||
         !clientData.contactNumber
       ) {
-        // console.log(clientData);
         toast.error("Please fill out all required fields.");
         return;
       }
-      // Additional validations can be added here
     } else if (currentStep === 2) {
       if (
         !clientData.registrationFees ||
@@ -228,8 +219,8 @@ function AddMembers() {
           },
         }
       );
-      toast.success("Client added Successfully");
-      // console.log('Client created successfully:', response.data);
+      toast.success("Client added Successfully")
+      window.location.reload();
       setCurrentStep(1);
       resetClientData();
     } catch (error) {

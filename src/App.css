@@ -122,6 +122,15 @@ h2 {
   margin-bottom: 2px !important;
 }
 
+.forgot-password-link {
+  text-decoration: none !important; /* No underline by default */
+  /* color: #007bff; Bootstrap primary color */
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline !important; /* Underline on hover */
+}
+
 .dropdown-item:active {
   background-color: #a16cb1 !important;
   color: white !important;
