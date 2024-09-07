@@ -154,9 +154,27 @@ function App() {
     }
   }
 
+  const checkJWT = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-staffs",
+        {
+          headers: {
+            Authorization: `Bearer ${userAuth?.token}`
+          }
+        }
+      );
+      console.log("staff", response.data);
+      setStaffData(response.data);
+    } catch (error) {
+      console.log(error);
+      setStaffData([]);
+    }
+  }
+
   console.log(clientData)
 
   useEffect(() => {
+    
     if (userAuth.token) {
       fetchClientMembershipData();
       fetchPtMembershipData();
