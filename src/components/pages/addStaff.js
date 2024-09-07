@@ -19,7 +19,7 @@ const initialStaffState = {
   state: "",
   zip: "",
   gender: "",
-  joiningDate: "",
+  joiningDate: new Date().toLocaleDateString(),
   idProofType: "",
   idProofNumber: "",
   idProofFront: null,
@@ -79,12 +79,22 @@ function AddStaffs() {
   });
 
   const handleChange = (e) => {
+    console.log(e);
+    
     const { name, value, type, files } = e.target;
     setStaffData({
       ...staffData,
       [name]: type === "file" ? files[0] : value,
     });
   };
+
+  const joiningDateChange = (date) => {
+    // setJoiningDate(date);
+    setStaffData({
+        ...staffData,
+        "joiningDate": date
+    });
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -223,7 +233,7 @@ function AddStaffs() {
                     <ReactDatePicker
                       // selected={enquiryData.lastFollowUpOn}
                       selected={staffData.joiningDate}
-                      onChange={handleChange}
+                      onChange={joiningDateChange}
                       name="joiningDate"
                       // showTimeSelect
                       // timeFormat="HH:mm"

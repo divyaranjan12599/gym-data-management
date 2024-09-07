@@ -29,8 +29,8 @@ const initialClientState = {
   joiningDate: new Date().toLocaleDateString(),
   idProofType: "",
   idProofNumber: "",
-  idProofFront: null,
-  idProofBack: null,
+  // idProofFront: null,
+  // idProofBack: null,
   emergencyContactName: "",
   emergencyContactNumber: "",
   registrationFees: "",
@@ -38,8 +38,8 @@ const initialClientState = {
   membershipAmount: "",
   amountPaid: "",
   amountRemaining: "",
-  startingDate: new Date().toLocaleDateString(),
-  ptStartingDate: new Date().toLocaleDateString(),
+  startDate: new Date().toLocaleDateString(),
+  ptStartDate: new Date().toLocaleDateString(),
   dueDate: "",
   transactionDate: "",
   paymentMode: "online",
@@ -80,8 +80,6 @@ function AddMembers() {
       if (!clientData.state) errors.state = "State is required";
       if (!clientData.zip) errors.zip = "Pincode is required";
       if (!clientData.idProofNumber) errors.idProofNumber = "id proof required";
-      if (!clientData.idProofBack) errors.idProofBack = "id proof required";
-      if (!clientData.idProofFront) errors.idProofFront = "id proof required";
       if (!clientData.emergencyContactNumber)
         errors.emergencyContactNumber = "Number required";
       if (!clientData.emergencyContactName)
@@ -102,7 +100,7 @@ function AddMembers() {
       if (!clientData.ptMembershipPeriod)
         errors.ptMembershipPeriod = "Field required";
       if (!clientData.ptAssignedTo) errors.ptAssignedTo = "Field required";
-      if (!clientData.ptStartingDate) errors.ptStartingDate = "Field required";
+      if (!clientData.ptStartDate) errors.ptStartDate = "Field required";
       // Additional validations for step 2
     } else if (currentStep === 3) {
       if (!clientData.amountPaid) errors.amountPaid = "Field required";
@@ -613,7 +611,7 @@ function AddMembers() {
                             />
                           </div>
                         </div>
-                        <div className="mb-2 col-6">
+                        {/* <div className="mb-2 col-6">
                           <label htmlFor="idProofFront" className="form-label">
                             ID Proof Front
                           </label>
@@ -657,7 +655,7 @@ function AddMembers() {
                                   : "#6c757d",
                             }}
                           />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 
@@ -996,15 +994,15 @@ function AddMembers() {
                             <input
                               type="date"
                               onChange={handleChange}
-                              name="ptStartingDate"
-                              value={clientData.ptStartingDate}
+                              name="ptStartDate"
+                              value={clientData.ptStartDate}
                               className="form-control"
                               style={{
-                                borderBottom: validationErrors.ptStartingDate
+                                borderBottom: validationErrors.ptStartDate
                                   ? "2px inset red"
                                   : "1px solid #ced4da",
                                 "--placeholder-color":
-                                  validationErrors.ptStartingDate
+                                  validationErrors.ptStartDate
                                     ? "red"
                                     : "#6c757d",
                               }}

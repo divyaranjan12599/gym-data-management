@@ -44,7 +44,7 @@ function PtMembers() {
     ptby: membership.PTDetails.assignedTo.name || "N/A",
     phone: membership.membershipBy.contact || "N/A",
     ptDuration: membership.PTDetails.ptPeriod || "N/A",
-    startDate: membership.PTDetails.ptStartingDate || "N/A",
+    startDate: membership.PTDetails.ptStartDate || "N/A",
     endDate: membership.endDate || "N/A",
     amount: membership.PTDetails.ptfees || "N/A",
     photoURL: membership.membershipBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",

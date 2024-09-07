@@ -144,6 +144,11 @@ function Navbar(props) {
                       Add Enquiry
                     </Link>
                   </li>
+                  {true && (<li>
+                    <Link className={`dropdown-item ${location.pathname === '/add-expenses' ? 'active-dropdown' : ''}`} to="/add-expenses">
+                      Add Expenses
+                    </Link>
+                  </li>)}
                 </ul>
               </li>
               <li
@@ -165,16 +170,18 @@ function Navbar(props) {
                       PT Members
                     </Link>
                   </li>
-                  <li>
-                    <Link className={`dropdown-item ${location.pathname === '/recentMemberships' ? 'active-dropdown' : ''}`} to="/recentMemberships">
-                      Recent Memberships
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={`dropdown-item ${location.pathname === '/enquiries' ? 'active-dropdown' : ''}`} to="/enquiries">
-                      Enquiries
-                    </Link>
-                  </li>
+                  {true && (<>
+                    <li>
+                      <Link className={`dropdown-item ${location.pathname === '/expenses' ? 'active-dropdown' : ''}`} to="/expenses">
+                        Expenses
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={`dropdown-item ${location.pathname === '/revenue' ? 'active-dropdown' : ''}`} to="/revenue">
+                        Revenue
+                      </Link>
+                    </li>
+                  </>)}
                 </ul>
               </li>
             </ul>

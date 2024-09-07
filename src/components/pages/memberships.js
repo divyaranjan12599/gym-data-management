@@ -72,19 +72,19 @@ function Memberships() {
 
   const rows = membershipData
     .filter((membership) => {
-      const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
+      const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
       const currentDate = new Date();
       return new Date(endDate) > currentDate;
     })
     .map((membership) => {
-      const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
+      const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
       return {
         id: membership.membershipBy?._id || "N/A",
         name: membership.membershipBy?.name || "N/A",
         phone: membership.membershipBy?.contact || "N/A",
         email: membership.membershipBy?.email || "N/A",
         package: membership.membershipPeriod || "N/A",
-        startDate: membership.startingDate || "N/A",
+        startDate: membership.startDate || "N/A",
         endDate: endDate || "N/A",
         status: membership.status || "N/A",
         photoURL: membership.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",

@@ -203,7 +203,7 @@ function MemberDetails() {
     ptFees: '',
     ptMembershipPeriod: '',
     ptAssignedTo: '',
-    ptStartingDate: '',
+    ptStartDate: '',
     amountPaid: '',
     amountRemaining: '',
     paymentMode: '',
@@ -255,15 +255,15 @@ function MemberDetails() {
     const rows = (membershipData || [])
       .filter((membership) => membership.membershipBy?._id === userId)
       .map((membership, index) => {
-        const startingDate = new Date(membership?.startingDate);
-        const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
+        const startDate = new Date(membership?.startDate);
+        const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
         const currentDate = new Date();
         const status = new Date(endDate) < currentDate ? "Completed" : "Running";
 
         return {
           id: membership?._id || index, // Use index as a fallback unique id
           package: membership?.membershipPeriod || "N/A",
-          startDate: membership?.startingDate || "N/A",
+          startDate: membership?.startDate || "N/A",
           endDate: endDate || "N/A",
           status: status,
           photoURL:
@@ -439,8 +439,8 @@ function MemberDetails() {
                                 <input
                                   type="date"
                                   onChange={handlePtMemUpdateChange}
-                                  name="ptStartingDate"
-                                  value={ptmemUpdationformData.ptStartingDate}
+                                  name="ptStartDate"
+                                  value={ptmemUpdationformData.ptStartDate}
                                   className="form-control"
                                 />
                               </div>
