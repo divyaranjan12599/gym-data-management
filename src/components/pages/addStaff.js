@@ -62,6 +62,7 @@ function AddStaffs() {
 
   const [staffData, setStaffData] = useState(initialStaffState);
   const resetStaffData = () => {
+    setImageURL(null);
     setStaffData(initialStaffState);
   };
 
