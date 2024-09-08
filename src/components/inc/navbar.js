@@ -181,6 +181,11 @@ function Navbar(props) {
                         Revenue
                       </Link>
                     </li>
+                    <li>
+                      <Link className={`dropdown-item ${location.pathname === '/add-user' ? 'active-dropdown' : ''}`} to="/add-user">
+                        Add User
+                      </Link>
+                    </li>
                   </>)}
                 </ul>
               </li>

@@ -143,7 +143,7 @@ function App() {
 	};
 
 	const handleLogout = () => {
-    toast.error("Session Expired. Login in again.")
+		toast.error("Session Expired. Login in again.");
 		logOutUser("user");
 		setUserAuth({ access_token: null });
 		setVerified(false);
@@ -157,7 +157,7 @@ function App() {
 					Authorization: `Bearer ${userAuth?.token}`,
 				},
 			});
-			setVerified(true); 
+			setVerified(true);
 		} catch (error) {
 			if (error.response && error.response.status === 401) {
 				console.log("Token expired, logging out...");
@@ -175,7 +175,7 @@ function App() {
 			const interval = setInterval(() => {
 				checkJWT();
 				console.log("Check : ", userAuth?.token);
-			}, 60000); 
+			}, 60000);
 
 			return () => clearInterval(interval);
 		}
@@ -242,6 +242,14 @@ function App() {
 						<Route path="/contact" element={<Contact />} />
 						<Route
 							path="/memberships"
+							element={
+								<ProtectedRoute>
+									<Memberships />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/add-user"
 							element={
 								<ProtectedRoute>
 									<Memberships />
