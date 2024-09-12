@@ -26,6 +26,7 @@ import InvoiceModal from "./components/inc/invoiceModal";
 import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
 import toast, { Toaster } from "react-hot-toast";
+import UserProfile from "./components/pages/userProfile";
 
 export const UserContext = createContext({});
 
@@ -189,8 +190,12 @@ function App() {
 			fetchStaffData();
 			fetchClientPaymentData();
 			fetchClientData();
+      console.log("user:",userAuth.user);
+      
 		}
-	}, [userAuth]);
+	}, [userAuth
+    // , clientData, membershipData, paymentData, staffData, ptmembershipData
+  ]);
 
 	return (
 		<UserContext.Provider value={{ userAuth, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
@@ -349,6 +354,14 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<FieldEdits />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/userprofile"
+							element={
+								<ProtectedRoute>
+									<UserProfile />
 								</ProtectedRoute>
 							}
 						/>

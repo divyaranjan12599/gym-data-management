@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faTrashAlt,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
 import Nav from 'react-bootstrap/Nav';
@@ -10,14 +11,15 @@ import { Modal } from "react-bootstrap";
 import { toast } from "react-hot-toast"
 import axios from "axios"
 import { UserContext } from "../../App";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar(props) {
 
-  const { userAuth: { token } } = useContext(UserContext)
+  const { userAuth, staffData } = useContext(UserContext)
 
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [loggedInUser, setloggedInUser] = useState(userAuth.user);
   const location = useLocation();
   const [changePassShow, setChangePassShow] = useState(false);
   const [passMatched, setPassMatched] = useState(false);
@@ -26,6 +28,11 @@ function Navbar(props) {
     newPass: '',
     newPass2: '',
   });
+
+  console.log("navbar", userAuth);
+  const [addusershow, setaddusershow] = useState(false);
+  const handleAddUserModalClose = () => setaddusershow(false);
+  const handleAddUserModalShow = () => setaddusershow(true);
 
   const handlePassChangeModalClose = () => setChangePassShow(false);
   const handlePassChangeModalShow = () => setChangePassShow(true);
@@ -67,7 +74,7 @@ function Navbar(props) {
       try {
         const response = await axios.post(process.env.REACT_APP_SERVER_URL + "/user/change-password", { oldPassword: changePassData.prevPass, newPassword: changePassData.newPass }, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${userAuth.token}`
           }
         });
         toast.success("Password Updated Successfully");
@@ -86,13 +93,62 @@ function Navbar(props) {
 
   }
 
+  const handleAddUserformSubmit = (e) => {
+    e.preventDefault();
+  }
+
   const handleDropdownToggle = (isOpen, num) => {
     if (num === 1) setIsDropdownOpen1(isOpen);
     if (num === 2) setIsDropdownOpen2(isOpen);
   };
   return (
     <>
-      <Nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <Nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <Modal show={addusershow} onHide={handleAddUserModalClose} size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered>
+          <Modal.Body className="">
+            <div className="card-header border-top border-bottom">
+              <h4 className="text-center mb-0">Select from staffs</h4>
+            </div>
+            <form className="d-flex flex-column justify-content-around align-items-center mb-2 w-100">
+              <div className="row w-100 mt-2">
+                <div className="mb-2 col-lg-9">
+                  <select id="ptAssignedTo" name="ptAssignedTo" class="form-select">
+                    <option selected>Select Staff</option>
+                    {staffData.map((staff, index) => (
+                      <option key={index} value={staff._id}>{staff.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-lg-3">
+                  <button type="submit" className="btn btn-primary w-100 me-4" onClick={handleAddUserformSubmit}>Add</button>
+                </div>
+              </div>
+            </form>
+
+            <div className="card p-2">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="10%" scope="col">#</th>
+                    <th width="50%" scope="col">Name</th>
+                    <th width="30%" scope="col">Contact</th>
+                    <th width="10%" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td><FontAwesomeIcon className="w-100" icon={faTrash} /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Modal.Body>
+        </Modal>
         <div class="container-fluid">
           <a class="navbar-brand" href="#">LOGO</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,8 +200,8 @@ function Navbar(props) {
                       Add Enquiry
                     </Link>
                   </li>
-                  {true && (<li>
-                    <Link className={`dropdown-item ${location.pathname === '/add-expenses' ? 'active-dropdown' : ''}`} to="/add-expenses">
+                  {userAuth.user.role === "ADMIN" && (<li>
+                    <Link className={`dropdown-item admin-tab ${location.pathname === '/add-expenses' ? 'active-dropdown' : ''}`} to="/add-expenses">
                       Add Expenses
                     </Link>
                   </li>)}
@@ -170,19 +226,19 @@ function Navbar(props) {
                       PT Members
                     </Link>
                   </li>
-                  {true && (<>
+                  {userAuth.user.role === "ADMIN" && (<>
                     <li>
-                      <Link className={`dropdown-item ${location.pathname === '/expenses' ? 'active-dropdown' : ''}`} to="/expenses">
+                      <Link className={`dropdown-item admin-tab ${location.pathname === '/expenses' ? 'active-dropdown' : ''}`} to="/expenses">
                         Expenses
                       </Link>
                     </li>
                     <li>
-                      <Link className={`dropdown-item ${location.pathname === '/revenue' ? 'active-dropdown' : ''}`} to="/revenue">
+                      <Link className={`dropdown-item admin-tab ${location.pathname === '/revenue' ? 'active-dropdown' : ''}`} to="/revenue">
                         Revenue
                       </Link>
                     </li>
                     <li>
-                      <Link className={`dropdown-item ${location.pathname === '/add-user' ? 'active-dropdown' : ''}`} to="/add-user">
+                      <Link className={`dropdown-item admin-tab`} onClick={handleAddUserModalShow}>
                         Add User
                       </Link>
                     </li>
@@ -192,12 +248,13 @@ function Navbar(props) {
             </ul>
             <div className="d-flex" >
               <div class="btn-group">
-                <button class="nav-link py-2 px-0 px-lg-2 dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <FontAwesomeIcon icon={faUser} />
+                <button class="nav-link py-2 px-0 px-lg-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <FontAwesomeIcon icon={faUser} /> &nbsp;&nbsp;
+                  {userAuth.user.role === "ADMIN" ? "ADMIN" : loggedInUser.ownerName}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end p-2">
                   <li><a class="dropdown-item" onClick={handlePassChangeModalShow}>Change Password</a></li>
-                  <li><a class="dropdown-item" href="#">Update Profile</a></li>
+                  <li><Link class="dropdown-item" to="/userprofile">Update Profile</Link></li>
                   <li><button type="button" class="btn btn-outline-danger w-100" onClick={handleLogout}>Logout</button></li>
                 </ul>
               </div>

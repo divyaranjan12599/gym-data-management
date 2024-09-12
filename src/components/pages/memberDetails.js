@@ -13,7 +13,6 @@ import toast from "react-hot-toast";
 
 function MemberDetails() {
   const [userData, setUserData] = useState(null);
-
   const { userAuth: { token }, membershipData, paymentData, clientData, staffData } = useContext(UserContext);
   const navigate = useNavigate();
   const [clientDetails, setClientData] = useState(clientData);
@@ -203,7 +202,7 @@ function MemberDetails() {
     ptFees: '',
     ptMembershipPeriod: '',
     ptAssignedTo: '',
-    ptStartDate: '',
+    ptStartingDate: '',
     amountPaid: '',
     amountRemaining: '',
     paymentMode: '',
@@ -255,15 +254,15 @@ function MemberDetails() {
     const rows = (membershipData || [])
       .filter((membership) => membership.membershipBy?._id === userId)
       .map((membership, index) => {
-        const startDate = new Date(membership?.startDate);
-        const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
+        const startingDate = new Date(membership?.startingDate);
+        const endDate = endDateGenerator(membership?.startingDate, membership?.membershipPeriod);
         const currentDate = new Date();
         const status = new Date(endDate) < currentDate ? "Completed" : "Running";
 
         return {
           id: membership?._id || index, // Use index as a fallback unique id
           package: membership?.membershipPeriod || "N/A",
-          startDate: membership?.startDate || "N/A",
+          startDate: membership?.startingDate || "N/A",
           endDate: endDate || "N/A",
           status: status,
           photoURL:
@@ -439,8 +438,8 @@ function MemberDetails() {
                                 <input
                                   type="date"
                                   onChange={handlePtMemUpdateChange}
-                                  name="ptStartDate"
-                                  value={ptmemUpdationformData.ptStartDate}
+                                  name="ptStartingDate"
+                                  value={ptmemUpdationformData.ptStartingDate}
                                   className="form-control"
                                 />
                               </div>

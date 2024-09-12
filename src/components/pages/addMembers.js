@@ -254,6 +254,7 @@ function AddMembers() {
                     <div className="main-box col-8">
                       <div className="row w-100 h-100">
                         <div className="mb-2 flex-column col-lg-6 ">
+                          <label>First Name</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -284,6 +285,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 col-lg-6">
+                          <label>Last Name</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -314,6 +316,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 col-lg-6">
+                          <label>Email</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -337,6 +340,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 flex-column col-lg-6">
+                          <label>Contact</label>
                           <div className="input-group">
                             <span
                               className="input-group-text"
@@ -372,6 +376,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 col-12">
+                          <label>Area</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -396,6 +401,7 @@ function AddMembers() {
                           />
                         </div>
                         <div className="mb-2 col-md-6">
+                          <label>City</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -420,6 +426,7 @@ function AddMembers() {
                           />
                         </div>
                         <div className="mb-2 col-md-4">
+                          <label>State</label>
                           <select
                             id="inputState"
                             name="state"
@@ -456,6 +463,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 col-md-2">
+                        <label>PinCode</label>
                           <input
                             type="text"
                             onChange={handleChange}

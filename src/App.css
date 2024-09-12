@@ -8,6 +8,10 @@
   --appColor: #3c3f45;
 }
 
+.main-container {
+  margin-top: 100px;
+}
+
 /* Remove focus outline from table cells */
 .MuiDataGrid-cell:focus {
   outline: none !important;
@@ -123,12 +127,14 @@ h2 {
 }
 
 .forgot-password-link {
-  text-decoration: none !important; /* No underline by default */
+  text-decoration: none !important;
+  /* No underline by default */
   /* color: #007bff; Bootstrap primary color */
 }
 
 .forgot-password-link:hover {
-  text-decoration: underline !important; /* Underline on hover */
+  text-decoration: underline !important;
+  /* Underline on hover */
 }
 
 .dropdown-item:active {
@@ -199,6 +205,16 @@ h2 {
   display: flex;
   margin-bottom: 0.5rem;
   justify-content: center;
+}
+
+.admin-tab {
+  background-color: #ebebeb !important;
+  &:hover {
+    background-color: #f2f2f2 !important;
+  }
+  &:active {
+    background-color: #af7bc1 !important;
+  }
 }
 
 .main-box {
