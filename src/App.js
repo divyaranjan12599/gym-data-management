@@ -41,6 +41,8 @@ function App() {
 	const [loading, setLoading] = useState(true);
 	const [verified, setVerified] = useState(false);
 
+	const [staffUser, setStaffUser] = useState();
+
 	console.log("Verified : ", verified);
 
 	useEffect(() => {
@@ -142,6 +144,20 @@ function App() {
 			setStaffData([]);
 		}
 	};
+	const fetchStaffUser = async () => {
+		try {
+			const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/user/get-myusers", {
+				headers: {
+					Authorization: `Bearer ${userAuth?.token}`,
+				},
+			});
+			console.log("staff users", response.data);
+			setStaffUser(response.data);
+		} catch (error) {
+			console.log(error);
+			setStaffUser('');
+		}
+	};
 
 	const handleLogout = () => {
 		toast.error("Session Expired. Login in again.");
@@ -169,7 +185,6 @@ function App() {
 		}
 	};
 
-	console.log(clientData);
 
 	useEffect(() => {
 		if (userAuth.token) {
@@ -190,15 +205,18 @@ function App() {
 			fetchStaffData();
 			fetchClientPaymentData();
 			fetchClientData();
-      console.log("user:",userAuth.user);
-      
+			fetchStaffUser();
+			console.log("user:", userAuth.user);
 		}
-	}, [userAuth
-    // , clientData, membershipData, paymentData, staffData, ptmembershipData
-  ]);
+	}, [
+		userAuth,
+		// , clientData, membershipData, paymentData, staffData, ptmembershipData
+	]);
+
+	console.log("userAuth : ", userAuth);
 
 	return (
-		<UserContext.Provider value={{ userAuth, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
+		<UserContext.Provider value={{ userAuth, staffUser, setUserAuth, ptmembershipData, staffData, enquiryData, clientData, membershipData, paymentData, loading }}>
 			<Router>
 				<Routes>
 					<Route path="/login" index element={<Login />} />
