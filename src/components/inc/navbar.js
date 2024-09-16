@@ -27,7 +27,7 @@ function Navbar(props) {
 	const [staffUserId, setStaffUserId] = useState("");
 	const [defaultPassword, setDefaultPassword] = useState("");
 
-	console.log("navbar", userAuth);
+	const isAdmin = userAuth.user.role === "ADMIN";
 	const [addusershow, setaddusershow] = useState(false);
 	const handleAddUserModalClose = () => setaddusershow(false);
 	const handleAddUserModalShow = () => setaddusershow(true);
@@ -51,7 +51,7 @@ function Navbar(props) {
 	const handlePassMatch = (e) => {
 		const { name, value, type, files } = e.target;
 		if (value != changePassData.newPass) {
-			console.error("pass not matched");
+			toast.error("pass not matched");
 		}
 		setChangePass({
 			...changePassData,
@@ -364,7 +364,6 @@ function Navbar(props) {
 							</form>
 						</div>
 					</div>
-					{/* </Container> */}
 				</Modal.Body>
 			</Modal>
 		</>
