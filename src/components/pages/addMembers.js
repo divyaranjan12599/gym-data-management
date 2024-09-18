@@ -6,11 +6,6 @@ import axios from "axios";
 import { UserContext } from "../../App";
 import { Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
-import {
-  faExclamationTriangle,
-  faFileInvoiceDollar,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactDatePicker from "react-datepicker";
 
 const initialClientState = {
@@ -25,8 +20,8 @@ const initialClientState = {
   state: "Telangana",
   zip: "",
   gender: "Male",
-  membershipStartingDate: "",
-  joiningDate: new Date().toLocaleDateString(),
+  membershipStartingDate: new Date(),
+  joiningDate: new Date(),
   idProofType: "",
   idProofNumber: "",
   // idProofFront: null,
@@ -38,10 +33,10 @@ const initialClientState = {
   membershipAmount: "",
   amountPaid: "",
   amountRemaining: "",
-  startDate: new Date().toLocaleDateString(),
-  ptStartDate: new Date().toLocaleDateString(),
-  dueDate: "",
-  transactionDate: "",
+  startDate: new Date(),
+  ptStartDate: new Date(),
+  dueDate: new Date(),
+  transactionDate: new Date(),
   paymentMode: "online",
   transactionId: "",
   ptFees: "",
@@ -463,7 +458,7 @@ function AddMembers() {
                         </div>
 
                         <div className="mb-2 col-md-2">
-                        <label>PinCode</label>
+                          <label>PinCode</label>
                           <input
                             type="text"
                             onChange={handleChange}
@@ -530,22 +525,6 @@ function AddMembers() {
 
                         <div className="col-6 d-flex flex-column">
                           <label>Joining Date</label>
-                          {/* <input
-                            type="date"
-                            onChange={handleChange}
-                            name="joiningDate"
-                            value={clientData.joiningDate}
-                            className="form-control"
-                            placeholder="Enter Address"
-                          // required
-                            style={{
-                              borderBottom: validationErrors.joiningDate
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color": validationErrors.joiningDate
-                                ? "red"
-                                : "#6c757d",
-                            }} */}
                           <ReactDatePicker
                             // selected={enquiryData.lastFollowUpOn}
                             selected={clientData.joiningDate}
@@ -865,9 +844,9 @@ function AddMembers() {
                       {/* <option value="5">Other</option> */}
                     </select>
                   </div>
-                  <div className="mb-2 col-4">
+                  <div className="mb-2 col-4 d-flex flex-column">
                     <label>Starting Date</label>
-                    <input
+                    {/* <input
                       type="date"
                       onChange={handleChange}
                       name="membershipStartingDate"
@@ -882,6 +861,17 @@ function AddMembers() {
                             ? "red"
                             : "#6c757d",
                       }}
+                    /> */}
+                    <ReactDatePicker
+                      // selected={enquiryData.lastFollowUpOn}
+                      selected={clientData.membershipStartingDate}
+                      onChange={handleChange}
+                      name="membershipStartingDate"
+                      // showTimeSelect
+                      // timeFormat="HH:mm"
+                      // timeIntervals={15}
+                      dateFormat="MMMM d, yyyy"
+                      className="form-control"
                     />
                   </div>
                   <div className="col-4 d-flex align-items-center justify-content-start">
@@ -923,7 +913,7 @@ function AddMembers() {
                                 INR
                               </span>
                               <input
-                                type="text"
+                                type="number"
                                 className="form-control"
                                 name="ptFees"
                                 onChange={handleChange}
@@ -997,9 +987,9 @@ function AddMembers() {
                               ))}
                             </select>
                           </div>
-                          <div className="mb-2 col-6">
+                          <div className="mb-2 col-6 d-flex flex-column">
                             <label>Starting Date</label>
-                            <input
+                            {/* <input
                               type="date"
                               onChange={handleChange}
                               name="ptStartDate"
@@ -1014,6 +1004,17 @@ function AddMembers() {
                                     ? "red"
                                     : "#6c757d",
                               }}
+                            /> */}
+                            <ReactDatePicker
+                              // selected={enquiryData.lastFollowUpOn}
+                              selected={clientData.ptStartDate}
+                              onChange={handleChange}
+                              name="ptStartDate"
+                              // showTimeSelect
+                              // timeFormat="HH:mm"
+                              // timeIntervals={15}
+                              dateFormat="MMMM d, yyyy"
+                              className="form-control"
                             />
                           </div>
                         </div>
@@ -1118,9 +1119,9 @@ function AddMembers() {
                       <option value="CREDIT_CARD">CREDIT CARD</option>
                     </select>
                   </div>
-                  <div className="col-4">
+                  <div className="col-4 d-flex flex-column">
                     <label>Transaction Date</label>
-                    <input
+                    {/* <input
                       type="date"
                       onChange={handleChange}
                       name="transactionDate"
@@ -1134,6 +1135,17 @@ function AddMembers() {
                           ? "red"
                           : "#6c757d",
                       }}
+                    /> */}
+                    <ReactDatePicker
+                      // selected={enquiryData.lastFollowUpOn}
+                      selected={clientData.transactionDate}
+                      onChange={handleChange}
+                      name="transactionDate"
+                      // showTimeSelect
+                      // timeFormat="HH:mm"
+                      // timeIntervals={15}
+                      dateFormat="MMMM d, yyyy"
+                      className="form-control"
                     />
                   </div>
                   <div className="mb-2 col-4">
@@ -1160,9 +1172,9 @@ function AddMembers() {
                     />
                   </div>
                   {parseFloat(clientData.amountRemaining) > 0 && (
-                    <div className="col-lg-4">
+                    <div className="col-lg-4 d-flex flex-column">
                       <label>Due Date</label>
-                      <input
+                      {/* <input
                         type="date"
                         onChange={handleChange}
                         name="dueDate"
@@ -1177,6 +1189,17 @@ function AddMembers() {
                             ? "red"
                             : "#6c757d",
                         }}
+                      /> */}
+                      <ReactDatePicker
+                        // selected={enquiryData.lastFollowUpOn}
+                        selected={clientData.dueDate}
+                        onChange={handleChange}
+                        name="dueDate"
+                        // showTimeSelect
+                        // timeFormat="HH:mm"
+                        // timeIntervals={15}
+                        dateFormat="MMMM d, yyyy"
+                        className="form-control"
                       />
                     </div>
                   )}

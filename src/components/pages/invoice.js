@@ -45,7 +45,7 @@ const Invoice = () => {
 
   useEffect(() => {
     handleCalculateTotal();
-    setCurrentDate(new Date().toLocaleDateString());
+    setCurrentDate(new Date());
   }, []);
 
   const handleRowDel = (item) => {

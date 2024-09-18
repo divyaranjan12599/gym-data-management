@@ -13,13 +13,12 @@ const initialStaffState = {
   email: "",
   picUrl: "",
   contactNumber: "",
-  address1: "",
-  address2: "",
+  address: "",
   city: "",
   state: "",
   zip: "",
-  gender: "",
-  joiningDate: new Date().toLocaleDateString(),
+  gender: "Male",
+  joiningDate: new Date(),
   idProofType: "",
   idProofNumber: "",
   idProofFront: null,
@@ -41,8 +40,7 @@ function AddStaffs() {
     if (!staffData.joiningDate) errors.joiningDate = "Field required";
     if (!staffData.email) errors.email = "Field required";
     if (!staffData.contactNumber) errors.contactNumber = "Field required";
-    if (!staffData.address1) errors.address1 = "Field required";
-    if (!staffData.address2) errors.address2 = "Field required";
+    if (!staffData.address) errors.address = "Field required";
     if (!staffData.city) errors.city = "Field required";
     if (!staffData.state) errors.state = "Field required";
     if (!staffData.zip) errors.zip = "Field required";
@@ -80,8 +78,8 @@ function AddStaffs() {
   });
 
   const handleChange = (e) => {
-    console.log(e);
-    
+    // console.log(e);
+
     const { name, value, type, files } = e.target;
     setStaffData({
       ...staffData,
@@ -92,10 +90,10 @@ function AddStaffs() {
   const joiningDateChange = (date) => {
     // setJoiningDate(date);
     setStaffData({
-        ...staffData,
-        "joiningDate": date
+      ...staffData,
+      "joiningDate": date
     });
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -167,8 +165,7 @@ function AddStaffs() {
             <div className="main-box col-md-8">
               <div className="row w-100">
                 <div className="mb-2 flex-column col-lg-6 ">
-                  {/* <label>Client ID</label> */}
-
+                  <label>Staff ID</label>
                   <input
                     type="text"
                     onChange={handleChange}
@@ -181,7 +178,7 @@ function AddStaffs() {
                 </div>
 
                 <div className="mb-2 col-lg-6">
-                  {/* <label>Client Name</label> */}
+                  <label>Name</label>
                   <input
                     type="text"
                     onChange={handleChange}
@@ -210,12 +207,9 @@ function AddStaffs() {
 `}
                   </style>
                 </div>
-                <div className="mb-2 col-lg-12">
-                  <div className="input-group w-100">
-                    <span className="input-group-text" id="basic-addon1">
-                      Joining Date
-                    </span>
-                    {/* <input
+                <div className="mb-2 col-lg-6 d-flex flex-column">
+                  <label>Joining Date</label>
+                  {/* <input
                                             type="date"
                                             onChange={handleChange}
                                             name="joiningDate"
@@ -231,21 +225,22 @@ function AddStaffs() {
                                                   : "#6c757d",
                                               }}
                                             /> */}
-                    <ReactDatePicker
-                      // selected={enquiryData.lastFollowUpOn}
-                      selected={staffData.joiningDate}
-                      onChange={joiningDateChange}
-                      name="joiningDate"
-                      // showTimeSelect
-                      // timeFormat="HH:mm"
-                      // timeIntervals={15}
-                      dateFormat="MMMM d, yyyy"
-                      className="form-control"
-                    />
-                  </div>
+                  <ReactDatePicker
+                    // selected={enquiryData.lastFollowUpOn}
+                    selected={staffData.joiningDate}
+                    onChange={joiningDateChange}
+                    name="joiningDate"
+                    // showTimeSelect
+                    // timeFormat="HH:mm"
+                    // timeIntervals={15}
+                    dateFormat="MMMM d, yyyy"
+                    className="form-control "
+                  />
+
                 </div>
 
                 <div className="mb-2 col-lg-6">
+                  <label>Email</label>
                   <input
                     type="text"
                     onChange={handleChange}
@@ -269,6 +264,41 @@ function AddStaffs() {
                 </div>
 
                 <div className="mb-2 flex-column col-lg-6">
+                  <label>Gender</label>
+                  <div className="mt-2 d-flex flex-row">
+                    <div className="from-check col-6">
+                      <input
+                        className="form-check-input me-2"
+                        type="radio"
+                        name="gender"
+                        id="gridRadios1"
+                        value="Male"
+                        checked={staffData.gender === "Male"}
+                        onChange={handleChange}
+                      />
+                      <label className="form-check-label" for="gridRadios1">
+                        Male
+                      </label>
+                    </div>
+                    <div className="from-check col-6">
+                      <input
+                        className="form-check-input me-2"
+                        type="radio"
+                        name="gender"
+                        id="gridRadios2"
+                        value="Female"
+                        checked={staffData.gender === "Female"}
+                        onChange={handleChange}
+                      />
+                      <label className="form-check-label" for="gridRadios2">
+                        Female
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-2 flex-column col-lg-6">
+                  <label>Contact Number</label>
                   <div className="input-group">
                     <span className="input-group-text" id="basic-addon1">
                       +91
@@ -296,155 +326,6 @@ function AddStaffs() {
                   </div>
                 </div>
 
-                <div className="mb-2 col-12">
-                  {/* <label for="inputAddress2" className="form-label">Address 2</label> */}
-                  <input
-                    type="text"
-                    onChange={handleChange}
-                    name="address1"
-                    value={staffData.address1}
-                    className="form-control"
-                    id="inputAddress2"
-                    placeholder={
-                      validationErrors.address1
-                        ? `Address required !!`
-                        : "Appartment, studio or floor."
-                    }
-                    style={{
-                      borderBottom: validationErrors.address1
-                        ? "2px inset red"
-                        : "1px solid #ced4da",
-                      "--placeholder-color": validationErrors.address1
-                        ? "red"
-                        : "#6c757d",
-                    }}
-                  />
-                </div>
-                <div className="mb-2 col-12">
-                  {/* <label for="inputAddress" className="form-label">Address</label> */}
-                  <input
-                    type="text"
-                    onChange={handleChange}
-                    name="address2"
-                    value={staffData.address2}
-                    className="form-control"
-                    id="inputAddress"
-                    placeholder={
-                      validationErrors.address2
-                        ? `Area field is required !!`
-                        : "Area"
-                    }
-                    style={{
-                      borderBottom: validationErrors.address2
-                        ? "2px inset red"
-                        : "1px solid #ced4da",
-                      "--placeholder-color": validationErrors.address2
-                        ? "red"
-                        : "#6c757d",
-                    }}
-                  />
-                </div>
-                <div className="mb-2 col-md-6">
-                  {/* <label for="inputCity" className="form-label">City</label> */}
-                  <input
-                    type="text"
-                    onChange={handleChange}
-                    name="city"
-                    value={staffData.city}
-                    className="form-control"
-                    id="inputCity"
-                    placeholder={
-                      validationErrors.city ? `Enter city name !!` : "City"
-                    }
-                    style={{
-                      borderBottom: validationErrors.city
-                        ? "2px inset red"
-                        : "1px solid #ced4da",
-                      "--placeholder-color": validationErrors.city
-                        ? "red"
-                        : "#6c757d",
-                    }}
-                  />
-                </div>
-                <div className="mb-2 col-md-4">
-                  {/* <label for="inputState" className="form-label">State</label> */}
-                  <select
-                    id="inputState"
-                    className="form-select"
-                    onChange={handleChange}
-                    name="state"
-                    value={staffData.state}
-                    style={{
-                      borderBottom: validationErrors.state
-                        ? "2px inset red"
-                        : "1px solid #ced4da",
-                      "--placeholder-color": validationErrors.state
-                        ? "red"
-                        : "#6c757d",
-                    }}
-                  >
-                    <option selected>State</option>
-                    <option value="1">Madhya Pradesh</option>
-                    <option value="2">Uttar Pradesh</option>
-                    <option value="3">Maharashtra</option>
-                  </select>
-                </div>
-                <div className="mb-2 col-md-2">
-                  {/* <label for="inputZip" className="form-label">Zip</label> */}
-                  <input
-                    type="text"
-                    onChange={handleChange}
-                    name="zip"
-                    value={staffData.zip}
-                    className="form-control"
-                    id="inputZip"
-                    placeholder={
-                      validationErrors.zip
-                        ? `Please enter pincode !!`
-                        : "pincode"
-                    }
-                    style={{
-                      borderBottom: validationErrors.zip
-                        ? "2px inset red"
-                        : "1px solid #ced4da",
-                      "--placeholder-color": validationErrors.zip
-                        ? "red"
-                        : "#6c757d",
-                    }}
-                  />
-                </div>
-
-                <label>Gender</label>
-                <div className="mb-2 col-md-12 d-flex flex-row">
-                  <div className="from-check col-4">
-                    <input
-                      className="form-check-input me-2"
-                      type="radio"
-                      name="gender"
-                      id="gridRadios1"
-                      value="Male"
-                      checked={staffData.gender === "Male"}
-                      onChange={handleChange}
-                    />
-                    <label className="form-check-label" for="gridRadios1">
-                      Male
-                    </label>
-                  </div>
-                  <div className="from-check col-4">
-                    <input
-                      className="form-check-input me-2"
-                      type="radio"
-                      name="gender"
-                      id="gridRadios2"
-                      value="Female"
-                      checked={staffData.gender === "Female"}
-                      onChange={handleChange}
-                    />
-                    <label className="form-check-label" for="gridRadios2">
-                      Female
-                    </label>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="pic-box col-4">
@@ -466,6 +347,100 @@ function AddStaffs() {
                   )}
                 </div>
               </div>
+            </div>
+
+            <div className="mb-2 col-12">
+              <label for="inputAddress" className="form-label">Area Details</label>
+              <input
+                type="text"
+                onChange={handleChange}
+                name="address"
+                value={staffData.address}
+                className="form-control"
+                id="inputAddress"
+                placeholder={
+                  validationErrors.address
+                    ? `Area field is required !!`
+                    : "Area"
+                }
+                style={{
+                  borderBottom: validationErrors.address
+                    ? "2px inset red"
+                    : "1px solid #ced4da",
+                  "--placeholder-color": validationErrors.address
+                    ? "red"
+                    : "#6c757d",
+                }}
+              />
+            </div>
+            <div className="mb-2 col-md-6">
+              <label for="inputCity" className="form-label">City</label>
+              <input
+                type="text"
+                onChange={handleChange}
+                name="city"
+                value={staffData.city}
+                className="form-control"
+                id="inputCity"
+                placeholder={
+                  validationErrors.city ? `Enter city name !!` : "City"
+                }
+                style={{
+                  borderBottom: validationErrors.city
+                    ? "2px inset red"
+                    : "1px solid #ced4da",
+                  "--placeholder-color": validationErrors.city
+                    ? "red"
+                    : "#6c757d",
+                }}
+              />
+            </div>
+            <div className="mb-2 col-md-4">
+              <label for="inputState" className="form-label">State</label>
+              <select
+                id="inputState"
+                className="form-select"
+                onChange={handleChange}
+                name="state"
+                value={staffData.state}
+                style={{
+                  borderBottom: validationErrors.state
+                    ? "2px inset red"
+                    : "1px solid #ced4da",
+                  "--placeholder-color": validationErrors.state
+                    ? "red"
+                    : "#6c757d",
+                }}
+              >
+                <option selected>State</option>
+                <option value="1">Madhya Pradesh</option>
+                <option value="2">Uttar Pradesh</option>
+                <option value="3">Maharashtra</option>
+              </select>
+            </div>
+            <div className="mb-2 col-md-2">
+              <label for="inputZip" className="form-label">Zip</label>
+              <input
+                type="text"
+                onChange={handleChange}
+                name="zip"
+                value={staffData.zip}
+                className="form-control"
+                id="inputZip"
+                placeholder={
+                  validationErrors.zip
+                    ? `Please enter pincode !!`
+                    : "pincode"
+                }
+                style={{
+                  borderBottom: validationErrors.zip
+                    ? "2px inset red"
+                    : "1px solid #ced4da",
+                  "--placeholder-color": validationErrors.zip
+                    ? "red"
+                    : "#6c757d",
+                }}
+              />
             </div>
 
             <label>ID Proof Details</label>

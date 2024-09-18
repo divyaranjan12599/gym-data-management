@@ -27,6 +27,7 @@ import FieldEdits from "./components/inc/fieldEdits";
 import Invoices from "./components/pages/invoices";
 import toast, { Toaster } from "react-hot-toast";
 import UserProfile from "./components/pages/userProfile";
+import Expenses from "./components/pages/expenses";
 
 export const UserContext = createContext({});
 
@@ -340,6 +341,14 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<Invoices />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/expenses"
+							element={
+								<ProtectedRoute>
+									<Expenses />
 								</ProtectedRoute>
 							}
 						/>
