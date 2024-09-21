@@ -1,18 +1,41 @@
 :root {
-  --lightgray: #D9D9D9;
+  --lightgray: #d9d9d9;
   --gray: #9c9c9c;
   --orange: #f48915;
-  --darkGrey: #464D53;
+  --darkGrey: #464d53;
   --caloryCard: #656565;
   --planCard: linear-gradient(210.41deg, #fa5042 1.14%, #ffa739 100.75%);
-  --appColor:  #3c3f45;
+  --appColor: #3c3f45;
 }
 
+.main-container {
+  margin-top: 100px;
+}
 
+/* Remove focus outline from table cells */
+.MuiDataGrid-cell:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove focus outline from buttons and other elements */
+button:focus,
+input:focus,
+textarea:focus,
+.MuiButtonBase-root:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove the default focus ring for all focusable elements inside the component */
+.container-fluid *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 .App {
   text-align: center;
-  mix-blend-mode: overlay  !important;
+  mix-blend-mode: overlay !important;
 }
 
 .App-logo {
@@ -37,6 +60,10 @@
   color: white;
 }
 
+h2 {
+  font-family: cursive;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -51,21 +78,78 @@
   }
 }
 
-.navbar-nav .nav-link {
-  transition: all 0.2s ease-in-out;
-  /* Add transition */
-}
-
 .nav-link {
+  border-radius: 5px;
+  color: #3c3f45 !important;
+
   &:hover {
+    color: white !important;
+    background-color: #d098e2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
   }
 
   &:active {
-    transform: scale(0.9);
+    color: rgb(255, 251, 251) !important;
+    background-color: #af7bc1;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    transform: scale(1);
   }
 }
 
+.active-sub-items {
+  /* border: 2px solid #af7bc1; */
+  color: white !important;
+  background-color: #c08dd1 !important;
+  /* border-right: none !important; */
+  /* border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important; */
+  border-radius: 5px !important;
+}
+
+.sub-item {
+  /* border: 2px solid #af7bc1; */
+  /* border-left: none; */
+  /* transition: all 0.2s ease; */
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #dddcdc;
+}
+
+.active-dropdown {
+  background-color: #b88fc5 !important;
+  color: white !important;
+}
+
+.dropdown-item {
+  border-radius: 5px !important;
+  margin-bottom: 2px !important;
+}
+
+.forgot-password-link {
+  text-decoration: none !important;
+  /* No underline by default */
+  /* color: #007bff; Bootstrap primary color */
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline !important;
+  /* Underline on hover */
+}
+
+.dropdown-item:active {
+  background-color: #a16cb1 !important;
+  color: white !important;
+}
+
+.nav-link.active {
+  font-weight: bold !important;
+  color: rgb(255, 251, 251) !important;
+  background-color: #874e9a;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
 
 .form-heading {
   font-size: 24px;
@@ -73,6 +157,10 @@
   text-align: center;
   color: #333;
   margin-bottom: 30px;
+}
+
+.custom-margin-1 {
+  margin: 10px;
 }
 
 /* .form-control {
@@ -104,21 +192,76 @@
   color: red!important;
 } */
 
-.pic-box:hover{
+.pic-box:hover {
   cursor: pointer;
 }
 
-/* .pic-box{
-  background-color: #61dafb;
+.pic-box {
+  /* background-color: #61dafb;
   border: 2px solid #282c34;
-  height: 100px;
-} */
+  height: 100px; */
+  overflow: auto;
+  /* padding: 1rem; */
+  display: flex;
+  margin-bottom: 0.5rem;
+  justify-content: center;
+}
 
-/* .main-box{
-  background-color: antiquewhite;
-  border: 2px solid #282c34;
-  height: 1000px;
-} */
+.admin-tab {
+  background-color: #ebebeb !important;
+  &:hover {
+    background-color: #f2f2f2 !important;
+  }
+  &:active {
+    background-color: #af7bc1 !important;
+  }
+}
+
+.main-box {
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make sure the form fields and layout are responsive */
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.col-lg-6,
+.col-md-6,
+.col-md-4,
+.col-12 {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  width: 100%;
+  /* Ensure inputs and selects fill their container */
+  box-sizing: border-box;
+  /* Include padding and border in element's total width */
+}
+
+.input-group {
+  width: 100%;
+  /* Ensure input groups fill their container */
+}
+
+.custom-col-3,
+.custom-col-9 {
+  box-sizing: border-box;
+  /* Include padding and border in element's total width */
+}
+
+/* Ensure that file inputs are properly aligned */
+.form-control[type="file"] {
+  padding: 0.375rem 0.75rem;
+  box-sizing: border-box;
+}
 
 .arrow-wrapper {
   position: absolute;
@@ -137,18 +280,24 @@
 }
 
 select.form-control {
-  width: 110px; /* Adjust width as needed */
+  width: 110px;
+  /* Adjust width as needed */
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.custom-col-9{
-  width: 70%!important;
+.custom-col-9 {
+  width: 70% !important;
 }
 
-.custom-col-3{
-  width: 30%!important;
+.row>* {
+  padding: 4px !important;
+  /* padding-left: 4px !important; */
+}
+
+.custom-col-3 {
+  width: 30% !important;
 }
 
 .icon-container {
@@ -157,8 +306,8 @@ select.form-control {
 }
 
 .icon-container img {
-  width: 100%;
-  height: auto;
+  width: 80%;
+  height: 80%;
 }
 
 .icon-container .btn {
@@ -175,7 +324,6 @@ select.form-control {
   border-radius: 5px;
 }
 
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -183,10 +331,27 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
 .membership-btn:active {
-  scale: 1.05
+  scale: 1.05;
+}
+
+.userLabel {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: x-large;
+}
+
+.headLabel {
+  font-size: x-large;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.smallLabel {
+  font-size: larger;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  color: #656565;
+  margin-left: 1rem;
 }

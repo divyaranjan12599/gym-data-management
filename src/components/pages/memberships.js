@@ -1,17 +1,41 @@
-import React, { useMemo, useState } from "react";
-
-import DatePicker from "react-datepicker";
+import React, { useContext, useMemo, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
-import { DataGrid, GridToolbar, gridClasses } from "@mui/x-data-grid";
 import { Avatar } from "@mui/material";
-import { grey } from "@mui/material/colors";
-
+import { UserContext } from "../../App";
+import Table from '../inc/table';
+import emailjs from 'emailjs-com';
+import { endDateGenerator } from "../inc/utilityFuncs";
+import toast from "react-hot-toast";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 function Memberships() {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-  
+  const navigate = useNavigate();
+  let { membershipData } = useContext(UserContext);
+  const handleRowClick = (row) => {
+    const userId = row.id;
+    navigate(`/user/${userId}`);
+  };
+  const sendEmail = (row) => {
+    const templateParams = {
+      to_name: row.name,
+      to_email: row.email,
+      message: `Hello ${row.name}, this is a test email.`,
+    };
+
+    emailjs.send('service_dcu0jes', 'template_1jf9e6n', templateParams, 'l9xho7dUwGOfJFNU1')
+      .then((response) => {
+        toast.success("Eamil sent");
+        // console.log('SUCCESS!', response.status, response.text);
+      }, (error) => {
+        toast.error("Failed to send Email .Try again later");
+        // console.log('FAILED...', error);
+      });
+  };
+
+
   let columns = useMemo(
     () => [
       {
@@ -22,197 +46,67 @@ function Memberships() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", width: 90 },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "phone", headerName: "Phone Number", width: 170 },
-      { field: "package", headerName: "Package", width: 180 },
-      { field: "startDate", headerName: "Start Date", width: 150 },
-      { field: "endDate", headerName: "End Date", width: 150 },
-      { field: "amount", headerName: "Amount", width: 140 },
-      { field: "balance", headerName: "Balance", width: 140 },
+      { field: "name", headerName: "Name", flex: 1 },
+      { field: "email", headerName: "Email ID", flex: 1 },
+      { field: "phone", headerName: "Phone Number", flex: 1 },
+      { field: "package", headerName: "Package", flex: 1 },
+      { field: "startDate", headerName: "Start Date", flex: 1 },
+      { field: "endDate", headerName: "End Date", flex: 1 },
       {
-        field: "status",
-        headerName: "Status",
-        width: 100,
-        type: "boolean",
-        editable: true,
+        field: 'actions',
+        headerName: 'View',
+        flex: 1,
+        renderCell: (params) => (
+          <Button
+            className="btn btn-light"
+            onClick={() => { handleRowClick(params.row) }}>
+            <FontAwesomeIcon icon={faEye} />
+          </Button>
+        ),
       },
     ],
-    []
+    [membershipData]
   );
-  
-  const rows = [
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/560/560277.png",
-      id: 1602,
-      name: "Divyaranjan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/2202/2202112.png",
-      id: 1603,
-      name: "Aman",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140037.png",
-      id: 1604,
-      name: "Abhay",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/4140/4140048.png",
-      id: 1605,
-      name: "Chetan",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
-      id: 1606,
-      name: "Abhishek",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      photoURL: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-      id: 1607,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1608,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1609,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1610,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 1611,
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-  ];
-  
+
+  const rows = membershipData
+    // .filter((membership) => {
+    //   const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
+    //   const currentDate = new Date();
+    //   return new Date(endDate) > currentDate;
+    // })
+    .map((membership) => {
+
+      return {
+        id: membership.membershipBy?._id || "N/A",
+        name: membership.membershipBy?.name || "N/A",
+        phone: membership.membershipBy?.contact || "N/A",
+        email: membership.membershipBy?.email || "N/A",
+        package: membership.membershipPeriod || "N/A",
+        startDate: membership.startDate || "N/A",
+        endDate: membership.endDate || "N/A",
+        status: membership.status || "N/A",
+        photoURL: membership.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+      };
+    });
+
+  rows.sort((a, b) => {
+    if (a.startDate === "N/A" && b.startDate === "N/A") {
+      return 0; // both are invalid
+    } else if (a.startDate === "N/A") {
+      return 1; // a is invalid, push it to the end
+    } else if (b.startDate === "N/A") {
+      return -1; // b is invalid, push it to the end
+    } else {
+      return new Date(a.startDate) - new Date(b.startDate); // valid dates comparison
+    }
+  });
+
+  // console.log("Mapped Rows:", rows);
+
   return (
     <div className="container-fluid">
-      <h2 className="text-center mt-3">MEMBERSHIPS</h2>
-
-      <div className="container-fluid d-flex flex-column mt-5">
-        <div className="d-flex flex-row">
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>From</label>
-            <DatePicker
-              id="from-date-picker"
-              className="form-select "
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3 d-flex flex-column">
-            <label>To</label>
-            <DatePicker
-              id="to-date-picker"
-              className="form-select "
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-            />
-          </div>
-
-          <div className="col-2 mx-3">
-            <label>Search On</label>
-            <select id="expired" class="form-select w-100">
-              <option selected>Expired</option>
-              <option value="1">*-*</option>
-              <option value="2">*-*</option>
-              <option value="3">*-*</option>
-              <option value="4">*-*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Status</label>
-            <select id="status" class="form-select w-100">
-              <option selected>Active</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="col-2 mx-3" type="select">
-            <label>Package</label>
-            <select id="package" class="form-select w-100">
-              <option selected>All</option>
-              <option value="1">*_*</option>
-              <option value="2">*_*</option>
-              <option value="3">*_*</option>
-            </select>
-          </div>
-
-          <div className="membership-btn btn btn-primary mt-4 w-50 h-100 mx-3">
-            Submit
-          </div>
-
-        </div>
-      </div>
-
-      <div className="mt-5 mx-4">
-          <DataGrid
-            className="data-grid"
-            sx={{
-              width: "100%",
-              height: 550,
-              [`& .${gridClasses.row}`]: {
-                bgcolor: grey[200],
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            getRowSpacing={(params) => ({
-                top: params.isFirstVisible ? 0 : 2,
-              bottom: params.isLastVisible ? 0 : 2,
-            })}
-            localeText={{
-              toolbarDensity: "Size",
-              toolbarDensityLabel: "Size",
-              toolbarDensityCompact: "Small",
-              toolbarDensityStandard: "Medium",
-              toolbarDensityComfortable: "Large",
-            }}
-            slots={{
-              toolbar: GridToolbar,
-            }}
-          />
-      </div>
-
+      <h2 className="text-center mt-3">MEMBERS</h2>
+      <Table rows={rows} columns={columns} />
     </div>
   );
 }
