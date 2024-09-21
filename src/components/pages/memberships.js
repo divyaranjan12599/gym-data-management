@@ -12,8 +12,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 function Memberships() {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
   const navigate = useNavigate();
   let { membershipData } = useContext(UserContext);
   const handleRowClick = (row) => {
@@ -71,13 +69,13 @@ function Memberships() {
   );
 
   const rows = membershipData
-    .filter((membership) => {
-      const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
-      const currentDate = new Date();
-      return new Date(endDate) > currentDate;
-    })
+    // .filter((membership) => {
+    //   const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
+    //   const currentDate = new Date();
+    //   return new Date(endDate) > currentDate;
+    // })
     .map((membership) => {
-      const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
+
       return {
         id: membership.membershipBy?._id || "N/A",
         name: membership.membershipBy?.name || "N/A",
@@ -85,7 +83,7 @@ function Memberships() {
         email: membership.membershipBy?.email || "N/A",
         package: membership.membershipPeriod || "N/A",
         startDate: membership.startDate || "N/A",
-        endDate: endDate || "N/A",
+        endDate: membership.endDate || "N/A",
         status: membership.status || "N/A",
         photoURL: membership.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
       };

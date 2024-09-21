@@ -207,7 +207,6 @@ function App() {
 			fetchClientPaymentData();
 			fetchClientData();
 			fetchStaffUser();
-			console.log("user:", userAuth.user);
 		}
 	}, [
 		userAuth,

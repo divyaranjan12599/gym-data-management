@@ -7,6 +7,7 @@ import { UserContext } from "../../App";
 import { Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import ReactDatePicker from "react-datepicker";
+import { formatDate } from "../inc/utilityFuncs";
 
 const initialClientState = {
   fname: "",
@@ -28,7 +29,7 @@ const initialClientState = {
   // idProofBack: null,
   emergencyContactName: "",
   emergencyContactNumber: "",
-  registrationFees: "",
+  registrationFees: 0,
   membershipPeriod: "monthly",
   membershipAmount: "",
   amountPaid: "",
@@ -146,10 +147,23 @@ function AddMembers() {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    setClientData({
+
+    const updatedData = {
       ...clientData,
-      [name]: type === "file" ? files[0] : value,
-    });
+      [name]: type === "date" ? formatDate(value) : value,
+    };
+
+    if (name === "membershipAmount") {
+      console.log("Membership Amount:", value);
+      updatedData.amountPaid = value; 
+    }
+    
+    if (name === "amountPaid") {
+      console.log("Membership Amount:", value);
+      updatedData.amountRemaining = clientData.membershipAmount - value; 
+    }
+
+    setClientData(updatedData);
   };
 
   const handleNext = (e) => {
@@ -182,7 +196,7 @@ function AddMembers() {
         !clientData.amountRemaining ||
         !clientData.paymentMode
       ) {
-        // toast.error("Please fill out all required fields.");
+        toast.error("Please fill out all required fields.");
         return;
       }
       // Additional validations can be added here
@@ -213,7 +227,7 @@ function AddMembers() {
         }
       );
       toast.success("Client added Successfully")
-      window.location.reload();
+      // window.location.reload();
       setCurrentStep(1);
       resetClientData();
     } catch (error) {
@@ -528,7 +542,7 @@ function AddMembers() {
                           <ReactDatePicker
                             // selected={enquiryData.lastFollowUpOn}
                             selected={clientData.joiningDate}
-                            onChange={handleChange}
+                            onChange={(date) => handleChange({ target: { name: "joiningDate", value: date, type: "date" } })}
                             name="joiningDate"
                             // showTimeSelect
                             // timeFormat="HH:mm"
@@ -865,7 +879,7 @@ function AddMembers() {
                     <ReactDatePicker
                       // selected={enquiryData.lastFollowUpOn}
                       selected={clientData.membershipStartingDate}
-                      onChange={handleChange}
+                      onChange={(date) => handleChange({ target: { name: "membershipStartingDate", value: date } })}
                       name="membershipStartingDate"
                       // showTimeSelect
                       // timeFormat="HH:mm"
@@ -1008,7 +1022,7 @@ function AddMembers() {
                             <ReactDatePicker
                               // selected={enquiryData.lastFollowUpOn}
                               selected={clientData.ptStartDate}
-                              onChange={handleChange}
+                              onChange={(date) => handleChange({ target: { name: "ptStartDate", value: date } })}
                               name="ptStartDate"
                               // showTimeSelect
                               // timeFormat="HH:mm"
@@ -1139,7 +1153,7 @@ function AddMembers() {
                     <ReactDatePicker
                       // selected={enquiryData.lastFollowUpOn}
                       selected={clientData.transactionDate}
-                      onChange={handleChange}
+                      onChange={(date) => handleChange({ target: { name: "transactionDate", value: date } })}
                       name="transactionDate"
                       // showTimeSelect
                       // timeFormat="HH:mm"
@@ -1193,7 +1207,7 @@ function AddMembers() {
                       <ReactDatePicker
                         // selected={enquiryData.lastFollowUpOn}
                         selected={clientData.dueDate}
-                        onChange={handleChange}
+                        onChange={(date) => handleChange({ target: { name: "dueDate", value: date } })}
                         name="dueDate"
                         // showTimeSelect
                         // timeFormat="HH:mm"
