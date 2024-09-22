@@ -120,8 +120,10 @@ function Invoices() {
     []
   );
 
+  console.log(paymentData);
+
   const rows = paymentData.map((payment, index) => ({
-    id: payment?.amountPaidBy?.id || "N/A",
+    id: index + 1,
     name: payment?.amountPaidBy?.name || "N/A",
     phone: payment?.amountPaidBy?.contact || "N/A",
     email: payment?.amountPaidBy?.email || "N/A",
@@ -131,10 +133,9 @@ function Invoices() {
     dueDate: payment?.dueDate || "N/A",
     transactionId: payment?.transactionId || "N/A",
     address: payment?.amountPaidBy?.address.city || "N/A",
-    // remaining: payment?.paymentDetails.amountRemaining,
     status: payment?.status || "N/A",
     photoURL: payment?.amountPaidBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
-    actions: "N/A",
+    actions: "",
   }));
 
   return (

@@ -330,8 +330,8 @@ function Navbar(props) {
             <div className="d-flex">
               <div class="btn-group">
                 <button class="nav-link py-2 px-0 px-lg-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <FontAwesomeIcon icon={faUser} /> &nbsp;&nbsp;
-                  {userAuth.user.role === "ADMIN" ? "ADMIN" : loggedInUser.ownerName}
+                  <FontAwesomeIcon icon={faUser} />
+                  {userAuth.user.role === "ADMIN" ? " ADMIN" : loggedInUser.name}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end p-2">
                   <li>
