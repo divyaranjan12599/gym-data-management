@@ -69,11 +69,6 @@ function Memberships() {
   );
 
   const rows = membershipData
-    // .filter((membership) => {
-    //   const endDate = endDateGenerator(membership?.startDate, membership?.membershipPeriod);
-    //   const currentDate = new Date();
-    //   return new Date(endDate) > currentDate;
-    // })
     .map((membership) => {
 
       return {

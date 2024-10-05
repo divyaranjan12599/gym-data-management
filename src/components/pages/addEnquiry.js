@@ -244,7 +244,7 @@ function AddEnquiry() {
                             />
                         </div>
                         <div className="mb-2 col-6 d-flex flex-column">
-                            <label>Last Follow Up On</label>
+                            <label>Follow Up On</label>
                             <ReactDatePicker
                                 // selected={enquiryData.lastFollowUpOn}
                                 selected={lastFollowUpDateTime}
