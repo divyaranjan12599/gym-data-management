@@ -28,6 +28,7 @@ import Invoices from "./components/pages/invoices";
 import toast, { Toaster } from "react-hot-toast";
 import UserProfile from "./components/pages/userProfile";
 import Expenses from "./components/pages/expenses";
+import Revenue from "./components/pages/Revenue";
 
 export const UserContext = createContext({});
 
@@ -348,6 +349,14 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<Expenses />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/revenue"
+							element={
+								<ProtectedRoute>
+									<Revenue/>
 								</ProtectedRoute>
 							}
 						/>
