@@ -3,9 +3,10 @@ import { UserContext } from "../../App";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import defaultImage from "../icons/user.png";
-import { Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row} from "react-bootstrap";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
+import Table from '../inc/table'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MemberDetails() {
@@ -31,7 +32,10 @@ function MemberDetails() {
 		fetchClientData();
 		fetchPaymentData();
 		fetchMemData();
-		fetchPtData()
+		fetchPtData();
+
+		console.log("sdffsdj=====",memData, paymentData);
+		
 	}, [token]);
 
 	const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
@@ -267,6 +271,7 @@ function MemberDetails() {
 	};
 
 	const membershipColumns = useMemo(() => [
+		{ field: "id", headerName: "Membership ID", flex: 1 },
 		{ field: "package", headerName: "Package", flex: 1 },
 		{ field: "startDate", headerName: "Start Date", flex: 1 },
 		{ field: "endDate", headerName: "End Date", flex: 1 },
@@ -275,7 +280,7 @@ function MemberDetails() {
 
 	const paymentColumns = useMemo(
 		() => [
-			{ field: "id", headerName: "Client ID", flex: 1 },
+			{ field: "id", headerName: "Payment ID", flex: 1 },
 			{ field: "mode", headerName: "Mode", flex: 1 },
 			{ field: "amount_paid", headerName: "Amount Paid", flex: 1 },
 			{ field: "amount_remaining", headerName: "Amount Remaining", flex: 1 },
@@ -284,7 +289,7 @@ function MemberDetails() {
 		[paymentData]
 	);
 
-	const membershipRows = (memData).map((membership, index) => {
+	const membershipRows = memData.map((membership, index) => {
 		const currentDate = new Date();
 		const status = new Date(membership?.endDate) < currentDate ? "Completed" : "Running";
 
@@ -297,7 +302,7 @@ function MemberDetails() {
 		};
 	});
 
-	const paymentRows = (paymentData || []).map((payment, index) => ({
+	const paymentRows = paymentData.map((payment, index) => ({
 		id: index + 1,
 		amount_paid: payment?.amountPaid || "N/A",
 		amount_remaining: payment?.amountRemaining || "N/A",
@@ -305,6 +310,8 @@ function MemberDetails() {
 		due_date: payment?.dueDate || "N/A",
 	}));
 
+	console.log("----------",paymentRows);
+	
 
 
 

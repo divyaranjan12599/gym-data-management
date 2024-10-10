@@ -296,7 +296,7 @@ function Navbar(props) {
                 </ul>
               </li>
               <li className="nav-item dropstart" onMouseEnter={() => handleDropdownToggle(true, 2)} onMouseLeave={() => handleDropdownToggle(false, 2)}>
-                <a className={`nav-link m-2 ${location.pathname === "/staff" || location.pathname === "/ptMembers" || location.pathname === "/recentMemberships" || location.pathname === "/staffAttendance" || location.pathname === "/enquiries" ? "active" : ""}`} role="button" aria-expanded="false">
+                <a className={`nav-link m-2 ${location.pathname === "/staff" || location.pathname === "/ptMembers" || location.pathname === "/expenses" || location.pathname === "/revenue" ||  location.pathname === "/recentMemberships" || location.pathname === "/staffAttendance" || location.pathname === "/enquiries" ? "active" : ""}`} role="button" aria-expanded="false">
                   More{" "}
                 </a>
                 <ul className={`dropdown-menu dropdown-menu-lg-end ${isDropdownOpen2 ? "show" : ""} p-2`}>
@@ -313,12 +313,12 @@ function Navbar(props) {
                   {userAuth.user.role === "ADMIN" && (
                     <>
                       <li>
-                        <Link className={`dropdown-item admin-tab ${location.pathname === "/expenses" ? "active-dropdown" : ""}`} to="/expenses">
+                        <Link className={`dropdown-item ${location.pathname === "/expenses" ? "active-dropdown" : "admin-tab"}`} to="/expenses">
                           Expenses
                         </Link>
                       </li>
                       <li>
-                        <Link className={`dropdown-item admin-tab ${location.pathname === "/revenue" ? "active-dropdown" : ""}`} to="/revenue">
+                        <Link className={`dropdown-item ${location.pathname === "/revenue" ? "active-dropdown" : "admin-tab "}`} to="/revenue">
                           Revenue
                         </Link>
                       </li>
