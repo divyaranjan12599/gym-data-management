@@ -29,6 +29,27 @@ function MemberDetails() {
 
 
 	useEffect(() => {
+		cloudinaryRef.current = window.cloudinary;
+		widgetRef.current = cloudinaryRef.current.createUploadWidget(
+		  {
+			cloudName: CLOUD_NAME,
+			uploadPreset: UPLOAD_PRESENT,
+			multiple: true,
+			folder: "GDMTool"
+		  },
+		  (err, result) => {
+			if (result.event === "success") {
+			  toast.success("Image uploaded Successfully");
+			  // console.log("Done! Here is the image info: ", result.info);
+	
+			  setImageURL(result.info.secure_url);
+			}
+		  }
+		);
+	  }, []);
+
+
+	useEffect(() => {
 		fetchClientData();
 		fetchPaymentData();
 		fetchMemData();
@@ -191,6 +212,8 @@ function MemberDetails() {
 	const handlePtMembershipUpdateModalClose = () => setPtMembershipUpdateModalShow(false);
 	const handlePtMembershipUpdateModalShow = () => setPtMembershipUpdateModalShow(true);
 
+	
+
 	const [image, selectImage] = useState({
 		placeholder: defaultImage,
 		files: null,
@@ -208,7 +231,7 @@ function MemberDetails() {
 			toast.success("Updated User")
 
 		} catch (error) {
-			toast.error(error);
+			toast.error(error.message);
 		}
 	}
 
@@ -223,7 +246,7 @@ function MemberDetails() {
 			);
 			toast.success("User Membership updated Successfully");
 		} catch (error) {
-			toast.error(error);
+			toast.error(error.message);
 		}
 	}
 
@@ -239,7 +262,7 @@ function MemberDetails() {
 			toast.success("User deleted Successfully");
 			navigate("/membership");
 		} catch (error) {
-			toast.error(error);
+			toast.error(error.message);
 			// console.log(error);
 			// setEnquiryData([]);
 		}
