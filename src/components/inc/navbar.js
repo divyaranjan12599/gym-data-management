@@ -36,6 +36,10 @@ function Navbar(props) {
   const handlePassChangeModalShow = () => setChangePassShow(true);
 
   const handleLogout = () => {
+    const isConfirmed = window.confirm("Are you sure?");
+    if (!isConfirmed) {
+      return;
+    }
     logOutUser("user");
     window.location.reload();
   };

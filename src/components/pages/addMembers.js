@@ -31,7 +31,7 @@ const initialClientState = {
   emergencyContactNumber: "",
   registrationFees: 0,
   membershipPeriod: "monthly",
-  membershipAmount: "",
+  membershipAmount: 0,
   amountPaid: "",
   amountRemaining: "",
   startDate: new Date(),
@@ -40,7 +40,7 @@ const initialClientState = {
   transactionDate: new Date(),
   paymentMode: "online",
   transactionId: "",
-  ptFees: "",
+  ptFees: 0,
   ptMembershipPeriod: "monthly",
   ptAssignedTo: "",
 };
@@ -154,14 +154,17 @@ function AddMembers() {
       [name]: value,
     };
 
-    if (name === "membershipAmount") {
-      console.log("Membership Amount:", value);
-      updatedData.amountPaid = value; 
+    if (name === "membershipAmount" || name === "ptFees" || name === "registrationFees") {
+      const totAmount = Number(clientData.membershipAmount)+Number(clientData.ptFees)+Number(clientData.registrationFees);
+      console.log("Membership Amount:", totAmount);
+      updatedData.amountPaid = totAmount; 
+      updatedData.amountRemaining = 0;
     }
     
     if (name === "amountPaid") {
-      console.log("Membership Amount:", value);
-      updatedData.amountRemaining = clientData.membershipAmount - value; 
+      const totAmount = Number(clientData.membershipAmount)+Number(clientData.ptFees)+Number(clientData.registrationFees);
+      console.log("Amount====:", totAmount);
+      updatedData.amountRemaining = totAmount - value; 
     }
 
     setClientData(updatedData);
