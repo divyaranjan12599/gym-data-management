@@ -87,7 +87,7 @@ function AddStaffs() {
     // setJoiningDate(date);
     setStaffData({
       ...staffData,
-      "joiningDate": date
+      joiningDate: date,
     });
   };
 
@@ -160,7 +160,6 @@ function AddStaffs() {
           <div className="row w-100">
             <div className="main-box col-md-10">
               <div className="row w-100">
-
                 <div className="mb-2 col-lg-6">
                   <label>Name</label>
                   <input
@@ -250,7 +249,6 @@ function AddStaffs() {
                     dateFormat="MMMM d, yyyy"
                     className="form-control "
                   />
-
                 </div>
 
                 <div className="mb-2 col-lg-6">
@@ -278,9 +276,9 @@ function AddStaffs() {
                 </div>
 
                 <div className="mb-2 flex-column col-lg-6">
-                  <label>Gender</label>
                   <div className="mt-2 d-flex flex-row">
-                    <div className="from-check col-6">
+                    <label className="col-4">Gender</label>
+                    <div className="from-check col-4">
                       <input
                         className="form-check-input me-2"
                         type="radio"
@@ -294,7 +292,7 @@ function AddStaffs() {
                         Male
                       </label>
                     </div>
-                    <div className="from-check col-6">
+                    <div className="from-check col-4">
                       <input
                         className="form-check-input me-2"
                         type="radio"
@@ -310,7 +308,6 @@ function AddStaffs() {
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <div className="pic-box col-2">
@@ -335,7 +332,9 @@ function AddStaffs() {
             </div>
 
             <div className="mb-2 col-12">
-              <label for="inputAddress" className="form-label">Area Details</label>
+              <label for="inputAddress" className="form-label">
+                Area Details
+              </label>
               <input
                 type="text"
                 onChange={handleChange}
@@ -359,7 +358,9 @@ function AddStaffs() {
               />
             </div>
             <div className="mb-2 col-md-6">
-              <label for="inputCity" className="form-label">City</label>
+              <label for="inputCity" className="form-label">
+                City
+              </label>
               <input
                 type="text"
                 onChange={handleChange}
@@ -381,7 +382,9 @@ function AddStaffs() {
               />
             </div>
             <div className="mb-2 col-md-4">
-              <label for="inputState" className="form-label">State</label>
+              <label for="inputState" className="form-label">
+                State
+              </label>
               <select
                 id="inputState"
                 className="form-select"
@@ -431,7 +434,9 @@ function AddStaffs() {
               </select>
             </div>
             <div className="mb-2 col-md-2">
-              <label for="inputZip" className="form-label">Zip</label>
+              <label for="inputZip" className="form-label">
+                Zip
+              </label>
               <input
                 type="text"
                 onChange={handleChange}
@@ -440,9 +445,7 @@ function AddStaffs() {
                 className="form-control"
                 id="inputZip"
                 placeholder={
-                  validationErrors.zip
-                    ? `Please enter pincode !!`
-                    : "pincode"
+                  validationErrors.zip ? `Please enter pincode !!` : "pincode"
                 }
                 style={{
                   borderBottom: validationErrors.zip
@@ -501,9 +504,11 @@ function AddStaffs() {
               />
             </div>
 
-            <div className="card p-0 text-left">
-              <div className="card-header border-top border-bottom">
-                <p className="text-center mb-0">Emergency Contact Details</p>
+            <div className="p-0 border-bottom bg-light">
+              <div className="border-top border-bottom ">
+                <h5 className="text-center mt-3 mb-2 ">
+                  Emergency Contact Details
+                </h5>
               </div>
               <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
                 <div className="row w-100 mt-2">

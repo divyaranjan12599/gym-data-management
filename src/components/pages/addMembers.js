@@ -124,7 +124,7 @@ function AddMembers() {
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESENT,
         multiple: true,
-        folder: "GDMTool"
+        folder: "GDMTool",
       },
       (err, result) => {
         if (result.event === "success") {
@@ -148,23 +148,33 @@ function AddMembers() {
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     // console.log(typeof(type),"----",typeof("date"));
-    
+
     const updatedData = {
       ...clientData,
       [name]: value,
     };
 
-    if (name === "membershipAmount" || name === "ptFees" || name === "registrationFees") {
-      const totAmount = Number(clientData.membershipAmount)+Number(clientData.ptFees)+Number(clientData.registrationFees);
+    if (
+      name === "membershipAmount" ||
+      name === "ptFees" ||
+      name === "registrationFees"
+    ) {
+      const totAmount =
+        Number(clientData.membershipAmount) +
+        Number(clientData.ptFees) +
+        Number(clientData.registrationFees);
       console.log("Membership Amount:", totAmount);
-      updatedData.amountPaid = totAmount; 
+      updatedData.amountPaid = totAmount;
       updatedData.amountRemaining = 0;
     }
-    
+
     if (name === "amountPaid") {
-      const totAmount = Number(clientData.membershipAmount)+Number(clientData.ptFees)+Number(clientData.registrationFees);
+      const totAmount =
+        Number(clientData.membershipAmount) +
+        Number(clientData.ptFees) +
+        Number(clientData.registrationFees);
       console.log("Amount====:", totAmount);
-      updatedData.amountRemaining = totAmount - value; 
+      updatedData.amountRemaining = totAmount - value;
     }
 
     setClientData(updatedData);
@@ -230,7 +240,7 @@ function AddMembers() {
           },
         }
       );
-      toast.success("Client added Successfully")
+      toast.success("Client added Successfully");
       // window.location.reload();
       setCurrentStep(1);
       resetClientData();
@@ -264,7 +274,7 @@ function AddMembers() {
               <div className="row w-100">
                 <form className="d-flex flex-column justify-content-center align-items-center p-2">
                   <div className="row w-100">
-                    <div className="main-box col-8">
+                    <div className="main-box col-10">
                       <div className="row w-100 h-100">
                         <div className="mb-2 flex-column col-lg-6 ">
                           <label>First Name</label>
@@ -387,286 +397,12 @@ function AddMembers() {
                             />
                           </div>
                         </div>
-
-                        <div className="mb-2 col-12">
-                          <label>Area</label>
-                          <input
-                            type="text"
-                            onChange={handleChange}
-                            name="address1"
-                            value={clientData.address1}
-                            className="form-control"
-                            id="inputAddress2"
-                            // required
-                            placeholder={
-                              validationErrors.address1
-                                ? `Field required...`
-                                : "Apartment, studio, or floor"
-                            }
-                            style={{
-                              borderBottom: validationErrors.address1
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color": validationErrors.address1
-                                ? "red"
-                                : "#6c757d",
-                            }}
-                          />
-                        </div>
-                        <div className="mb-2 col-md-6">
-                          <label>City</label>
-                          <input
-                            type="text"
-                            onChange={handleChange}
-                            name="city"
-                            value={clientData.city}
-                            className="form-control"
-                            id="inputCity"
-                            // required
-                            placeholder={
-                              validationErrors.city
-                                ? `City input required !!`
-                                : "Enter city"
-                            }
-                            style={{
-                              borderBottom: validationErrors.city
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color": validationErrors.city
-                                ? "red"
-                                : "#6c757d",
-                            }}
-                          />
-                        </div>
-                        <div className="mb-2 col-md-4">
-                          <label>State</label>
-                          <select
-                            id="inputState"
-                            name="state"
-                            onChange={handleChange}
-                            value={clientData.state}
-                            className="form-select"
-                            style={{
-                              borderBottom: validationErrors.state
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                            }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={!clientData.state}
-                              style={{
-                                color: validationErrors.state
-                                  ? "red"
-                                  : "#6c757d",
-                              }}
-                            >
-                              {validationErrors.state
-                                ? "State input required!!"
-                                : "State"}
-                            </option>
-                            <option value="Madhya Pradesh">
-                              Madhya Pradesh
-                            </option>
-                            <option value="Telangana">Telangana</option>
-                            <option value="Uttar Pradesh">Uttar Pradesh</option>
-                            <option value="Maharashtra">Maharashtra</option>
-                          </select>
-                        </div>
-
-                        <div className="mb-2 col-md-2">
-                          <label>PinCode</label>
-                          <input
-                            type="text"
-                            onChange={handleChange}
-                            name="zip"
-                            value={clientData.zip}
-                            className="form-control"
-                            id="inputZip"
-                            // required
-                            placeholder={
-                              validationErrors.zip
-                                ? `pincode requi...`
-                                : "Pincode"
-                            }
-                            style={{
-                              borderBottom: validationErrors.zip
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color": validationErrors.zip
-                                ? "red"
-                                : "#6c757d",
-                            }}
-                          />
-                        </div>
-
-                        <div className="col-6">
-                          <label>Gender</label>
-                          <div className="col-md-12 d-flex flex-row">
-                            <div className="from-check col-6">
-                              <input
-                                className="form-check-input me-2"
-                                type="radio"
-                                name="gender"
-                                id="gridRadios1"
-                                value="Male"
-                                checked={clientData.gender === "Male"}
-                                onChange={handleChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="gridRadios1"
-                              >
-                                Male
-                              </label>
-                            </div>
-                            <div className="from-check col-6">
-                              <input
-                                className="form-check-input me-2"
-                                type="radio"
-                                name="gender"
-                                id="gridRadios2"
-                                value="Female"
-                                checked={clientData.gender === "Female"}
-                                onChange={handleChange}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor="gridRadios2"
-                              >
-                                Female
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-6 d-flex flex-column">
-                          <label>Joining Date</label>
-                          <ReactDatePicker
-                            // selected={enquiryData.lastFollowUpOn}
-                            selected={clientData.joiningDate}
-                            onChange={(date) => handleChange({ target: { name: "joiningDate", value: date, type: "date" } })}
-                            name="joiningDate"
-                            // showTimeSelect
-                            // timeFormat="HH:mm"
-                            // timeIntervals={15}
-                            dateFormat="MMMM d, yyyy"
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-12">
-                          <label>ID Proof Details</label>
-                          <div
-                            className="mb-2 input-group d-flex flex-row"
-                            style={{
-                              borderBottom: validationErrors.idProofNumber
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color":
-                                validationErrors.idProofNumber
-                                  ? "red"
-                                  : "#6c757d",
-                            }}
-                          >
-                            <select
-                              id="idProofType"
-                              onChange={handleChange}
-                              value={clientData.idProofType}
-                              name="idProofType"
-                              className="form-select custom-col-3"
-                              style={{
-                                borderBottom: validationErrors.idProofType
-                                  ? "2px inset red"
-                                  : "1px solid #ced4da",
-                              }}
-                            >
-                              <option
-                                value=""
-                                disabled
-                                selected={!clientData.idProofType}
-                                style={{
-                                  color: validationErrors.idProofType
-                                    ? "red"
-                                    : "#6c757d",
-                                }}
-                              >
-                                {validationErrors.idProofType
-                                  ? "Please select!!!"
-                                  : "Select"}
-                              </option>
-                              <option value="adhar">Adhar Card</option>
-                              <option value="pan">PAN Card</option>
-                              <option value="license">License</option>
-                              {/* <option value="4">Other</option> */}
-                            </select>
-
-                            <input
-                              className="form-control custom-col-9"
-                              type="text"
-                              onChange={handleChange}
-                              value={clientData.idProofNumber}
-                              name="idProofNumber"
-                              id="idProof"
-                              placeholder={
-                                validationErrors.idProofNumber
-                                  ? "ID proof required..."
-                                  : "ID proof number"
-                              }
-                            />
-                          </div>
-                        </div>
-                        {/* <div className="mb-2 col-6">
-                          <label htmlFor="idProofFront" className="form-label">
-                            ID Proof Front
-                          </label>
-                          <input
-                            className="form-control"
-                            type="file"
-                            name="idProofFront"
-                            id="idProofFront"
-                            onChange={handleChange}
-                            value={clientData.idProofFront}
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            // required
-                            style={{
-                              borderBottom: validationErrors.idProofFront
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color":
-                                validationErrors.idProofFront
-                                  ? "red"
-                                  : "#6c757d",
-                            }}
-                          />
-                        </div>
-                        <div className="mb-2 col-6">
-                          <label htmlFor="idProofBack" className="form-label">
-                            ID Proof Back
-                          </label>
-                          <input
-                            className="form-control"
-                            type="file"
-                            name="idProofBack"
-                            id="idProofBack"
-                            style={{
-                              borderBottom: validationErrors.idProofBack
-                                ? "2px inset red"
-                                : "1px solid #ced4da",
-                              "--placeholder-color":
-                                validationErrors.idProofBack
-                                  ? "red"
-                                  : "#6c757d",
-                            }}
-                          />
-                        </div> */}
                       </div>
                     </div>
 
-                    <div className="pic-box col-4">
+                    <div className="pic-box col-2">
                       <div
-                        className="card p-2 w-100 h-100 align-items-center justify-content-center"
+                        className="card p-2 w-100 align-items-center justify-content-center"
                         onClick={() => widgetRef.current.open()}
                       >
                         <div className="icon-container">
@@ -689,7 +425,238 @@ function AddMembers() {
                       </div>
                     </div>
 
-                    <div className="p-0 border-bottom">
+                    <div className="col-6">
+                      <label>Gender</label>
+                      <div className="col-md-12 d-flex flex-row">
+                        <div className="from-check col-6">
+                          <input
+                            className="form-check-input me-2"
+                            type="radio"
+                            name="gender"
+                            id="gridRadios1"
+                            value="Male"
+                            checked={clientData.gender === "Male"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="gridRadios1"
+                          >
+                            Male
+                          </label>
+                        </div>
+                        <div className="from-check col-6">
+                          <input
+                            className="form-check-input me-2"
+                            type="radio"
+                            name="gender"
+                            id="gridRadios2"
+                            value="Female"
+                            checked={clientData.gender === "Female"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="gridRadios2"
+                          >
+                            Female
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-6 d-flex flex-column">
+                      <label>Joining Date</label>
+                      <ReactDatePicker
+                        // selected={enquiryData.lastFollowUpOn}
+                        selected={clientData.joiningDate}
+                        onChange={(date) =>
+                          handleChange({
+                            target: {
+                              name: "joiningDate",
+                              value: date,
+                              type: "date",
+                            },
+                          })
+                        }
+                        name="joiningDate"
+                        // showTimeSelect
+                        // timeFormat="HH:mm"
+                        // timeIntervals={15}
+                        dateFormat="MMMM d, yyyy"
+                        className="form-control"
+                      />
+                    </div>
+
+                    <div className="mb-2 col-12">
+                      <label>Area</label>
+                      <input
+                        type="text"
+                        onChange={handleChange}
+                        name="address1"
+                        value={clientData.address1}
+                        className="form-control"
+                        id="inputAddress2"
+                        // required
+                        placeholder={
+                          validationErrors.address1
+                            ? `Field required...`
+                            : "Apartment, studio, or floor"
+                        }
+                        style={{
+                          borderBottom: validationErrors.address1
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.address1
+                            ? "red"
+                            : "#6c757d",
+                        }}
+                      />
+                    </div>
+                    <div className="mb-2 col-md-6">
+                      <label>City</label>
+                      <input
+                        type="text"
+                        onChange={handleChange}
+                        name="city"
+                        value={clientData.city}
+                        className="form-control"
+                        id="inputCity"
+                        // required
+                        placeholder={
+                          validationErrors.city
+                            ? `City input required !!`
+                            : "Enter city"
+                        }
+                        style={{
+                          borderBottom: validationErrors.city
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.city
+                            ? "red"
+                            : "#6c757d",
+                        }}
+                      />
+                    </div>
+                    <div className="mb-2 col-md-4">
+                      <label>State</label>
+                      <select
+                        id="inputState"
+                        name="state"
+                        onChange={handleChange}
+                        value={clientData.state}
+                        className="form-select"
+                        style={{
+                          borderBottom: validationErrors.state
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                        }}
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected={!clientData.state}
+                          style={{
+                            color: validationErrors.state ? "red" : "#6c757d",
+                          }}
+                        >
+                          {validationErrors.state
+                            ? "State input required!!"
+                            : "State"}
+                        </option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                      </select>
+                    </div>
+
+                    <div className="mb-2 col-md-2">
+                      <label>PinCode</label>
+                      <input
+                        type="text"
+                        onChange={handleChange}
+                        name="zip"
+                        value={clientData.zip}
+                        className="form-control"
+                        id="inputZip"
+                        // required
+                        placeholder={
+                          validationErrors.zip ? `pincode requi...` : "Pincode"
+                        }
+                        style={{
+                          borderBottom: validationErrors.zip
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.zip
+                            ? "red"
+                            : "#6c757d",
+                        }}
+                      />
+                    </div>
+
+                    <div className="col-12">
+                      <label>ID Proof Details</label>
+                      <div
+                        className="mb-2 input-group d-flex flex-row"
+                        style={{
+                          borderBottom: validationErrors.idProofNumber
+                            ? "2px inset red"
+                            : "1px solid #ced4da",
+                          "--placeholder-color": validationErrors.idProofNumber
+                            ? "red"
+                            : "#6c757d",
+                        }}
+                      >
+                        <select
+                          id="idProofType"
+                          onChange={handleChange}
+                          value={clientData.idProofType}
+                          name="idProofType"
+                          className="form-select custom-col-3"
+                          style={{
+                            borderBottom: validationErrors.idProofType
+                              ? "2px inset red"
+                              : "1px solid #ced4da",
+                          }}
+                        >
+                          <option
+                            value=""
+                            disabled
+                            selected={!clientData.idProofType}
+                            style={{
+                              color: validationErrors.idProofType
+                                ? "red"
+                                : "#6c757d",
+                            }}
+                          >
+                            {validationErrors.idProofType
+                              ? "Please select!!!"
+                              : "Select"}
+                          </option>
+                          <option value="adhar">Adhar Card</option>
+                          <option value="pan">PAN Card</option>
+                          <option value="license">License</option>
+                          {/* <option value="4">Other</option> */}
+                        </select>
+
+                        <input
+                          className="form-control custom-col-9"
+                          type="text"
+                          onChange={handleChange}
+                          value={clientData.idProofNumber}
+                          name="idProofNumber"
+                          id="idProof"
+                          placeholder={
+                            validationErrors.idProofNumber
+                              ? "ID proof required..."
+                              : "ID proof number"
+                          }
+                        />
+                      </div>
+                    </div>
+
+                    <div className="p-0 border-bottom bg-light">
                       <div className="border-top border-bottom ">
                         <h5 className="text-center mt-3 mb-2 ">
                           Emergency Contact Details
@@ -883,7 +850,15 @@ function AddMembers() {
                     <ReactDatePicker
                       // selected={enquiryData.lastFollowUpOn}
                       selected={clientData.membershipStartingDate}
-                      onChange={(date) => handleChange({ target: { name: "membershipStartingDate", value: date, type: "date" } })}
+                      onChange={(date) =>
+                        handleChange({
+                          target: {
+                            name: "membershipStartingDate",
+                            value: date,
+                            type: "date",
+                          },
+                        })
+                      }
                       name="membershipStartingDate"
                       // showTimeSelect
                       // timeFormat="HH:mm"
@@ -1026,7 +1001,15 @@ function AddMembers() {
                             <ReactDatePicker
                               // selected={enquiryData.lastFollowUpOn}
                               selected={clientData.ptStartDate}
-                              onChange={(date) => handleChange({ target: { name: "ptStartDate", value: date, type: "date" } })}
+                              onChange={(date) =>
+                                handleChange({
+                                  target: {
+                                    name: "ptStartDate",
+                                    value: date,
+                                    type: "date",
+                                  },
+                                })
+                              }
                               name="ptStartDate"
                               // showTimeSelect
                               // timeFormat="HH:mm"
@@ -1157,7 +1140,15 @@ function AddMembers() {
                     <ReactDatePicker
                       // selected={enquiryData.lastFollowUpOn}
                       selected={clientData.transactionDate}
-                      onChange={(date) => handleChange({ target: { name: "transactionDate", value: date, type: "date" } })}
+                      onChange={(date) =>
+                        handleChange({
+                          target: {
+                            name: "transactionDate",
+                            value: date,
+                            type: "date",
+                          },
+                        })
+                      }
                       name="transactionDate"
                       // showTimeSelect
                       // timeFormat="HH:mm"
@@ -1211,7 +1202,15 @@ function AddMembers() {
                       <ReactDatePicker
                         // selected={enquiryData.lastFollowUpOn}
                         selected={clientData.dueDate}
-                        onChange={(date) => handleChange({ target: { name: "dueDate", value: date, type: "date" } })}
+                        onChange={(date) =>
+                          handleChange({
+                            target: {
+                              name: "dueDate",
+                              value: date,
+                              type: "date",
+                            },
+                          })
+                        }
                         name="dueDate"
                         // showTimeSelect
                         // timeFormat="HH:mm"

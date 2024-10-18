@@ -35,11 +35,7 @@ function Staff() {
       { field: "id", headerName: "Staff ID", flex: 1 },
       { field: "name", headerName: "Name", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
-      { field: "package", headerName: "Package", flex: 1 },
-      { field: "startDate", headerName: "Start Date", flex: 1 },
-      { field: "endDate", headerName: "End Date", flex: 1 },
-      { field: "amount", headerName: "Amount", flex: 1 },
-      { field: "balance", headerName: "Balance", flex: 1 },
+      { field: "joiningDate", headerName: "Joining Date", flex: 1 },
       {
         field: "actions",
         headerName: "View",
@@ -63,12 +59,7 @@ function Staff() {
     id: index + 1 || "N/A",
     name: staff.name || "N/A",
     phone: staff.contact || "N/A",
-    package: staff.package || "N/A",
-    startDate: staff.joiningdate || "N/A",
-    endDate: staff.endDate || "N/A",
-    amount: staff.amount || "N/A",
-    balance: staff.balance || "N/A",
-    status: staff.status || "N/A",
+    joiningDate: staff.joiningdate || "N/A",
     photoURL:
       staff.photoUrl ||
       "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
