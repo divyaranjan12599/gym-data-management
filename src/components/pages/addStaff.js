@@ -15,14 +15,12 @@ const initialStaffState = {
   contactNumber: "",
   address: "",
   city: "",
-  state: "",
+  state: "Telangana",
   zip: "",
   gender: "Male",
   joiningDate: new Date(),
-  idProofType: "",
+  idProofType: "adhar",
   idProofNumber: "",
-  idProofFront: null,
-  idProofBack: null,
   emergencyContactName: "",
   emergencyContactNumber: "",
 };
@@ -47,8 +45,6 @@ function AddStaffs() {
     if (!staffData.gender) errors.gender = "Field required";
     if (!staffData.idProofType) errors.idProofType = "Field required";
     if (!staffData.idProofNumber) errors.idProofNumber = "Field required";
-    if (!staffData.idProofFront) errors.idProofFront = "Field required";
-    if (!staffData.idProofBack) errors.idProofBack = "Field required";
     if (!staffData.emergencyContactName)
       errors.emergencyContactName = "Field required";
     if (!staffData.emergencyContactNumber)
@@ -162,20 +158,8 @@ function AddStaffs() {
         </div>
         <form className="d-flex flex-column justify-content-center align-items-center p-2">
           <div className="row w-100">
-            <div className="main-box col-md-8">
+            <div className="main-box col-md-10">
               <div className="row w-100">
-                <div className="mb-2 flex-column col-lg-6 ">
-                  <label>Staff ID</label>
-                  <input
-                    type="text"
-                    onChange={handleChange}
-                    className="form-control"
-                    value={1602}
-                    placeholder="Enter Client ID"
-                    disabled
-                  />
-                  <span className="text-muted">*previous staff id: 1601</span>
-                </div>
 
                 <div className="mb-2 col-lg-6">
                   <label>Name</label>
@@ -207,6 +191,36 @@ function AddStaffs() {
 `}
                   </style>
                 </div>
+
+                <div className="mb-2 flex-column col-lg-6">
+                  <label>Contact Number</label>
+                  <div className="input-group">
+                    <span className="input-group-text" id="basic-addon1">
+                      +91
+                    </span>
+                    <input
+                      type="text"
+                      onChange={handleChange}
+                      name="contactNumber"
+                      value={staffData.contactNumber}
+                      className="form-control"
+                      placeholder={
+                        validationErrors.contactNumber
+                          ? `Contact number required !!`
+                          : "Contact Number"
+                      }
+                      style={{
+                        borderBottom: validationErrors.contactNumber
+                          ? "2px inset red"
+                          : "1px solid #ced4da",
+                        "--placeholder-color": validationErrors.contactNumber
+                          ? "red"
+                          : "#6c757d",
+                      }}
+                    />
+                  </div>
+                </div>
+
                 <div className="mb-2 col-lg-6 d-flex flex-column">
                   <label>Joining Date</label>
                   {/* <input
@@ -297,40 +311,11 @@ function AddStaffs() {
                   </div>
                 </div>
 
-                <div className="mb-2 flex-column col-lg-6">
-                  <label>Contact Number</label>
-                  <div className="input-group">
-                    <span className="input-group-text" id="basic-addon1">
-                      +91
-                    </span>
-                    <input
-                      type="text"
-                      onChange={handleChange}
-                      name="contactNumber"
-                      value={staffData.contactNumber}
-                      className="form-control"
-                      placeholder={
-                        validationErrors.contactNumber
-                          ? `Contact number required !!`
-                          : "Contact Number"
-                      }
-                      style={{
-                        borderBottom: validationErrors.contactNumber
-                          ? "2px inset red"
-                          : "1px solid #ced4da",
-                        "--placeholder-color": validationErrors.contactNumber
-                          ? "red"
-                          : "#6c757d",
-                      }}
-                    />
-                  </div>
-                </div>
-
               </div>
             </div>
-            <div className="pic-box col-4">
+            <div className="pic-box col-2">
               <div
-                className="card p-2 align-items-center justify-content-center w-100 h-100"
+                className="card p-2 align-items-center justify-content-center w-100"
                 onClick={() => widgetRef.current.open()}
               >
                 <div className="icon-container">
@@ -412,10 +397,37 @@ function AddStaffs() {
                     : "#6c757d",
                 }}
               >
-                <option selected>State</option>
-                <option value="1">Madhya Pradesh</option>
-                <option value="2">Uttar Pradesh</option>
-                <option value="3">Maharashtra</option>
+                <option value="">State</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana" selected>
+                  Telangana
+                </option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
               </select>
             </div>
             <div className="mb-2 col-md-2">
@@ -483,44 +495,6 @@ function AddStaffs() {
                     ? "2px inset red"
                     : "1px solid #ced4da",
                   "--placeholder-color": validationErrors.idProofNumber
-                    ? "red"
-                    : "#6c757d",
-                }}
-              />
-            </div>
-            <div className="mb-2 col-6 d-flex flex-row">
-              <label for="idProofFront" className="form-label custom-col-3">
-                ID Proof Front
-              </label>
-              <input
-                className="form-control custom-col-9"
-                type="file"
-                name="idProofFront"
-                id="idProofFront"
-                style={{
-                  borderBottom: validationErrors.idProofFront
-                    ? "2px inset red"
-                    : "1px solid #ced4da",
-                  "--placeholder-color": validationErrors.idProofFront
-                    ? "red"
-                    : "#6c757d",
-                }}
-              />
-            </div>
-            <div className="mb-2 col-6 d-flex flex-row">
-              <label for="idProofBack" className="form-label custom-col-3">
-                ID Proof Back
-              </label>
-              <input
-                className="form-control custom-col-9"
-                type="file"
-                name="idProofBack"
-                id="idProofBack"
-                style={{
-                  borderBottom: validationErrors.idProofBack
-                    ? "2px inset red"
-                    : "1px solid #ced4da",
-                  "--placeholder-color": validationErrors.idProofBack
                     ? "red"
                     : "#6c757d",
                 }}

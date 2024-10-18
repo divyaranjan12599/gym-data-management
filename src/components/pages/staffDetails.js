@@ -8,7 +8,8 @@ import { Avatar } from "@mui/material";
 import Table from "../inc/table";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Modal } from "react-bootstrap";
+import { ReactDatePicker } from 'react-datepicker';
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 
 function StaffDetails() {
   const { staffId } = useParams();
@@ -46,6 +47,19 @@ function StaffDetails() {
 
     // console.log("sdffsdj=====", memData, paymentData);
   }, [token]);
+
+  const [show, setShow] = useState(false);
+  const [personalDetailsModalShow, setPersonalDetailsModalShow] =
+    useState(false);
+  const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] =
+    useState(false);
+
+  const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
+	const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
+	const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
+	const handlePtMembershipUpdateModalClose = () => setPtMembershipUpdateModalShow(false);
+	const handlePtMembershipUpdateModalShow = () => setPtMembershipUpdateModalShow(true);
 
   const [image, selectImage] = useState({
     placeholder: defaultImage,
@@ -109,10 +123,10 @@ function StaffDetails() {
           <div className="col-md-3">
             <div className="card shadow p-2">
               <div className="d-flex justify-content-end">
-                <button className="btn btn-light">
+                <button className="btn btn-light" onClick={handleShow}>
                   <FontAwesomeIcon icon={faPencil} />
                 </button>
-{/* 
+
                 <Modal
                   show={ptmembershipUpdateModalShow}
                   onHide={handlePtMembershipUpdateModalClose}
@@ -381,6 +395,7 @@ function StaffDetails() {
                     
                   </Modal.Body>
                 </Modal>
+
                 <Modal
                   show={show}
                   onHide={handleClose}
@@ -407,11 +422,11 @@ function StaffDetails() {
                             className="w-100 h-100"
                             variant="primary"
                             onClick={() => {
-                              handleShow2();
+                              handlePtMembershipUpdateModalShow();
                               handleClose();
                             }}
                           >
-                            Update Membership
+                            Add PT Client
                           </Button>
                         </Col>
                         <Col md={4} className="ps-2 pe-0 text-center">
@@ -429,7 +444,318 @@ function StaffDetails() {
                       </Row>
                     </Container>
                   </Modal.Body>
-                </Modal> */}
+                </Modal>
+
+                
+                <Modal
+                  show={personalDetailsModalShow}
+                  onHide={handlePersonalDetailsModalClose}
+                  size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                >
+                  <Modal.Body className="">
+                    {/* <Container> */}
+                    <div className="w-100 d-flex justify-content-center">
+                      <div className="row w-100">
+                        <form className="d-flex flex-column justify-content-center align-items-center p-2">
+                          <div class="row w-100">
+                            <div className="main-box custom-col-9">
+                              <div className="row w-100 h-100">
+                                
+
+                                <div className="mb-2 col-lg-12">
+                                  <input
+                                    type="text"
+                                    onChange={handlePersonalDetailsChange}
+                                    className="form-control"
+                                    name="name"
+                                    value={personalDetailsFormData.name}
+                                    placeholder="Enter Full Name"
+                                  />
+                                </div>
+
+                                <div className="mb-2 col-lg-6">
+                                  <input
+                                    type="text"
+                                    onChange={handlePersonalDetailsChange}
+                                    name="email"
+                                    value={personalDetailsFormData.email}
+                                    className="form-control"
+                                    placeholder="Enter Email"
+                                  />
+                                </div>
+
+                                <div className="mb-2 flex-column col-lg-6">
+                                  <div class="input-group">
+                                    <span
+                                      class="input-group-text"
+                                      id="basic-addon1"
+                                    >
+                                      +91
+                                    </span>
+                                    <input
+                                      type="number"
+                                      onChange={handlePersonalDetailsChange}
+                                      name="contact"
+                                      value={personalDetailsFormData.contact}
+                                      class="form-control"
+                                      placeholder="Contact Number"
+                                      aria-label="Username"
+                                      aria-describedby="basic-addon1"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div class="mb-2 col-12">
+                                  <input
+                                    type="text"
+                                    onChange={handlePersonalDetailsChange}
+                                    name="address2"
+                                    value={
+                                      personalDetailsFormData.address
+                                        .areaDetails
+                                    }
+                                    class="form-control"
+                                    id="inputAddress"
+                                    placeholder="Area"
+                                  />
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                  <input
+                                    type="text"
+                                    onChange={handlePersonalDetailsChange}
+                                    name="city"
+                                    value={personalDetailsFormData.address.city}
+                                    class="form-control"
+                                    id="inputCity"
+                                    placeholder="City"
+                                  />
+                                </div>
+                                <div class="mb-2 col-md-4">
+                                  <select
+                                    id="inputState"
+                                    name="state"
+                                    onChange={handlePersonalDetailsChange}
+                                    value={
+                                      personalDetailsFormData.address.state
+                                    }
+                                    class="form-select"
+                                  >
+                                    <option selected>State</option>
+                                    <option value="Madhya Pradesh">
+                                      Madhya Pradesh
+                                    </option>
+                                    <option value="Uttar Pradesh">
+                                      Uttar Pradesh
+                                    </option>
+                                    <option value="Maharashtra">
+                                      Maharashtra
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="mb-2 col-md-2">
+                                  <input
+                                    type="text"
+                                    onChange={handlePersonalDetailsChange}
+                                    name="zip"
+                                    value={
+                                      personalDetailsFormData.address.pincode
+                                    }
+                                    class="form-control"
+                                    id="inputZip"
+                                    placeholder="Pincode"
+                                  />
+                                </div>
+
+                                <div className="col-6">
+                                  <label>Gender</label>
+                                  <div className="col-md-12 d-flex flex-row">
+                                    <div className="from-check col-6">
+                                      <input
+                                        className="form-check-input me-2"
+                                        type="radio"
+                                        name="gender"
+                                        id="gridRadios1"
+                                        value="Male"
+                                        checked={
+                                          personalDetailsFormData.gender ===
+                                          "male"
+                                        }
+                                        onChange={handlePersonalDetailsChange}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        for="gridRadios1"
+                                      >
+                                        Male
+                                      </label>
+                                    </div>
+                                    <div className="from-check col-6">
+                                      <input
+                                        className="form-check-input me-2"
+                                        type="radio"
+                                        name="gender"
+                                        id="gridRadios2"
+                                        value="Female"
+                                        checked={
+                                          personalDetailsFormData.gender ===
+                                          "female"
+                                        }
+                                        onChange={handlePersonalDetailsChange}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        for="gridRadios2"
+                                      >
+                                        Female
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="col-6">
+                                  <label>Joining Date</label>
+                                  <ReactDatePicker
+                                    selected={
+                                      personalDetailsFormData.joiningdate
+                                    }
+                                    onChange={(date) =>
+                                      handlePersonalDetailsChange({
+                                        target: {
+                                          name: "joiningdate",
+                                          value: date,
+                                          type: "date",
+                                        },
+                                      })
+                                    }
+                                    name="joiningdate"
+                                    dateFormat="MMMM d, yyyy"
+                                    className="form-control"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="pic-box custom-col-3">
+                              <div
+                                className="card p-2 w-100 h-100 align-items-center justify-content-center"
+                                onClick={() => widgetRef.current.open()}
+                              >
+                                <div className="icon-container">
+                                  {imageURL ? (
+                                    <img
+                                      src={imageURL}
+                                      alt=""
+                                      className="p-1 w-100 h-100"
+                                    />
+                                  ) : (
+                                    <>
+                                      <img
+                                        className="p-1 w-100 h-100"
+                                        src={image.placeholder}
+                                        alt=""
+                                      />
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-12">
+                              <label>ID Proof Details</label>
+                              <div className="mb-2 input-group d-flex flex-row">
+                                <select
+                                  id="idProofType"
+                                  onChange={handlePersonalDetailsChange}
+                                  value={personalDetailsFormData.idproof.type}
+                                  name="idProofType"
+                                  class="form-select custom-col-3"
+                                >
+                                  <option selected>Select</option>
+                                  <option value="adhar">Adhar Card</option>
+                                  <option value="pan">PAN Card</option>
+                                  <option value="license">License</option>
+                                  {/* <option value="4">Other</option> */}
+                                </select>
+
+                                <input
+                                  className="form-control custom-col-9"
+                                  type="text"
+                                  onChange={handlePersonalDetailsChange}
+                                  value={personalDetailsFormData.idproof.number}
+                                  name="idProofNumber"
+                                  id="idProof"
+                                  placeholder="id proof number"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="card p-0 text-left">
+                              <div className="card-header border-top border-bottom">
+                                <p className="text-center mb-0">
+                                  Emergency Contact Details
+                                </p>
+                              </div>
+                              <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
+                                <div className="row w-100 mt-2">
+                                  <div className="mb-2 col-lg-6">
+                                    {/* <label>Client Name</label> */}
+                                    <input
+                                      type="text"
+                                      onChange={handlePersonalDetailsChange}
+                                      name="emergencyContactName"
+                                      value={
+                                        personalDetailsFormData.emergencyContact
+                                          .name
+                                      }
+                                      className="form-control"
+                                      placeholder="Name"
+                                    />
+                                  </div>
+                                  <div className="mb-2 flex-column col-lg-6">
+                                    <div class="input-group">
+                                      <span
+                                        class="input-group-text"
+                                        id="basic-addon1"
+                                      >
+                                        +91
+                                      </span>
+                                      <input
+                                        type="number"
+                                        class="form-control"
+                                        name="emergencyContactNumber"
+                                        onChange={handlePersonalDetailsChange}
+                                        value={
+                                          personalDetailsFormData
+                                            .emergencyContact.contact
+                                        }
+                                        placeholder="Contact Number"
+                                        aria-label="Username"
+                                        aria-describedby="basic-addon1"
+                                        aria-hidden
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            <div className="d-flex justify-content-end mt-3">
+                              <button
+                                className="btn btn-primary"
+                                onClick={handlePersonalDetailsSubmit}
+                              >
+                                Save Changes
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    {/* </Container> */}
+                  </Modal.Body>
+                </Modal>
+
               </div>
               <div className="d-flex justify-content-center">
                 <img
