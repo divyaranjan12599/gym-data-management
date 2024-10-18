@@ -83,14 +83,6 @@ function AddStaffs() {
     });
   };
 
-  const joiningDateChange = (date) => {
-    // setJoiningDate(date);
-    setStaffData({
-      ...staffData,
-      joiningDate: date,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     validateStep();
@@ -241,7 +233,14 @@ function AddStaffs() {
                   <ReactDatePicker
                     // selected={enquiryData.lastFollowUpOn}
                     selected={staffData.joiningDate}
-                    onChange={joiningDateChange}
+                    onChange={(date) =>
+                      handleChange({
+                        target: {
+                          name: "joiningDate",
+                          value: date,
+                          type: "date",
+                        },
+                      })}
                     name="joiningDate"
                     // showTimeSelect
                     // timeFormat="HH:mm"
