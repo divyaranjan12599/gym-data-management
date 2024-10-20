@@ -47,6 +47,7 @@ function Memberships() {
         filterable: false,
       },
       { field: "name", headerName: "Name", flex: 1 },
+      { field: "Sno", headerName: "S.No.", flex: 1 },
       { field: "email", headerName: "Email ID", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
       { field: "package", headerName: "Package", flex: 1 },
@@ -69,9 +70,10 @@ function Memberships() {
   );
 
   const rows = membershipData
-    .map((membership) => {
+    .map((membership, index) => {
 
       return {
+        Sno: index+1,
         id: membership.membershipBy?._id || "N/A",
         name: membership.membershipBy?.name || "N/A",
         phone: membership.membershipBy?.contact || "N/A",

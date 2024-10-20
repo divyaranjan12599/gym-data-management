@@ -12,7 +12,7 @@ function PtMembers() {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   
-  let { membershipData } = useContext(UserContext);
+  let { ptmembershipData } = useContext(UserContext);
 
   let columns = useMemo(
     () => [
@@ -36,18 +36,18 @@ function PtMembers() {
     []
   );
   
-  const rows = membershipData
-  .filter(membership => membership.isPt)
+  const rows = ptmembershipData
+  .filter(membership => membership?.isPt)
   .map((membership, index) => ({
-    id: membership.membershipBy.id || "N/A",
-    name: membership.membershipBy.name || "N/A",
-    ptby: membership.PTDetails.assignedTo.name || "N/A",
-    phone: membership.membershipBy.contact || "N/A",
-    ptDuration: membership.PTDetails.ptPeriod || "N/A",
-    startDate: membership.PTDetails.ptStartDate || "N/A",
-    endDate: membership.endDate || "N/A",
-    amount: membership.PTDetails.ptfees || "N/A",
-    photoURL: membership.membershipBy.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    id: membership?.membershipBy?.id || "N/A",
+    name: membership?.membershipBy?.name || "N/A",
+    ptby: membership?.PTDetails?.assignedTo.name || "N/A",
+    phone: membership?.membershipBy?.contact || "N/A",
+    ptDuration: membership?.PTDetails?.ptPeriod || "N/A",
+    startDate: membership?.PTDetails?.ptStartDate || "N/A",
+    endDate: membership?.endDate || "N/A",
+    amount: membership?.PTDetails?.ptfees || "N/A",
+    photoURL: membership?.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
   
   return (

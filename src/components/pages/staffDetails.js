@@ -10,6 +10,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import Table from "../inc/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { capitalizeEachWord } from "../inc/utilityFuncs.js";
 
 function StaffDetails() {
   const { staffId } = useParams();
@@ -33,11 +34,10 @@ function StaffDetails() {
   const validateStep = () => {
     const errors = {};
     if (!personalDetailsFormData.staffName) errors.staffName = "Field required";
-    if (!personalDetailsFormData.joiningDate)
-      errors.joiningDate = "Field required";
+    if (!personalDetailsFormData.joiningdate)
+      errors.joiningdate = "Field required";
     if (!personalDetailsFormData.email) errors.email = "Field required";
-    if (!personalDetailsFormData.contactNumber)
-      errors.contactNumber = "Field required";
+    if (!personalDetailsFormData.contact) errors.contact = "Field required";
     if (!personalDetailsFormData.address) errors.address = "Field required";
     if (!personalDetailsFormData.city) errors.city = "Field required";
     if (!personalDetailsFormData.state) errors.state = "Field required";
@@ -49,15 +49,15 @@ function StaffDetails() {
       errors.idProofNumber = "Field required";
     if (!personalDetailsFormData.emergencyContactName)
       errors.emergencyContactName = "Field required";
-    if (!personalDetailsFormData.emergencyContactNumber)
-      errors.emergencyContactNumber = "Field required";
+    if (!personalDetailsFormData.emergencycontact)
+      errors.emergencycontact = "Field required";
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const fetchStaffData = async () => {
-    console.log("sajsakj");
+    // console.log("sajsakj", staffId);
 
     try {
       const response = await axios.get(
@@ -70,7 +70,7 @@ function StaffDetails() {
       );
       console.log("Staff Data : ", response.data);
       setStaffData(response.data);
-      setpersonalDetailsFormData(response.data);
+      setPersonalDetailsFormData(response.data);
     } catch (error) {
       console.log(error);
       setStaffData("");
@@ -85,12 +85,31 @@ function StaffDetails() {
     alert("delete");
   };
 
+  const fetchPtMemData = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_URL + `/user/get-ptbystaffid/${staffId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Staff PT Data : ", response.data);
+      setPtData(response.data);
+    } catch (error) {
+      console.log(error);
+      setPtData("");
+    }
+  }
+
   useEffect(() => {
     fetchStaffData();
-    // fetchPtData();
+    fetchPtMemData();
 
-    // console.log("sdffsdj=====", memData, paymentData);
+    // console.log("sdffsdj=====", staffId);
   }, [token]);
+
 
   const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] =
     useState(false);
@@ -118,36 +137,86 @@ function StaffDetails() {
 
   const rows = ptData;
 
-  const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
-    staffName: "",
-    email: "",
-    picUrl: "",
-    contactNumber: "",
-    address: "",
-    city: "",
-    state: "Telangana",
-    zip: "",
-    gender: "Male",
-    joiningDate: new Date(),
-    idProofType: "adhar",
-    idProofNumber: "",
-    emergencyContactName: "",
-    emergencyContactNumber: "",
+  const [personalDetailsFormData, setPersonalDetailsFormData] = useState({
+    address: {
+      areaDetails: "sd sd",
+      city: "ds",
+      state: "Odisha",
+      pincode: 12345,
+    },
+    idproof: {
+      type: "adhar",
+      number: "qwer1234",
+      frontPicUrl: null,
+      backPicUrl: null,
+    },
+    emergencyContact: {
+      name: "hhjh",
+      contact: "123456789",
+    },
+    name: "sadsdfsadsf",
+    contact: "1212121212",
+    role: "STAFF",
+    email: "as@sjk.co",
+    gender: "male",
+    photoUrl: null,
+    joiningdate: "11/09/2024",
   });
 
-  const personalDetailsChange = (e) => {
-    console.log(e);
-    const { name, value, type, files } = e.target;
-    setpersonalDetailsFormData({
-      ...personalDetailsFormData,
-      [name]: type === "file" ? files[0] : value,
-    });
+  const personalDetailsChange = (event) => {
+    const { name, value } = event.target;
+
+    // Handle changes for nested objects
+    if (
+      name.startsWith("areaDetails") ||
+      name.startsWith("city") ||
+      name.startsWith("state") ||
+      name.startsWith("pincode")
+    ) {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        address: {
+          ...prevData.address,
+          [name]: value,
+        },
+      }));
+    } else if (name === "idProofType") {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        idproof: {
+          ...prevData.idproof,
+          type: value,
+        },
+      }));
+    } else if (name === "idProofNumber") {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        idproof: {
+          ...prevData.idproof,
+          number: value,
+        },
+      }));
+    } else if (name.startsWith("emergencyContact")) {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        emergencyContact: {
+          ...prevData.emergencyContact,
+          [name]: value,
+        },
+      }));
+    } else {
+      // Handle top-level fields
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        [name]: name==="name"? capitalizeEachWord(value) : value,
+      }));
+    }
   };
 
   const personalDetailsSubmit = async (e) => {
     e.preventDefault();
     console.log("Token : ", token);
-    console.log("staffId : ", staffId)
+    console.log("staffId : ", staffId);
     console.log("personalDetailsFormData: ", personalDetailsFormData);
     try {
       const response = await axios.put(
@@ -160,11 +229,13 @@ function StaffDetails() {
         }
       );
       console.log("Staff Data : ", response.data);
-      toast.success(response.data.message)
+      toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     } catch (error) {
       console.log(error);
-      toast.error(error.message)
-      
+      toast.error(error.message);
     }
   };
 
@@ -253,7 +324,7 @@ function StaffDetails() {
     try {
       // console.log(ptmemUpdationformData);
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${clientData._id}`,
+        `${process.env.REACT_APP_SERVER_URL}/user/create-ptsid/${staffData._id}`,
         ptmemUpdationformData,
         {
           headers: {
@@ -263,8 +334,9 @@ function StaffDetails() {
       );
       toast.success("User Pt Membership updated Successfully");
       handleStepChange(1);
-      // alert("deleted user", response.data);
-      // setEnquiryData(response.data);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     } catch (error) {
       toast.error(error.message);
       // console.log(error);
@@ -302,7 +374,7 @@ function StaffDetails() {
                             <p className="text-center mb-0">PT Details</p>
                           </div>
                           <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                            <div className="row w-100 mt-2">
+                            <div className="row w-100 mt-2 p-2">
                               <div className="mb-2 col-lg-6">
                                 <label>PT fees</label>
                                 <div class="input-group">
@@ -360,11 +432,11 @@ function StaffDetails() {
                                   ))}
                                 </select>
                               </div>
-                              <div className="mb-2 col-6">
+                              <div className="mb-2 d-flex flex-column col-6">
                                 <label>Starting Date</label>
 
                                 <ReactDatePicker
-                                  selected={personalDetailsFormData.ptStartDate}
+                                  selected={ptmemUpdationformData.ptStartDate}
                                   onChange={(date) =>
                                     handlePtMemUpdateChange({
                                       target: {
@@ -490,26 +562,26 @@ function StaffDetails() {
                                 {parseFloat(
                                   ptmemUpdationformData.amountRemaining
                                 ) > 0 && (
-                                    <div className="col-lg-4">
-                                      <label>Due Date</label>
+                                  <div className="col-lg-4">
+                                    <label>Due Date</label>
 
-                                      <ReactDatePicker
-                                        selected={ptmemUpdationformData.dueDate}
-                                        onChange={(date) =>
-                                          handlePtMemUpdateChange({
-                                            target: {
-                                              name: "dueDate",
-                                              value: date,
-                                              type: "date",
-                                            },
-                                          })
-                                        }
-                                        name="dueDate"
-                                        dateFormat="MMMM d, yyyy"
-                                        className="form-control"
-                                      />
-                                    </div>
-                                  )}
+                                    <ReactDatePicker
+                                      selected={ptmemUpdationformData.dueDate}
+                                      onChange={(date) =>
+                                        handlePtMemUpdateChange({
+                                          target: {
+                                            name: "dueDate",
+                                            value: date,
+                                            type: "date",
+                                          },
+                                        })
+                                      }
+                                      name="dueDate"
+                                      dateFormat="MMMM d, yyyy"
+                                      className="form-control"
+                                    />
+                                  </div>
+                                )}
                               </div>
                             </form>
                           </div>
@@ -623,30 +695,16 @@ function StaffDetails() {
                                   <input
                                     type="text"
                                     onChange={personalDetailsChange}
-                                    name="staffName"
-                                    value={personalDetailsFormData.staffName}
+                                    name="name"
+                                    value={personalDetailsFormData.name}
                                     className="form-control"
-                                    placeholder={
-                                      validationErrors.staffName
-                                        ? `Full name is required !!`
-                                        : "Enter Full Name"
-                                    }
-                                    style={{
-                                      borderBottom: validationErrors.staffName
-                                        ? "2px inset red"
-                                        : "1px solid #ced4da",
-                                      "--placeholder-color":
-                                        validationErrors.staffName
-                                          ? "red"
-                                          : "#6c757d",
-                                    }}
                                   />
                                   <style>
                                     {`
-  .form-control::placeholder {
-    color: var(--placeholder-color);
-  }
-`}
+              .form-control::placeholder {
+                color: var(--placeholder-color);
+              }
+            `}
                                   </style>
                                 </div>
 
@@ -662,26 +720,9 @@ function StaffDetails() {
                                     <input
                                       type="text"
                                       onChange={personalDetailsChange}
-                                      name="contactNumber"
-                                      value={
-                                        personalDetailsFormData.contactNumber
-                                      }
+                                      name="contact"
+                                      value={personalDetailsFormData.contact}
                                       className="form-control"
-                                      placeholder={
-                                        validationErrors.contactNumber
-                                          ? `Contact number required !!`
-                                          : "Contact Number"
-                                      }
-                                      style={{
-                                        borderBottom:
-                                          validationErrors.contactNumber
-                                            ? "2px inset red"
-                                            : "1px solid #ced4da",
-                                        "--placeholder-color":
-                                          validationErrors.contactNumber
-                                            ? "red"
-                                            : "#6c757d",
-                                      }}
                                     />
                                   </div>
                                 </div>
@@ -689,22 +730,21 @@ function StaffDetails() {
                                 <div className="mb-2 col-lg-6 d-flex flex-column">
                                   <label>Joining Date</label>
                                   <ReactDatePicker
-                                    // selected={enquiryData.lastFollowUpOn}
                                     selected={
-                                      personalDetailsFormData.joiningDate
+                                      personalDetailsFormData.joiningdate
                                     }
                                     onChange={(date) =>
                                       personalDetailsChange({
                                         target: {
-                                          name: "joiningDate",
+                                          name: "joiningdate",
                                           value: date,
                                           type: "date",
                                         },
                                       })
                                     }
-                                    name="joiningDate"
+                                    name="joiningdate"
                                     dateFormat="MMMM d, yyyy"
-                                    className="form-control "
+                                    className="form-control"
                                   />
                                 </div>
 
@@ -716,32 +756,17 @@ function StaffDetails() {
                                     name="email"
                                     value={personalDetailsFormData.email}
                                     className="form-control"
-                                    placeholder={
-                                      validationErrors.email
-                                        ? `Email is required !!`
-                                        : "Enter email"
-                                    }
-                                    style={{
-                                      borderBottom: validationErrors.email
-                                        ? "2px inset red"
-                                        : "1px solid #ced4da",
-                                      "--placeholder-color":
-                                        validationErrors.email
-                                          ? "red"
-                                          : "#6c757d",
-                                    }}
                                   />
                                 </div>
 
                                 <div className="mb-2 flex-column col-lg-6">
-                                  <div className="mt-2 d-flex flex-row">
-                                    <label className="col-4">Gender</label>
-                                    <div className="from-check col-4">
+                                  <label>Gender</label>
+                                  <div className="d-flex flex-row">
+                                    <div className="form-check col-4">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
                                         name="gender"
-                                        id="gridRadios1"
                                         value="Male"
                                         checked={
                                           personalDetailsFormData.gender ===
@@ -749,19 +774,15 @@ function StaffDetails() {
                                         }
                                         onChange={personalDetailsChange}
                                       />
-                                      <label
-                                        className="form-check-label"
-                                        for="gridRadios1"
-                                      >
+                                      <label className="form-check-label">
                                         Male
                                       </label>
                                     </div>
-                                    <div className="from-check col-4">
+                                    <div className="form-check col-4">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
                                         name="gender"
-                                        id="gridRadios2"
                                         value="Female"
                                         checked={
                                           personalDetailsFormData.gender ===
@@ -769,10 +790,7 @@ function StaffDetails() {
                                         }
                                         onChange={personalDetailsChange}
                                       />
-                                      <label
-                                        className="form-check-label"
-                                        for="gridRadios2"
-                                      >
+                                      <label className="form-check-label">
                                         Female
                                       </label>
                                     </div>
@@ -780,6 +798,7 @@ function StaffDetails() {
                                 </div>
                               </div>
                             </div>
+
                             <div className="pic-box col-2">
                               <div
                                 className="card p-2 align-items-center justify-content-center w-100"
@@ -793,207 +812,86 @@ function StaffDetails() {
                                       className="p-1 w-100 h-100"
                                     />
                                   ) : (
-                                    <>
-                                      <img
-                                        className="p-1 w-100 h-100"
-                                        src={image.placeholder}
-                                        alt=""
-                                      />
-                                    </>
+                                    <img
+                                      className="p-1 w-100 h-100"
+                                      src={image.placeholder}
+                                      alt=""
+                                    />
                                   )}
                                 </div>
                               </div>
                             </div>
 
                             <div className="mb-2 col-12">
-                              <label for="inputAddress" className="form-label">
-                                Area Details
-                              </label>
+                              <label>Area Details</label>
                               <input
                                 type="text"
                                 onChange={personalDetailsChange}
-                                name="address"
-                                value={personalDetailsFormData.address}
-                                className="form-control"
-                                id="inputAddress"
-                                placeholder={
-                                  validationErrors.address
-                                    ? `Area field is required !!`
-                                    : "Area"
+                                name="areaDetails"
+                                value={
+                                  personalDetailsFormData.address.areaDetails
                                 }
-                                style={{
-                                  borderBottom: validationErrors.address
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color":
-                                    validationErrors.address
-                                      ? "red"
-                                      : "#6c757d",
-                                }}
+                                className="form-control"
                               />
                             </div>
+
                             <div className="mb-2 col-md-6">
-                              <label for="inputCity" className="form-label">
-                                City
-                              </label>
+                              <label>City</label>
                               <input
                                 type="text"
                                 onChange={personalDetailsChange}
                                 name="city"
-                                value={personalDetailsFormData.city}
+                                value={personalDetailsFormData.address.city}
                                 className="form-control"
-                                id="inputCity"
-                                placeholder={
-                                  validationErrors.city
-                                    ? `Enter city name !!`
-                                    : "City"
-                                }
-                                style={{
-                                  borderBottom: validationErrors.city
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color": validationErrors.city
-                                    ? "red"
-                                    : "#6c757d",
-                                }}
                               />
                             </div>
+
                             <div className="mb-2 col-md-4">
-                              <label for="inputState" className="form-label">
-                                State
-                              </label>
+                              <label>State</label>
                               <select
-                                id="inputState"
                                 className="form-select"
                                 onChange={personalDetailsChange}
                                 name="state"
-                                value={personalDetailsFormData.state}
-                                style={{
-                                  borderBottom: validationErrors.state
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color": validationErrors.state
-                                    ? "red"
-                                    : "#6c757d",
-                                }}
+                                value={personalDetailsFormData.address.state}
                               >
                                 <option value="">State</option>
-                                <option value="Andhra Pradesh">
-                                  Andhra Pradesh
-                                </option>
-                                <option value="Arunachal Pradesh">
-                                  Arunachal Pradesh
-                                </option>
-                                <option value="Assam">Assam</option>
-                                <option value="Bihar">Bihar</option>
-                                <option value="Chhattisgarh">
-                                  Chhattisgarh
-                                </option>
-                                <option value="Goa">Goa</option>
-                                <option value="Gujarat">Gujarat</option>
-                                <option value="Haryana">Haryana</option>
-                                <option value="Himachal Pradesh">
-                                  Himachal Pradesh
-                                </option>
-                                <option value="Jharkhand">Jharkhand</option>
-                                <option value="Karnataka">Karnataka</option>
-                                <option value="Kerala">Kerala</option>
-                                <option value="Madhya Pradesh">
-                                  Madhya Pradesh
-                                </option>
-                                <option value="Maharashtra">Maharashtra</option>
-                                <option value="Manipur">Manipur</option>
-                                <option value="Meghalaya">Meghalaya</option>
-                                <option value="Mizoram">Mizoram</option>
-                                <option value="Nagaland">Nagaland</option>
+                                {/* Add other options as needed */}
                                 <option value="Odisha">Odisha</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Rajasthan">Rajasthan</option>
-                                <option value="Sikkim">Sikkim</option>
-                                <option value="Tamil Nadu">Tamil Nadu</option>
-                                <option value="Telangana" selected>
-                                  Telangana
-                                </option>
-                                <option value="Tripura">Tripura</option>
-                                <option value="Uttar Pradesh">
-                                  Uttar Pradesh
-                                </option>
-                                <option value="Uttarakhand">Uttarakhand</option>
-                                <option value="West Bengal">West Bengal</option>
                               </select>
                             </div>
+
                             <div className="mb-2 col-md-2">
-                              <label for="inputZip" className="form-label">
-                                Zip
-                              </label>
+                              <label>Zip</label>
                               <input
                                 type="text"
                                 onChange={personalDetailsChange}
-                                name="zip"
-                                value={personalDetailsFormData.zip}
+                                name="pincode"
+                                value={personalDetailsFormData.address.pincode}
                                 className="form-control"
-                                id="inputZip"
-                                placeholder={
-                                  validationErrors.zip
-                                    ? `Please enter pincode !!`
-                                    : "pincode"
-                                }
-                                style={{
-                                  borderBottom: validationErrors.zip
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color": validationErrors.zip
-                                    ? "red"
-                                    : "#6c757d",
-                                }}
                               />
                             </div>
 
                             <label>ID Proof Details</label>
                             <div className="mb-2 col-12 input-group d-flex flex-row">
                               <select
-                                id="idProofType"
                                 onChange={personalDetailsChange}
-                                value={personalDetailsFormData.idProofType}
+                                value={personalDetailsFormData.idproof.type}
                                 name="idProofType"
-                                className="form-select custom-col-3"
-                                style={{
-                                  borderBottom: validationErrors.idProofType
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color":
-                                    validationErrors.idProofType
-                                      ? "red"
-                                      : "#6c757d",
-                                }}
+                                className="form-select"
                               >
-                                <option selected>Select</option>
+                                <option value="">Select</option>
                                 <option value="adhar">Adhar Card</option>
                                 <option value="pan">PAN Card</option>
                                 <option value="license">License</option>
                               </select>
 
                               <input
-                                className="form-control custom-col-9"
+                                className="form-control"
                                 type="text"
                                 name="idProofNumber"
                                 onChange={personalDetailsChange}
-                                value={personalDetailsFormData.idProofNumber}
-                                id="idProof"
-                                placeholder={
-                                  validationErrors.idProofNumber
-                                    ? `Digit Invalid !!`
-                                    : "Enter digit"
-                                }
-                                style={{
-                                  borderBottom: validationErrors.idProofNumber
-                                    ? "2px inset red"
-                                    : "1px solid #ced4da",
-                                  "--placeholder-color":
-                                    validationErrors.idProofNumber
-                                      ? "red"
-                                      : "#6c757d",
-                                }}
+                                value={personalDetailsFormData.idproof.number}
+                                placeholder="Enter ID Proof Number"
                               />
                             </div>
 
@@ -1003,72 +901,44 @@ function StaffDetails() {
                                   Emergency Contact Details
                                 </h5>
                               </div>
-                              <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                                <div className="row w-100 mt-2">
-                                  <div className="mb-2 col-lg-6">
-                                    {/* <label>Client Name</label> */}
+                              <div className="row w-100 mt-2">
+                                <div className="mb-2 col-lg-6">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="emergencyContactName"
+                                    value={
+                                      personalDetailsFormData.emergencyContact
+                                        .name
+                                    }
+                                    onChange={personalDetailsChange}
+                                    placeholder="Enter Name"
+                                  />
+                                </div>
+                                <div className="mb-2 flex-column col-lg-6">
+                                  <div className="input-group">
+                                    <span
+                                      className="input-group-text"
+                                      id="basic-addon1"
+                                    >
+                                      +91
+                                    </span>
                                     <input
                                       type="text"
                                       className="form-control"
-                                      name="emergencyContactName"
-                                      value={
-                                        personalDetailsFormData.emergencyContactName
-                                      }
                                       onChange={personalDetailsChange}
-                                      placeholder={
-                                        validationErrors.fname
-                                          ? `Name is required !!`
-                                          : "Enter Name"
+                                      value={
+                                        personalDetailsFormData.emergencyContact
+                                          .contact
                                       }
-                                      style={{
-                                        borderBottom:
-                                          validationErrors.emergencyContactName
-                                            ? "2px inset red"
-                                            : "1px solid #ced4da",
-                                        "--placeholder-color":
-                                          validationErrors.emergencyContactName
-                                            ? "red"
-                                            : "#6c757d",
-                                      }}
+                                      name="emergencyContactNumber"
+                                      placeholder="Enter contact number"
                                     />
                                   </div>
-                                  <div className="mb-2 flex-column col-lg-6">
-                                    <div className="input-group">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        +91
-                                      </span>
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        onChange={personalDetailsChange}
-                                        value={
-                                          personalDetailsFormData.emergencyContactNumber
-                                        }
-                                        name="emergencyContactNumber"
-                                        placeholder={
-                                          validationErrors.emergencyContactNumber
-                                            ? `Number is required !!`
-                                            : "Enter contact number"
-                                        }
-                                        style={{
-                                          borderBottom:
-                                            validationErrors.emergencyContactNumber
-                                              ? "2px inset red"
-                                              : "1px solid #ced4da",
-                                          "--placeholder-color":
-                                            validationErrors.emergencyContactNumber
-                                              ? "red"
-                                              : "#6c757d",
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
                                 </div>
-                              </form>
+                              </div>
                             </div>
+
                             <div className="col-12 d-flex justify-content-end p-0">
                               <button
                                 onClick={personalDetailsSubmit}
@@ -1093,42 +963,30 @@ function StaffDetails() {
                   alt=""
                 />
               </div>
-              <label className="userLabel mt-3 text-center">Full Name</label>
-              <label className="userLabel text-center text-body-tertiary">
-                +91 9834****32
+              <label className="userLabel mt-3 text-center">
+                {staffData?.name}
               </label>
               <label className="userLabel text-center text-body-tertiary">
-                Los Angeles, United States
+                +91 {staffData?.contact}
+              </label>
+              <label className="userLabel text-center text-body-tertiary">
+                {staffData?.areaDetails} {staffData?.city} Los Angeles, United
+                States
               </label>
               <div className="card mt-5 h-100 shadow p-3">
                 <div className="">
-                  <label className="headLabel">Client ID</label>
-                  <label className="smallLabel">1602</label>
-                </div>
-                <hr />
-                <div className="">
                   <label className="headLabel">Email ID</label>
-                  <label className="smallLabel">example@xyz.com</label>
+                  <label className="smallLabel">{staffData?.email}</label>
                 </div>
                 <hr />
                 <div className="">
                   <label className="headLabel">Gender</label>
-                  <label className="smallLabel">Male</label>
+                  <label className="smallLabel">{staffData?.gender}</label>
                 </div>
                 <hr />
                 <div className="">
                   <label className="headLabel">Joining Date</label>
-                  <label className="smallLabel">20/10/2023</label>
-                </div>
-                <hr />
-                <div className="">
-                  <label className="headLabel">End Date</label>
-                  <label className="smallLabel">20/04/2024</label>
-                </div>
-                <hr />
-                <div className="">
-                  <label className="headLabel">Membership</label>
-                  <label className="smallLabel">6 Months</label>
+                  <label className="smallLabel">{staffData?.joiningdate}</label>
                 </div>
                 <hr />
               </div>
