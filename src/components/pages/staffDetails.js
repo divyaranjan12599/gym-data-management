@@ -144,8 +144,28 @@ function StaffDetails() {
     });
   };
 
-  const personalDetailsSubmit = () => {
+  const personalDetailsSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Token : ", token);
+    console.log("staffId : ", staffId)
     console.log("personalDetailsFormData: ", personalDetailsFormData);
+    try {
+      const response = await axios.put(
+        process.env.REACT_APP_SERVER_URL + `/user/update-staff/${staffId}`,
+        personalDetailsFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Staff Data : ", response.data);
+      toast.success(response.data.message)
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+      
+    }
   };
 
   let columns = useMemo(
@@ -470,26 +490,26 @@ function StaffDetails() {
                                 {parseFloat(
                                   ptmemUpdationformData.amountRemaining
                                 ) > 0 && (
-                                  <div className="col-lg-4">
-                                    <label>Due Date</label>
+                                    <div className="col-lg-4">
+                                      <label>Due Date</label>
 
-                                    <ReactDatePicker
-                                      selected={ptmemUpdationformData.dueDate}
-                                      onChange={(date) =>
-                                        handlePtMemUpdateChange({
-                                          target: {
-                                            name: "dueDate",
-                                            value: date,
-                                            type: "date",
-                                          },
-                                        })
-                                      }
-                                      name="dueDate"
-                                      dateFormat="MMMM d, yyyy"
-                                      className="form-control"
-                                    />
-                                  </div>
-                                )}
+                                      <ReactDatePicker
+                                        selected={ptmemUpdationformData.dueDate}
+                                        onChange={(date) =>
+                                          handlePtMemUpdateChange({
+                                            target: {
+                                              name: "dueDate",
+                                              value: date,
+                                              type: "date",
+                                            },
+                                          })
+                                        }
+                                        name="dueDate"
+                                        dateFormat="MMMM d, yyyy"
+                                        className="form-control"
+                                      />
+                                    </div>
+                                  )}
                               </div>
                             </form>
                           </div>
