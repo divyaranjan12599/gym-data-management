@@ -197,6 +197,7 @@ function MemberDetails() {
   };
   const fetchPtData = async () => {
     try {
+      
       const response = await axios.get(
         process.env.REACT_APP_SERVER_URL + `/user/get-ptDetails/${userId}`,
         {
