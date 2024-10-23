@@ -13,6 +13,7 @@ function PtMembers() {
   const [toDate, setToDate] = useState(null);
   
   let { ptmembershipData } = useContext(UserContext);
+  console.log("ptmembershipData",ptmembershipData);
 
   let columns = useMemo(
     () => [
@@ -24,7 +25,7 @@ function PtMembers() {
         sortable: false,
         filterable: false,
       },
-      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "sno", headerName: "S. No.", flex: 1},
       { field: "name", headerName: "Name", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
       { field: "ptDuration", headerName: "PT Duration", flex: 1 },
@@ -37,17 +38,17 @@ function PtMembers() {
   );
   
   const rows = ptmembershipData
-  .filter(membership => membership?.isPt)
   .map((membership, index) => ({
-    id: membership?.membershipBy?.id || "N/A",
-    name: membership?.membershipBy?.name || "N/A",
-    ptby: membership?.PTDetails?.assignedTo.name || "N/A",
-    phone: membership?.membershipBy?.contact || "N/A",
-    ptDuration: membership?.PTDetails?.ptPeriod || "N/A",
-    startDate: membership?.PTDetails?.ptStartDate || "N/A",
-    endDate: membership?.endDate || "N/A",
-    amount: membership?.PTDetails?.ptfees || "N/A",
-    photoURL: membership?.membershipBy?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    sno: index+1 || "N/A",
+    id: membership?.assignedTo?._id || "N/A",
+    name: membership?.assignedTo?.name || "N/A",
+    ptby: membership?.assignedTo?.name || "N/A",
+    phone: membership?.assignedTo?.contact || "N/A",
+    ptDuration: membership?.ptPeriod || "N/A",
+    startDate: membership?.ptStartDate || "N/A",
+    endDate: membership?.ptEndDate || "N/A",
+    amount: membership?.ptfees || "N/A",
+    photoURL: membership?.assignedTo?.photoUrl || "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
   }));
   
   return (

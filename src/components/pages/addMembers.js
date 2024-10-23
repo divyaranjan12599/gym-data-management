@@ -23,10 +23,8 @@ const initialClientState = {
   gender: "Male",
   membershipStartingDate: new Date(),
   joiningDate: new Date(),
-  idProofType: "",
+  idProofType: "adhar",
   idProofNumber: "",
-  // idProofFront: null,
-  // idProofBack: null,
   emergencyContactName: "",
   emergencyContactNumber: "",
   registrationFees: 0,
@@ -146,39 +144,38 @@ function AddMembers() {
   });
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    // console.log(typeof(type),"----",typeof("date"));
-
+    const { name, value } = e.target;
+  
+    // Create a copy of the current clientData and update the relevant field
     const updatedData = {
       ...clientData,
       [name]: value,
     };
-
+  
+    // Calculate the total amount based on the updated data
+    const totAmount =
+      Number(updatedData.membershipAmount) +
+      Number(updatedData.ptFees) +
+      Number(updatedData.registrationFees);
+  
+    // Update amountPaid and amountRemaining based on the field being changed
     if (
       name === "membershipAmount" ||
       name === "ptFees" ||
       name === "registrationFees"
     ) {
-      const totAmount =
-        Number(clientData.membershipAmount) +
-        Number(clientData.ptFees) +
-        Number(clientData.registrationFees);
-      console.log("Membership Amount:", totAmount);
       updatedData.amountPaid = totAmount;
       updatedData.amountRemaining = 0;
     }
-
+  
     if (name === "amountPaid") {
-      const totAmount =
-        Number(clientData.membershipAmount) +
-        Number(clientData.ptFees) +
-        Number(clientData.registrationFees);
-      console.log("Amount====:", totAmount);
-      updatedData.amountRemaining = totAmount - value;
+      updatedData.amountRemaining = totAmount - Number(value);
     }
-
+  
+    // Update the state with the new data
     setClientData(updatedData);
   };
+  
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -241,7 +238,9 @@ function AddMembers() {
         }
       );
       toast.success("Client added Successfully");
-      // window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
       setCurrentStep(1);
       resetClientData();
     } catch (error) {
