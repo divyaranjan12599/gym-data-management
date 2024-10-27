@@ -83,7 +83,7 @@ function Invoices() {
         filterable: false,
       },
 
-      { field: "id", headerName: "Client ID", flex: 1},
+      { field: "sno", headerName: "S. No.", flex: 1},
       { field: "name", headerName: "Name", flex: 1 },
       { field: "email", headerName: "Email ID", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
@@ -123,7 +123,8 @@ function Invoices() {
   console.log(paymentData);
 
   const rows = paymentData.map((payment, index) => ({
-    id: index + 1,
+    sno: index + 1,
+    id: payment?._id,
     name: payment?.amountPaidBy?.name || "N/A",
     phone: payment?.amountPaidBy?.contact || "N/A",
     email: payment?.amountPaidBy?.email || "N/A",

@@ -45,7 +45,7 @@ const InvoiceModal = (props) => {
       terms: "Terms and conditions go will here...",
     };
 
-    try{
+    try {
       const response = await axios.post(
         "https://invoice-generator-qys7.onrender.com/api/create-invoice",
         invoiceData,
@@ -71,156 +71,306 @@ const InvoiceModal = (props) => {
   };
 
   return (
+    // <Modal show={showModal} onHide={closeModal} size="lg" centered>
+    //   <div id="invoiceCapture">
+    //     <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
+    //       <div className="w-100">
+    //         <h4 className="fw-bold my-2">
+    //           {info.billFrom || "Famous Fitness Studio"}
+    //         </h4>
+    //         <h6 className="fw-bold text-secondary mb-1">
+    //           Invoice #: {info.invoiceNumber || ""}
+    //         </h6>
+    //       </div>
+    //       <div className="text-end ms-4">
+    //         <h6 className="fw-bold mt-1 mb-2">Amount&nbsp;Due:</h6>
+    //         <h5 className="fw-bold text-secondary">
+    //           {" "}
+    //           {currency} {amountDue}
+    //         </h5>
+    //       </div>
+    //     </div>
+    //     <div className="p-4">
+    //       <Row className="mb-4">
+    //         <Col md={4}>
+    //           <div className="fw-bold">Client Details:</div>
+    //           <div>{info.billTo || ""}</div>
+    //           <div>{info.billToAddress || ""}</div>
+    //           <div>{info.billToEmail || ""}</div>
+    //         </Col>
+    //         <Col md={4}>
+    //           <div className="fw-bold">Management Details:</div>
+    //           <div>{info.billFrom || ""}</div>
+    //           <div>{info.billFromAddress || ""}</div>
+    //           <div>{info.billFromEmail || ""}</div>
+    //         </Col>
+    //         <Col md={4}>
+    //           <div className="fw-bold">Date Of Issue:</div>
+    //           <div>{info.dateOfIssue || ""}</div>
+    //         </Col>
+    //       </Row>
+    //       <Table className="mb-0">
+    //         <thead>
+    //           <tr>
+    //             <th>PLAN</th>
+    //             <th>PERSONAL TRAINER</th>
+    //             <th className="text-end">PRICE</th>
+    //             <th className="text-end">AMOUNT PAID</th>
+    //           </tr>
+    //         </thead>
+    //         <tbody>
+    //           {membership.map((membership, i) => (
+    //             <tr id={i} key={i}>
+    //               <td style={{ width: "100px" }}>{membership.membershipPlan}</td>
+    //               <td>
+    //                 {membership.personalTrainer}
+    //               </td>
+    //               <td className="text-end" style={{ width: "140px" }}>
+    //                 {currency} {membership.price + amountDue}
+    //               </td>
+    //               <td className="text-end" style={{ width: "  140px" }}>
+    //                 {currency} {membership.price}
+    //               </td>
+    //             </tr>
+    //           ))}
+    //         </tbody>
+    //       </Table>
+    //       <Table>
+    //         <tbody>
+    //           <tr>
+    //             {/* <td>&nbsp;</td>
+    //             <td>&nbsp;</td>
+    //             <td>&nbsp;</td> */}
+    //           </tr>
+    //           {/* <tr className="text-end">
+    //             <td></td>
+    //             <td className="fw-bold" style={{ width: "100px" }}>
+    //               SUBTOTAL
+    //             </td>
+    //             <td className="text-end" style={{ width: "100px" }}>
+    //               {currency} {subTotal}
+    //             </td>
+    //           </tr> */}
+    //           {/* {taxAmount !== 0.0 && (
+    //             <tr className="text-end">
+    //               <td></td>
+    //               <td className="fw-bold" style={{ width: "100px" }}>
+    //                 TAX
+    //               </td>
+    //               <td className="text-end" style={{ width: "100px" }}>
+    //                 {currency} {taxAmount}
+    //               </td>
+    //             </tr>
+    //           )} */}
+    //           {/* {discountAmount !== 0.0 && (
+    //             <tr className="text-end">
+    //               <td></td>
+    //               <td className="fw-bold" style={{ width: "100px" }}>
+    //                 DISCOUNT
+    //               </td>
+    //               <td className="text-end" style={{ width: "100px" }}>
+    //                 {currency} {discountAmount}
+    //               </td>
+    //             </tr>
+    //           )} */}
+    //           <tr className="text-end">
+    //             <td></td>
+    //             <td className="fw-bold" style={{ width: "140px" }}>
+    //               TOTAL
+    //             </td>
+    //             <td className="text-end" style={{ width: "140px" }}>
+    //               {currency} {total}
+    //             </td>
+    //           </tr>
+    //         </tbody>
+    //       </Table>
+    //       {info.notes && (
+    //         <div className="bg-light py-3 px-4 rounded">{info.notes}</div>
+    //       )}
+    //     </div>
+    //   </div>
+    //   <div className="pb-4 px-4">
+    //     <Row>
+    //       <Col md={6}>
+    //         <RWebShare
+    //           data={{
+    //             text: "Web Share - invoice",
+    //             url: "http://localhost:3000",
+    //             title: "Invoice",
+    //           }}
+    //           onClick={() => console.log("shared successfully!")}
+    //         >
+    //           <Button
+    //             variant="primary"
+    //             className="d-block w-100"
+    //             onClick={createInvoice}
+    //           >
+    //             Send Invoice
+    //           </Button>
+    //         </RWebShare>
+    //       </Col>
+    //       <Col md={6}>
+    //         <Button
+    //           variant="outline-primary"
+    //           className="d-block w-100 mt-3 mt-md-0"
+    //           onClick={createInvoice}
+    //         >
+    //           Download Copy
+    //         </Button>
+    //       </Col>
+    //     </Row>
+    //   </div>
+    //   <hr className="mt-4 mb-3" />
+    // </Modal>
     <Modal show={showModal} onHide={closeModal} size="lg" centered>
-      <div id="invoiceCapture">
-        <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-          <div className="w-100">
-            <h4 className="fw-bold my-2">
-              {info.billFrom || "Famous Fitness Studio"}
-            </h4>
-            <h6 className="fw-bold text-secondary mb-1">
-              Invoice #: {info.invoiceNumber || ""}
-            </h6>
-          </div>
-          <div className="text-end ms-4">
-            <h6 className="fw-bold mt-1 mb-2">Amount&nbsp;Due:</h6>
-            <h5 className="fw-bold text-secondary">
-              {" "}
-              {currency} {amountDue}
-            </h5>
-          </div>
-        </div>
+      <div id="invoiceCapture" className="invoice-container">
+        {/* Header Section */}
+        <table className="invoice-header">
+          <tbody>
+            <tr>
+              <td className="title" colSpan="2">TAX INVOICE</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>FAMOUS FITNESS STUDIO</strong><br />
+                Dairy farm pillar number 210 Attapur Hyderabad, Telangana<br />
+                <strong>Phone:</strong> 4040133682<br />
+                <strong>Email:</strong> famousfitnessstudio401@gmail.com<br />
+                <strong>Website:</strong> <a href="http://famousfitnessstudio.com">famousfitnessstudio.com</a><br />
+              </td>
+              <td>
+                <strong>Bill To:</strong><br />
+                {info.billTo} ({info._id})<br />
+                {info.billToAddress}<br />
+                <strong>Phone:</strong> {info.billToPhone}<br />
+                <strong>Email:</strong> {info.billToEmail}<br />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Invoice No:</strong> {info.invoiceNumber}<br />
+                <strong>Date:</strong> {info.dateOfIssue}<br />
+              </td>
+              <td>
+                <strong>Payment Mode(s)</strong><br />
+                1. Online Payment<br />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        {/* Details Section */}
+        <table className="invoice-details">
+          <thead>
+            <tr className="table-header">
+              <th>Description</th>
+              <th className="text-right">Amount (Rs)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 MONTH Package from {info.dateOfIssue} to {/* End date calculation here */}</td>
+              <td className="text-right">{currency} {membership[0]?.price}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {/* Summary Section */}
+        <table className="invoice-summary">
+          <tbody>
+            <tr>
+              <td className="text-right"><strong>Total</strong></td>
+              <td className="text-right">{currency} {total}</td>
+            </tr>
+            <tr>
+              <td className="text-right"><strong>Paid Amount</strong></td>
+              <td className="text-right">{currency} {total}</td>
+            </tr>
+            <tr>
+              <td className="total-due"><strong>Total Due</strong></td>
+              <td className="total-due">{currency} {amountDue}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {/* Action Buttons */}
         <div className="p-4">
-          <Row className="mb-4">
-            <Col md={4}>
-              <div className="fw-bold">Client Details:</div>
-              <div>{info.billTo || ""}</div>
-              <div>{info.billToAddress || ""}</div>
-              <div>{info.billToEmail || ""}</div>
+          <Row>
+            <Col md={6}>
+              <RWebShare
+                data={{
+                  text: "Web Share - invoice",
+                  url: "http://localhost:3000",
+                  title: "Invoice",
+                }}
+                onClick={() => console.log("shared successfully!")}
+              >
+                <Button variant="primary" className="d-block w-100" onClick={closeModal}>
+                  Send Invoice
+                </Button>
+              </RWebShare>
             </Col>
-            <Col md={4}>
-              <div className="fw-bold">Management Details:</div>
-              <div>{info.billFrom || ""}</div>
-              <div>{info.billFromAddress || ""}</div>
-              <div>{info.billFromEmail || ""}</div>
-            </Col>
-            <Col md={4}>
-              <div className="fw-bold">Date Of Issue:</div>
-              <div>{info.dateOfIssue || ""}</div>
+            <Col md={6}>
+              <Button
+                variant="outline-primary"
+                className="d-block w-100 mt-3 mt-md-0"
+                onClick={closeModal}
+              >
+                Download Copy
+              </Button>
             </Col>
           </Row>
-          <Table className="mb-0">
-            <thead>
-              <tr>
-                <th>PLAN</th>
-                <th>PERSONAL TRAINER</th>
-                <th className="text-end">PRICE</th>
-                <th className="text-end">AMOUNT PAID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {membership.map((membership, i) => (
-                <tr id={i} key={i}>
-                  <td style={{ width: "100px" }}>{membership.membershipPlan}</td>
-                  <td>
-                    {membership.personalTrainer}
-                  </td>
-                  <td className="text-end" style={{ width: "140px" }}>
-                    {currency} {membership.price + amountDue}
-                  </td>
-                  <td className="text-end" style={{ width: "  140px" }}>
-                    {currency} {membership.price}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Table>
-            <tbody>
-              <tr>
-                {/* <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td> */}
-              </tr>
-              {/* <tr className="text-end">
-                <td></td>
-                <td className="fw-bold" style={{ width: "100px" }}>
-                  SUBTOTAL
-                </td>
-                <td className="text-end" style={{ width: "100px" }}>
-                  {currency} {subTotal}
-                </td>
-              </tr> */}
-              {/* {taxAmount !== 0.0 && (
-                <tr className="text-end">
-                  <td></td>
-                  <td className="fw-bold" style={{ width: "100px" }}>
-                    TAX
-                  </td>
-                  <td className="text-end" style={{ width: "100px" }}>
-                    {currency} {taxAmount}
-                  </td>
-                </tr>
-              )} */}
-              {/* {discountAmount !== 0.0 && (
-                <tr className="text-end">
-                  <td></td>
-                  <td className="fw-bold" style={{ width: "100px" }}>
-                    DISCOUNT
-                  </td>
-                  <td className="text-end" style={{ width: "100px" }}>
-                    {currency} {discountAmount}
-                  </td>
-                </tr>
-              )} */}
-              <tr className="text-end">
-                <td></td>
-                <td className="fw-bold" style={{ width: "140px" }}>
-                  TOTAL
-                </td>
-                <td className="text-end" style={{ width: "140px" }}>
-                  {currency} {total}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-          {info.notes && (
-            <div className="bg-light py-3 px-4 rounded">{info.notes}</div>
-          )}
         </div>
       </div>
-      <div className="pb-4 px-4">
-        <Row>
-          <Col md={6}>
-            <RWebShare
-              data={{
-                text: "Web Share - invoice",
-                url: "http://localhost:3000",
-                title: "Invoice",
-              }}
-              onClick={() => console.log("shared successfully!")}
-            >
-              <Button
-                variant="primary"
-                className="d-block w-100"
-                onClick={createInvoice}
-              >
-                Send Invoice
-              </Button>
-            </RWebShare>
-          </Col>
-          <Col md={6}>
-            <Button
-              variant="outline-primary"
-              className="d-block w-100 mt-3 mt-md-0"
-              onClick={createInvoice}
-            >
-              Download Copy
-            </Button>
-          </Col>
-        </Row>
-      </div>
-      <hr className="mt-4 mb-3" />
+
+      {/* Inline CSS Styles */}
+      <style jsx>{`
+        .invoice-container {
+          max-width: 800px;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #000;
+          font-family: Arial, sans-serif;
+        }
+        .invoice-header,
+        .invoice-info,
+        .invoice-details,
+        .invoice-summary {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+        .invoice-header td,
+        .invoice-info td,
+        .invoice-details th,
+        .invoice-details td,
+        .invoice-summary td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: left;
+        }
+        .invoice-header td,
+        .invoice-summary td {
+          border: none;
+        }
+        .title {
+          font-weight: bold;
+          font-size: 24px;
+          text-align: center;
+        }
+        .total-due {
+          font-weight: bold;
+          font-size: 20px;
+          text-align: right;
+        }
+        .text-right {
+          text-align: right;
+        }
+        .table-header {
+          font-weight: bold;
+          background-color: #f0f0f0;
+        }
+      `}</style>
     </Modal>
   );
 };
