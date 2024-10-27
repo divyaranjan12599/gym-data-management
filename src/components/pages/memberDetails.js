@@ -9,6 +9,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import Table from "../inc/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { capitalizeEachWord } from "../inc/utilityFuncs.js";
 
 function MemberDetails() {
   const { userId } = useParams();
@@ -21,35 +22,33 @@ function MemberDetails() {
     staffData,
   } = useContext(UserContext);
 
-	const navigate = useNavigate();
-	const [imageURL, setImageURL] = useState(null);
-	const cloudinaryRef = useRef();
-	const widgetRef = useRef();
-	const [currentStep, setCurrentStep] = useState(1);
-	const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
-	const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
+  const navigate = useNavigate();
+  const [imageURL, setImageURL] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
+  const [currentStep, setCurrentStep] = useState(1);
+  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+  const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
 
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary;
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: CLOUD_NAME,
+        uploadPreset: UPLOAD_PRESENT,
+        multiple: true,
+        folder: "GDMTool",
+      },
+      (err, result) => {
+        if (result.event === "success") {
+          toast.success("Image uploaded Successfully");
+          // console.log("Done! Here is the image info: ", result.info);
 
-	useEffect(() => {
-		cloudinaryRef.current = window.cloudinary;
-		widgetRef.current = cloudinaryRef.current.createUploadWidget(
-		  {
-			cloudName: CLOUD_NAME,
-			uploadPreset: UPLOAD_PRESENT,
-			multiple: true,
-			folder: "GDMTool"
-		  },
-		  (err, result) => {
-			if (result.event === "success") {
-			  toast.success("Image uploaded Successfully");
-			  // console.log("Done! Here is the image info: ", result.info);
-	
-			  setImageURL(result.info.secure_url);
-			}
-		  }
-		);
-	  }, []);
-
+          setImageURL(result.info.secure_url);
+        }
+      }
+    );
+  }, []);
 
   useEffect(() => {
     fetchClientData();
@@ -57,7 +56,7 @@ function MemberDetails() {
     fetchMemData();
     fetchPtData();
 
-    console.log("sdffsdj=====", memData, paymentData);
+    // console.log("sdffsdj=====", memData, paymentData);
   }, [token]);
 
   const [personalDetailsFormData, setpersonalDetailsFormData] = useState({
@@ -94,44 +93,41 @@ function MemberDetails() {
     useState(false);
 
   const handlePersonalDetailsChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
 
-    if (type === "radio") {
-      setpersonalDetailsFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    } else if (name.startsWith("address.")) {
-      const addressKey = name.replace("address.", "");
-      setpersonalDetailsFormData((prevData) => ({
-        ...prevData,
+    // Handle nested structures
+    if (name.startsWith("address.")) {
+      const addressField = name.split(".")[1]; // Get the specific field within address
+      setpersonalDetailsFormData((prevState) => ({
+        ...prevState,
         address: {
-          ...prevData.address,
-          [addressKey]: value,
+          ...prevState.address,
+          [addressField]: value,
         },
       }));
     } else if (name.startsWith("idproof.")) {
-      const idProofKey = name.replace("idproof.", "");
-      setpersonalDetailsFormData((prevData) => ({
-        ...prevData,
+      const idProofField = name.split(".")[1]; // Get the specific field within idproof
+      setpersonalDetailsFormData((prevState) => ({
+        ...prevState,
         idproof: {
-          ...prevData.idproof,
-          [idProofKey]: value,
+          ...prevState.idproof,
+          [idProofField]: value,
         },
       }));
     } else if (name.startsWith("emergencyContact.")) {
-      const emergencyContactKey = name.replace("emergencyContact.", "");
-      setpersonalDetailsFormData((prevData) => ({
-        ...prevData,
+      const emergencyField = name.split(".")[1]; // Get the specific field within emergencyContact
+      setpersonalDetailsFormData((prevState) => ({
+        ...prevState,
         emergencyContact: {
-          ...prevData.emergencyContact,
-          [emergencyContactKey]: value,
+          ...prevState.emergencyContact,
+          [emergencyField]: value,
         },
       }));
     } else {
-      setpersonalDetailsFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
+      // For other fields
+      setpersonalDetailsFormData((prevState) => ({
+        ...prevState,
+        [name]: name === "name" ? capitalizeEachWord(value) : value,
       }));
     }
   };
@@ -157,7 +153,7 @@ function MemberDetails() {
       );
       console.log("Client Data : ", response.data);
       setClientData(response.data);
-	  setpersonalDetailsFormData(response.data);
+      setpersonalDetailsFormData(response.data);
     } catch (error) {
       console.log(error);
       setClientData("");
@@ -201,6 +197,7 @@ function MemberDetails() {
   };
   const fetchPtData = async () => {
     try {
+      
       const response = await axios.get(
         process.env.REACT_APP_SERVER_URL + `/user/get-ptDetails/${userId}`,
         {
@@ -218,54 +215,74 @@ function MemberDetails() {
     }
   };
 
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
-	const handleClose2 = () => setShow2(false);
-	const handleShow2 = () => setShow2(true);
-	const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
-	const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
-	const handleMembershipUpdateModalClose = () => setMembershipUpdateModalShow(false);
-	const handleMembershipUpdateModalShow = () => setMembershipUpdateModalShow(true);
-	const handlePtMembershipUpdateModalClose = () => setPtMembershipUpdateModalShow(false);
-	const handlePtMembershipUpdateModalShow = () => setPtMembershipUpdateModalShow(true);
-
-	
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+  const handlePersonalDetailsModalClose = () =>
+    setPersonalDetailsModalShow(false);
+  const handlePersonalDetailsModalShow = () =>
+    setPersonalDetailsModalShow(true);
+  const handleMembershipUpdateModalClose = () =>
+    setMembershipUpdateModalShow(false);
+  const handleMembershipUpdateModalShow = () =>
+    setMembershipUpdateModalShow(true);
+  const handlePtMembershipUpdateModalClose = () =>
+    setPtMembershipUpdateModalShow(false);
+  const handlePtMembershipUpdateModalShow = () =>
+    setPtMembershipUpdateModalShow(true);
 
   const [image, selectImage] = useState({
     placeholder: defaultImage,
     files: null,
   });
 
-	const handleUpdatePersonalDetails = async () => {
-		try {
-			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-client/${clientData._id}`, personalDetailsFormData,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`
-					}
-				}
-			);
-			toast.success("Updated User")
+  const handleUpdatePersonalDetails = async () => {
+    toast
+      .promise(
+        axios.put(
+          `${process.env.REACT_APP_SERVER_URL}/user/update-client/${clientData._id}`,
+          personalDetailsFormData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+        {
+          pending: "Updating User...",
+          success: "User updated successfully!",
+          error: {
+            render({ data }) {
+              return data?.response?.data?.message || "Update failed!";
+            },
+          },
+        }
+      )
+      .then(() => {
+        // Reload the page on success
+        setTimeout(() => {
+          window.location.reload();
+        }, 900);
+      });
+  };
 
-		} catch (error) {
-			toast.error(error.message);
-		}
-	}
-
-	const handleUpdateMembershipDetails = async () => {
-		try {
-			const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/update-membership/${clientData._id}`, memUpdationformData,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`
-					}
-				}
-			);
-			toast.success("User Membership updated Successfully");
-		} catch (error) {
-			toast.error(error.message);
-		}
-	}
+  const handleUpdateMembershipDetails = async () => {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/user/update-membership/${clientData._id}`,
+        memUpdationformData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("User Membership updated Successfully");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   const handleDelete = async () => {
     const isConfirmed = window.confirm(
@@ -286,7 +303,9 @@ function MemberDetails() {
         }
       );
       toast.success("User deleted Successfully");
-      navigate("/membership");
+      setTimeout(() => {
+        navigate("/memberships");
+      }, 900);
     } catch (error) {
       toast.error(error);
       // console.log(error);
@@ -383,13 +402,13 @@ function MemberDetails() {
     due_date: payment?.dueDate || "N/A",
   }));
 
-  console.log("----------", paymentRows);
+  // console.log("----------", paymentRows);
 
   const [ptmemUpdationformData, setptmemUpdationformData] = useState({
     ptFees: "",
     ptMembershipPeriod: "monthly",
     ptAssignedTo: "",
-    ptStartingDate: new Date(),
+    ptStartDate: new Date(),
     amountPaid: "",
     amountRemaining: "",
     paymentMode: "online",
@@ -418,10 +437,7 @@ function MemberDetails() {
       updatedData.amountRemaining = updatedData.ptFees - value;
     }
 
-    setptmemUpdationformData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setptmemUpdationformData(updatedData);
   };
 
   const handleMemUpdationformSubmit = (e) => {
@@ -434,9 +450,9 @@ function MemberDetails() {
   const handlePtMemUpdationformSubmit = async (e) => {
     e.preventDefault();
     try {
-      // console.log(ptmemUpdationformData);
+      // console.log("ptmemUpdationformData", clientData._id);
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${clientData._id}`,
+        `${process.env.REACT_APP_SERVER_URL}/user/create-ptcid/${userId}`,
         ptmemUpdationformData,
         {
           headers: {
@@ -446,8 +462,9 @@ function MemberDetails() {
       );
       toast.success("User Pt Membership updated Successfully");
       handleStepChange(1);
-      // alert("deleted user", response.data);
-      // setEnquiryData(response.data);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
     } catch (error) {
       toast.error(error.message);
       // console.log(error);
@@ -544,29 +561,22 @@ function MemberDetails() {
                                   ))}
                                 </select>
                               </div>
-                              <div className="mb-2 col-6">
+                              <div className="mb-2 d-flex flex-column col-6">
                                 <label>Starting Date</label>
-                                {/* <input
-                                  type="date"
-                                  onChange={handlePtMemUpdateChange}
-                                  name="ptStartingDate"
-                                  value={ptmemUpdationformData.ptStartingDate}
-                                  className="form-control"
-                                /> */}
                                 <ReactDatePicker
                                   selected={
-                                    personalDetailsFormData.ptStartingDate
+                                    ptmemUpdationformData.ptStartDate
                                   }
                                   onChange={(date) =>
                                     handlePtMemUpdateChange({
                                       target: {
-                                        name: "ptStartingDate",
+                                        name: "ptStartDate",
                                         value: date,
                                         type: "date",
                                       },
                                     })
                                   }
-                                  name="ptStartingDate"
+                                  name="ptStartDate"
                                   dateFormat="MMMM d, yyyy"
                                   className="form-control"
                                 />
@@ -1062,17 +1072,15 @@ function MemberDetails() {
                     <div className="w-100 d-flex justify-content-center">
                       <div className="row w-100">
                         <form className="d-flex flex-column justify-content-center align-items-center p-2">
-                          <div class="row w-100">
+                          <div className="row w-100">
                             <div className="main-box custom-col-9">
                               <div className="row w-100 h-100">
-                                
-
                                 <div className="mb-2 col-lg-12">
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
                                     className="form-control"
-                                    name="name"
+                                    name="name" // no change needed
                                     value={personalDetailsFormData.name}
                                     placeholder="Enter Full Name"
                                   />
@@ -1082,7 +1090,7 @@ function MemberDetails() {
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
-                                    name="email"
+                                    name="email" // no change needed
                                     value={personalDetailsFormData.email}
                                     className="form-control"
                                     placeholder="Enter Email"
@@ -1090,9 +1098,9 @@ function MemberDetails() {
                                 </div>
 
                                 <div className="mb-2 flex-column col-lg-6">
-                                  <div class="input-group">
+                                  <div className="input-group">
                                     <span
-                                      class="input-group-text"
+                                      className="input-group-text"
                                       id="basic-addon1"
                                     >
                                       +91
@@ -1100,9 +1108,9 @@ function MemberDetails() {
                                     <input
                                       type="number"
                                       onChange={handlePersonalDetailsChange}
-                                      name="contact"
+                                      name="contact" // no change needed
                                       value={personalDetailsFormData.contact}
-                                      class="form-control"
+                                      className="form-control"
                                       placeholder="Contact Number"
                                       aria-label="Username"
                                       aria-describedby="basic-addon1"
@@ -1110,42 +1118,42 @@ function MemberDetails() {
                                   </div>
                                 </div>
 
-                                <div class="mb-2 col-12">
+                                <div className="mb-2 col-12">
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
-                                    name="address2"
+                                    name="address.areaDetails" // updated for nested state
                                     value={
                                       personalDetailsFormData.address
                                         .areaDetails
                                     }
-                                    class="form-control"
-                                    id="inputAddress"
+                                    className="form-control"
                                     placeholder="Area"
                                   />
                                 </div>
-                                <div class="mb-2 col-md-6">
+
+                                <div className="mb-2 col-md-6">
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
-                                    name="city"
+                                    name="address.city" // updated for nested state
                                     value={personalDetailsFormData.address.city}
-                                    class="form-control"
-                                    id="inputCity"
+                                    className="form-control"
                                     placeholder="City"
                                   />
                                 </div>
-                                <div class="mb-2 col-md-4">
+
+                                <div className="mb-2 col-md-4">
                                   <select
                                     id="inputState"
-                                    name="state"
+                                    name="address.state" // updated for nested state
                                     onChange={handlePersonalDetailsChange}
                                     value={
                                       personalDetailsFormData.address.state
                                     }
-                                    class="form-select"
+                                    className="form-select"
                                   >
-                                    <option selected>State</option>
+                                    <option selected>Select State</option>
                                     <option value="Madhya Pradesh">
                                       Madhya Pradesh
                                     </option>
@@ -1157,16 +1165,16 @@ function MemberDetails() {
                                     </option>
                                   </select>
                                 </div>
-                                <div class="mb-2 col-md-2">
+
+                                <div className="mb-2 col-md-2">
                                   <input
                                     type="text"
                                     onChange={handlePersonalDetailsChange}
-                                    name="zip"
+                                    name="address.pincode" // updated for nested state
                                     value={
                                       personalDetailsFormData.address.pincode
                                     }
-                                    class="form-control"
-                                    id="inputZip"
+                                    className="form-control"
                                     placeholder="Pincode"
                                   />
                                 </div>
@@ -1174,42 +1182,40 @@ function MemberDetails() {
                                 <div className="col-6">
                                   <label>Gender</label>
                                   <div className="col-md-12 d-flex flex-row">
-                                    <div className="from-check col-6">
+                                    <div className="form-check col-6">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
-                                        name="gender"
-                                        id="gridRadios1"
+                                        name="gender" // no change needed
                                         value="Male"
                                         checked={
                                           personalDetailsFormData.gender ===
-                                          "male"
+                                          "Male"
                                         }
                                         onChange={handlePersonalDetailsChange}
                                       />
                                       <label
                                         className="form-check-label"
-                                        for="gridRadios1"
+                                        htmlFor="gridRadios1"
                                       >
                                         Male
                                       </label>
                                     </div>
-                                    <div className="from-check col-6">
+                                    <div className="form-check col-6">
                                       <input
                                         className="form-check-input me-2"
                                         type="radio"
-                                        name="gender"
-                                        id="gridRadios2"
+                                        name="gender" // no change needed
                                         value="Female"
                                         checked={
                                           personalDetailsFormData.gender ===
-                                          "female"
+                                          "Female"
                                         }
                                         onChange={handlePersonalDetailsChange}
                                       />
                                       <label
                                         className="form-check-label"
-                                        for="gridRadios2"
+                                        htmlFor="gridRadios2"
                                       >
                                         Female
                                       </label>
@@ -1226,13 +1232,12 @@ function MemberDetails() {
                                     onChange={(date) =>
                                       handlePersonalDetailsChange({
                                         target: {
-                                          name: "joiningdate",
+                                          name: "joiningdate", // no change needed
                                           value: date,
-                                          type: "date",
                                         },
                                       })
                                     }
-                                    name="joiningdate"
+                                    name="joiningdate" // no change needed
                                     dateFormat="MMMM d, yyyy"
                                     className="form-control"
                                   />
@@ -1253,13 +1258,11 @@ function MemberDetails() {
                                       className="p-1 w-100 h-100"
                                     />
                                   ) : (
-                                    <>
-                                      <img
-                                        className="p-1 w-100 h-100"
-                                        src={image.placeholder}
-                                        alt=""
-                                      />
-                                    </>
+                                    <img
+                                      className="p-1 w-100 h-100"
+                                      src={image.placeholder}
+                                      alt=""
+                                    />
                                   )}
                                 </div>
                               </div>
@@ -1271,15 +1274,14 @@ function MemberDetails() {
                                 <select
                                   id="idProofType"
                                   onChange={handlePersonalDetailsChange}
+                                  name="idproof.type" // updated for nested state
                                   value={personalDetailsFormData.idproof.type}
-                                  name="idProofType"
-                                  class="form-select custom-col-3"
+                                  className="form-select custom-col-3"
                                 >
                                   <option selected>Select</option>
                                   <option value="adhar">Adhar Card</option>
                                   <option value="pan">PAN Card</option>
                                   <option value="license">License</option>
-                                  {/* <option value="4">Other</option> */}
                                 </select>
 
                                 <input
@@ -1287,14 +1289,14 @@ function MemberDetails() {
                                   type="text"
                                   onChange={handlePersonalDetailsChange}
                                   value={personalDetailsFormData.idproof.number}
-                                  name="idProofNumber"
+                                  name="idproof.number" // updated for nested state
                                   id="idProof"
-                                  placeholder="id proof number"
+                                  placeholder="ID proof number"
                                 />
                               </div>
                             </div>
 
-                            <div class="card p-0 text-left">
+                            <div className="card p-0 text-left">
                               <div className="card-header border-top border-bottom">
                                 <p className="text-center mb-0">
                                   Emergency Contact Details
@@ -1303,46 +1305,45 @@ function MemberDetails() {
                               <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
                                 <div className="row w-100 mt-2">
                                   <div className="mb-2 col-lg-6">
-                                    {/* <label>Client Name</label> */}
                                     <input
                                       type="text"
                                       onChange={handlePersonalDetailsChange}
-                                      name="emergencyContactName"
+                                      name="emergencyContact.name" // updated for nested state
                                       value={
                                         personalDetailsFormData.emergencyContact
                                           .name
                                       }
                                       className="form-control"
-                                      placeholder="Name"
+                                      placeholder="Emergency Contact Name"
                                     />
                                   </div>
                                   <div className="mb-2 flex-column col-lg-6">
-                                    <div class="input-group">
+                                    <div className="input-group">
                                       <span
-                                        class="input-group-text"
+                                        className="input-group-text"
                                         id="basic-addon1"
                                       >
                                         +91
                                       </span>
                                       <input
                                         type="number"
-                                        class="form-control"
-                                        name="emergencyContactNumber"
+                                        className="form-control"
+                                        name="emergencyContact.contact" // updated for nested state
                                         onChange={handlePersonalDetailsChange}
                                         value={
                                           personalDetailsFormData
                                             .emergencyContact.contact
                                         }
-                                        placeholder="Contact Number"
+                                        placeholder="Emergency Contact Number"
                                         aria-label="Username"
                                         aria-describedby="basic-addon1"
-                                        aria-hidden
                                       />
                                     </div>
                                   </div>
                                 </div>
                               </form>
                             </div>
+
                             <div className="d-flex justify-content-end mt-3">
                               <button
                                 className="btn btn-primary"

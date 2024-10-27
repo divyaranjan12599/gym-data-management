@@ -1,27 +1,63 @@
-import React, { useMemo, useState, useContext, useEffect } from "react";
-import defaultImage from "../icons/user.png";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useMemo, useState, useEffect, useRef } from "react";
 import { UserContext } from "../../App";
-import { Avatar } from "@mui/material";
-// import clientData from '../inc/clientData.json'
-import Table from "../inc/table";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ReactDatePicker } from 'react-datepicker';
+import { Avatar } from "@mui/material";
+import defaultImage from "../icons/user.png";
+import ReactDatePicker from "react-datepicker";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
+import Table from "../inc/table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { capitalizeEachWord } from "../inc/utilityFuncs.js";
 
 function StaffDetails() {
   const { staffId } = useParams();
   const [staffData, setStaffData] = useState("");
+  const [ptData, setPtData] = useState([]);
+  const navigate = useNavigate();
+  const [imageURL, setImageURL] = useState(null);
+  const cloudinaryRef = useRef();
+  const widgetRef = useRef();
+  const [currentStep, setCurrentStep] = useState(1);
+  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+  const UPLOAD_PRESENT = process.env.REACT_APP_UPLOAD_PRESENT;
 
   const {
     userAuth: { token },
     clientData,
   } = useContext(UserContext);
 
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const validateStep = () => {
+    const errors = {};
+    if (!personalDetailsFormData.staffName) errors.staffName = "Field required";
+    if (!personalDetailsFormData.joiningdate)
+      errors.joiningdate = "Field required";
+    if (!personalDetailsFormData.email) errors.email = "Field required";
+    if (!personalDetailsFormData.contact) errors.contact = "Field required";
+    if (!personalDetailsFormData.address) errors.address = "Field required";
+    if (!personalDetailsFormData.city) errors.city = "Field required";
+    if (!personalDetailsFormData.state) errors.state = "Field required";
+    if (!personalDetailsFormData.zip) errors.zip = "Field required";
+    if (!personalDetailsFormData.gender) errors.gender = "Field required";
+    if (!personalDetailsFormData.idProofType)
+      errors.idProofType = "Field required";
+    if (!personalDetailsFormData.idProofNumber)
+      errors.idProofNumber = "Field required";
+    if (!personalDetailsFormData.emergencyContactName)
+      errors.emergencyContactName = "Field required";
+    if (!personalDetailsFormData.emergencycontact)
+      errors.emergencycontact = "Field required";
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const fetchStaffData = async () => {
-    console.log("sajsakj");
+    // console.log("sajsakj", staffId);
 
     try {
       const response = await axios.get(
@@ -34,39 +70,174 @@ function StaffDetails() {
       );
       console.log("Staff Data : ", response.data);
       setStaffData(response.data);
-      // setpersonalDetailsFormData(response.data);
+      setPersonalDetailsFormData(response.data);
     } catch (error) {
       console.log(error);
       setStaffData("");
     }
   };
 
+  const handleStepChange = (step) => {
+    setCurrentStep(step);
+  };
+
+  const handleDelete = () => {
+    alert("delete");
+  };
+
+  const fetchPtMemData = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_URL + `/user/get-ptbystaffid/${staffId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Staff PT Data : ", response.data);
+      setPtData(response.data);
+    } catch (error) {
+      console.log(error);
+      setPtData("");
+    }
+  }
+
   useEffect(() => {
     fetchStaffData();
-    // fetchPtData();
+    fetchPtMemData();
 
-    // console.log("sdffsdj=====", memData, paymentData);
+    // console.log("sdffsdj=====", staffId);
   }, [token]);
 
+
+  const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] =
+    useState(false);
   const [show, setShow] = useState(false);
   const [personalDetailsModalShow, setPersonalDetailsModalShow] =
     useState(false);
-  const [ptmembershipUpdateModalShow, setPtMembershipUpdateModalShow] =
-    useState(false);
 
   const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
-	const handlePersonalDetailsModalClose = () => setPersonalDetailsModalShow(false);
-	const handlePersonalDetailsModalShow = () => setPersonalDetailsModalShow(true);
-	const handlePtMembershipUpdateModalClose = () => setPtMembershipUpdateModalShow(false);
-	const handlePtMembershipUpdateModalShow = () => setPtMembershipUpdateModalShow(true);
+  const handleShow = () => setShow(true);
+
+  // Example handlers
+  const handlePtMembershipUpdateModalShow = () =>
+    setPtMembershipUpdateModalShow(true);
+  const handlePtMembershipUpdateModalClose = () =>
+    setPtMembershipUpdateModalShow(false);
+  const handlePersonalDetailsModalShow = () =>
+    setPersonalDetailsModalShow(true);
+  const handlePersonalDetailsModalClose = () =>
+    setPersonalDetailsModalShow(false);
 
   const [image, selectImage] = useState({
     placeholder: defaultImage,
     files: null,
   });
 
-  const rows = clientData;
+  const rows = ptData;
+
+  const [personalDetailsFormData, setPersonalDetailsFormData] = useState({
+    address: {
+      areaDetails: "sd sd",
+      city: "ds",
+      state: "Odisha",
+      pincode: 12345,
+    },
+    idproof: {
+      type: "adhar",
+      number: "qwer1234",
+      frontPicUrl: null,
+      backPicUrl: null,
+    },
+    emergencyContact: {
+      name: "hhjh",
+      contact: "123456789",
+    },
+    name: "sadsdfsadsf",
+    contact: "1212121212",
+    role: "STAFF",
+    email: "as@sjk.co",
+    gender: "male",
+    photoUrl: null,
+    joiningdate: "11/09/2024",
+  });
+
+  const personalDetailsChange = (event) => {
+    const { name, value } = event.target;
+
+    // Handle changes for nested objects
+    if (
+      name.startsWith("areaDetails") ||
+      name.startsWith("city") ||
+      name.startsWith("state") ||
+      name.startsWith("pincode")
+    ) {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        address: {
+          ...prevData.address,
+          [name]: value,
+        },
+      }));
+    } else if (name === "idProofType") {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        idproof: {
+          ...prevData.idproof,
+          type: value,
+        },
+      }));
+    } else if (name === "idProofNumber") {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        idproof: {
+          ...prevData.idproof,
+          number: value,
+        },
+      }));
+    } else if (name.startsWith("emergencyContact")) {
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        emergencyContact: {
+          ...prevData.emergencyContact,
+          [name]: value,
+        },
+      }));
+    } else {
+      // Handle top-level fields
+      setPersonalDetailsFormData((prevData) => ({
+        ...prevData,
+        [name]: name==="name"? capitalizeEachWord(value) : value,
+      }));
+    }
+  };
+
+  const personalDetailsSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Token : ", token);
+    console.log("staffId : ", staffId);
+    console.log("personalDetailsFormData: ", personalDetailsFormData);
+    try {
+      const response = await axios.put(
+        process.env.REACT_APP_SERVER_URL + `/user/update-staff/${staffId}`,
+        personalDetailsFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Staff Data : ", response.data);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   let columns = useMemo(
     () => [
@@ -109,9 +280,70 @@ function StaffDetails() {
     []
   );
 
-  // if (!userData) {
-  //   return <div>Loading...</div>;
-  // }
+  const [ptmemUpdationformData, setptmemUpdationformData] = useState({
+    ptFees: "",
+    ptMembershipPeriod: "monthly",
+    ptTo: "",
+    ptStartDate: new Date(),
+    amountPaid: "",
+    amountRemaining: "",
+    paymentMode: "online",
+    transactionDate: new Date(),
+    transactionId: "",
+    dueDate: new Date(),
+  });
+
+  const handlePtMemUpdateChange = (e) => {
+    const { name, value } = e.target;
+
+    const updatedData = {
+      ...ptmemUpdationformData,
+      [name]: value,
+    };
+
+    if (name === "ptFees") {
+      // const totAmount = updatedData.membershipAmount+updatedData.registrationFees;
+      console.log("Membership Amount:", value);
+      updatedData.amountPaid = value;
+    }
+
+    if (name === "amountPaid") {
+      // const totAmount = updatedData.membershipAmount+updatedData.registrationFees;
+      console.log("Amount====:", value);
+      updatedData.amountRemaining = updatedData.ptFees - value;
+    }
+
+    setptmemUpdationformData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handlePtMemUpdationformSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // console.log(ptmemUpdationformData);
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/user/create-ptsid/${staffData._id}`,
+        ptmemUpdationformData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success("User Pt Membership updated Successfully");
+      handleStepChange(1);
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
+    } catch (error) {
+      toast.error(error.message);
+      // console.log(error);
+      // setEnquiryData([]);
+    }
+    // console.log('Submitting membership updation form data:', memUpdationformData);
+  };
 
   return (
     <div className="container-fluid">
@@ -142,7 +374,7 @@ function StaffDetails() {
                             <p className="text-center mb-0">PT Details</p>
                           </div>
                           <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                            <div className="row w-100 mt-2">
+                            <div className="row w-100 mt-2 p-2">
                               <div className="mb-2 col-lg-6">
                                 <label>PT fees</label>
                                 <div class="input-group">
@@ -186,37 +418,35 @@ function StaffDetails() {
                               <div className="mb-2 col-lg-6">
                                 <label>PT Assigned to</label>
                                 <select
-                                  id="ptAssignedTo"
-                                  name="ptAssignedTo"
+                                  id="ptTo"
+                                  name="ptTo"
                                   onChange={handlePtMemUpdateChange}
-                                  value={ptmemUpdationformData.ptAssignedTo}
+                                  value={ptmemUpdationformData.ptTo}
                                   class="form-select"
                                 >
-                                  <option selected>Select Staff</option>
-                                  {staffData.map((staff, index) => (
-                                    <option key={index} value={staff._id}>
-                                      {staff.name}
+                                  <option selected>Select Client</option>
+                                  {clientData.map((client, index) => (
+                                    <option key={index} value={client._id}>
+                                      {client.name}
                                     </option>
                                   ))}
                                 </select>
                               </div>
-                              <div className="mb-2 col-6">
+                              <div className="mb-2 d-flex flex-column col-6">
                                 <label>Starting Date</label>
-                              
+
                                 <ReactDatePicker
-                                  selected={
-                                    personalDetailsFormData.ptStartingDate
-                                  }
+                                  selected={ptmemUpdationformData.ptStartDate}
                                   onChange={(date) =>
                                     handlePtMemUpdateChange({
                                       target: {
-                                        name: "ptStartingDate",
+                                        name: "ptStartDate",
                                         value: date,
                                         type: "date",
                                       },
                                     })
                                   }
-                                  name="ptStartingDate"
+                                  name="ptStartDate"
                                   dateFormat="MMMM d, yyyy"
                                   className="form-control"
                                 />
@@ -299,7 +529,7 @@ function StaffDetails() {
                                 </div>
                                 <div className="col-4">
                                   <label>Transaction Date</label>
-                                  
+
                                   <ReactDatePicker
                                     selected={
                                       ptmemUpdationformData.transactionDate
@@ -334,7 +564,7 @@ function StaffDetails() {
                                 ) > 0 && (
                                   <div className="col-lg-4">
                                     <label>Due Date</label>
-                                    
+
                                     <ReactDatePicker
                                       selected={ptmemUpdationformData.dueDate}
                                       onChange={(date) =>
@@ -392,7 +622,6 @@ function StaffDetails() {
                         </Row>
                       </div>
                     </div>
-                    
                   </Modal.Body>
                 </Modal>
 
@@ -446,7 +675,6 @@ function StaffDetails() {
                   </Modal.Body>
                 </Modal>
 
-                
                 <Modal
                   show={personalDetailsModalShow}
                   onHide={handlePersonalDetailsModalClose}
@@ -459,169 +687,54 @@ function StaffDetails() {
                     <div className="w-100 d-flex justify-content-center">
                       <div className="row w-100">
                         <form className="d-flex flex-column justify-content-center align-items-center p-2">
-                          <div class="row w-100">
-                            <div className="main-box custom-col-9">
-                              <div className="row w-100 h-100">
-                                
-
-                                <div className="mb-2 col-lg-12">
+                          <div className="row w-100">
+                            <div className="main-box col-md-10">
+                              <div className="row w-100">
+                                <div className="mb-2 col-lg-6">
+                                  <label>Name</label>
                                   <input
                                     type="text"
-                                    onChange={handlePersonalDetailsChange}
-                                    className="form-control"
+                                    onChange={personalDetailsChange}
                                     name="name"
                                     value={personalDetailsFormData.name}
-                                    placeholder="Enter Full Name"
-                                  />
-                                </div>
-
-                                <div className="mb-2 col-lg-6">
-                                  <input
-                                    type="text"
-                                    onChange={handlePersonalDetailsChange}
-                                    name="email"
-                                    value={personalDetailsFormData.email}
                                     className="form-control"
-                                    placeholder="Enter Email"
                                   />
+                                  <style>
+                                    {`
+              .form-control::placeholder {
+                color: var(--placeholder-color);
+              }
+            `}
+                                  </style>
                                 </div>
 
                                 <div className="mb-2 flex-column col-lg-6">
-                                  <div class="input-group">
+                                  <label>Contact Number</label>
+                                  <div className="input-group">
                                     <span
-                                      class="input-group-text"
+                                      className="input-group-text"
                                       id="basic-addon1"
                                     >
                                       +91
                                     </span>
                                     <input
-                                      type="number"
-                                      onChange={handlePersonalDetailsChange}
+                                      type="text"
+                                      onChange={personalDetailsChange}
                                       name="contact"
                                       value={personalDetailsFormData.contact}
-                                      class="form-control"
-                                      placeholder="Contact Number"
-                                      aria-label="Username"
-                                      aria-describedby="basic-addon1"
+                                      className="form-control"
                                     />
                                   </div>
                                 </div>
 
-                                <div class="mb-2 col-12">
-                                  <input
-                                    type="text"
-                                    onChange={handlePersonalDetailsChange}
-                                    name="address2"
-                                    value={
-                                      personalDetailsFormData.address
-                                        .areaDetails
-                                    }
-                                    class="form-control"
-                                    id="inputAddress"
-                                    placeholder="Area"
-                                  />
-                                </div>
-                                <div class="mb-2 col-md-6">
-                                  <input
-                                    type="text"
-                                    onChange={handlePersonalDetailsChange}
-                                    name="city"
-                                    value={personalDetailsFormData.address.city}
-                                    class="form-control"
-                                    id="inputCity"
-                                    placeholder="City"
-                                  />
-                                </div>
-                                <div class="mb-2 col-md-4">
-                                  <select
-                                    id="inputState"
-                                    name="state"
-                                    onChange={handlePersonalDetailsChange}
-                                    value={
-                                      personalDetailsFormData.address.state
-                                    }
-                                    class="form-select"
-                                  >
-                                    <option selected>State</option>
-                                    <option value="Madhya Pradesh">
-                                      Madhya Pradesh
-                                    </option>
-                                    <option value="Uttar Pradesh">
-                                      Uttar Pradesh
-                                    </option>
-                                    <option value="Maharashtra">
-                                      Maharashtra
-                                    </option>
-                                  </select>
-                                </div>
-                                <div class="mb-2 col-md-2">
-                                  <input
-                                    type="text"
-                                    onChange={handlePersonalDetailsChange}
-                                    name="zip"
-                                    value={
-                                      personalDetailsFormData.address.pincode
-                                    }
-                                    class="form-control"
-                                    id="inputZip"
-                                    placeholder="Pincode"
-                                  />
-                                </div>
-
-                                <div className="col-6">
-                                  <label>Gender</label>
-                                  <div className="col-md-12 d-flex flex-row">
-                                    <div className="from-check col-6">
-                                      <input
-                                        className="form-check-input me-2"
-                                        type="radio"
-                                        name="gender"
-                                        id="gridRadios1"
-                                        value="Male"
-                                        checked={
-                                          personalDetailsFormData.gender ===
-                                          "male"
-                                        }
-                                        onChange={handlePersonalDetailsChange}
-                                      />
-                                      <label
-                                        className="form-check-label"
-                                        for="gridRadios1"
-                                      >
-                                        Male
-                                      </label>
-                                    </div>
-                                    <div className="from-check col-6">
-                                      <input
-                                        className="form-check-input me-2"
-                                        type="radio"
-                                        name="gender"
-                                        id="gridRadios2"
-                                        value="Female"
-                                        checked={
-                                          personalDetailsFormData.gender ===
-                                          "female"
-                                        }
-                                        onChange={handlePersonalDetailsChange}
-                                      />
-                                      <label
-                                        className="form-check-label"
-                                        for="gridRadios2"
-                                      >
-                                        Female
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="col-6">
+                                <div className="mb-2 col-lg-6 d-flex flex-column">
                                   <label>Joining Date</label>
                                   <ReactDatePicker
                                     selected={
                                       personalDetailsFormData.joiningdate
                                     }
                                     onChange={(date) =>
-                                      handlePersonalDetailsChange({
+                                      personalDetailsChange({
                                         target: {
                                           name: "joiningdate",
                                           value: date,
@@ -634,12 +747,61 @@ function StaffDetails() {
                                     className="form-control"
                                   />
                                 </div>
+
+                                <div className="mb-2 col-lg-6">
+                                  <label>Email</label>
+                                  <input
+                                    type="text"
+                                    onChange={personalDetailsChange}
+                                    name="email"
+                                    value={personalDetailsFormData.email}
+                                    className="form-control"
+                                  />
+                                </div>
+
+                                <div className="mb-2 flex-column col-lg-6">
+                                  <label>Gender</label>
+                                  <div className="d-flex flex-row">
+                                    <div className="form-check col-4">
+                                      <input
+                                        className="form-check-input me-2"
+                                        type="radio"
+                                        name="gender"
+                                        value="Male"
+                                        checked={
+                                          personalDetailsFormData.gender ===
+                                          "Male"
+                                        }
+                                        onChange={personalDetailsChange}
+                                      />
+                                      <label className="form-check-label">
+                                        Male
+                                      </label>
+                                    </div>
+                                    <div className="form-check col-4">
+                                      <input
+                                        className="form-check-input me-2"
+                                        type="radio"
+                                        name="gender"
+                                        value="Female"
+                                        checked={
+                                          personalDetailsFormData.gender ===
+                                          "Female"
+                                        }
+                                        onChange={personalDetailsChange}
+                                      />
+                                      <label className="form-check-label">
+                                        Female
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
-                            <div className="pic-box custom-col-3">
+                            <div className="pic-box col-2">
                               <div
-                                className="card p-2 w-100 h-100 align-items-center justify-content-center"
+                                className="card p-2 align-items-center justify-content-center w-100"
                                 onClick={() => widgetRef.current.open()}
                               >
                                 <div className="icon-container">
@@ -650,102 +812,139 @@ function StaffDetails() {
                                       className="p-1 w-100 h-100"
                                     />
                                   ) : (
-                                    <>
-                                      <img
-                                        className="p-1 w-100 h-100"
-                                        src={image.placeholder}
-                                        alt=""
-                                      />
-                                    </>
+                                    <img
+                                      className="p-1 w-100 h-100"
+                                      src={image.placeholder}
+                                      alt=""
+                                    />
                                   )}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="col-12">
-                              <label>ID Proof Details</label>
-                              <div className="mb-2 input-group d-flex flex-row">
-                                <select
-                                  id="idProofType"
-                                  onChange={handlePersonalDetailsChange}
-                                  value={personalDetailsFormData.idproof.type}
-                                  name="idProofType"
-                                  class="form-select custom-col-3"
-                                >
-                                  <option selected>Select</option>
-                                  <option value="adhar">Adhar Card</option>
-                                  <option value="pan">PAN Card</option>
-                                  <option value="license">License</option>
-                                  {/* <option value="4">Other</option> */}
-                                </select>
-
-                                <input
-                                  className="form-control custom-col-9"
-                                  type="text"
-                                  onChange={handlePersonalDetailsChange}
-                                  value={personalDetailsFormData.idproof.number}
-                                  name="idProofNumber"
-                                  id="idProof"
-                                  placeholder="id proof number"
-                                />
-                              </div>
+                            <div className="mb-2 col-12">
+                              <label>Area Details</label>
+                              <input
+                                type="text"
+                                onChange={personalDetailsChange}
+                                name="areaDetails"
+                                value={
+                                  personalDetailsFormData.address.areaDetails
+                                }
+                                className="form-control"
+                              />
                             </div>
 
-                            <div class="card p-0 text-left">
-                              <div className="card-header border-top border-bottom">
-                                <p className="text-center mb-0">
+                            <div className="mb-2 col-md-6">
+                              <label>City</label>
+                              <input
+                                type="text"
+                                onChange={personalDetailsChange}
+                                name="city"
+                                value={personalDetailsFormData.address.city}
+                                className="form-control"
+                              />
+                            </div>
+
+                            <div className="mb-2 col-md-4">
+                              <label>State</label>
+                              <select
+                                className="form-select"
+                                onChange={personalDetailsChange}
+                                name="state"
+                                value={personalDetailsFormData.address.state}
+                              >
+                                <option value="">State</option>
+                                {/* Add other options as needed */}
+                                <option value="Odisha">Odisha</option>
+                              </select>
+                            </div>
+
+                            <div className="mb-2 col-md-2">
+                              <label>Zip</label>
+                              <input
+                                type="text"
+                                onChange={personalDetailsChange}
+                                name="pincode"
+                                value={personalDetailsFormData.address.pincode}
+                                className="form-control"
+                              />
+                            </div>
+
+                            <label>ID Proof Details</label>
+                            <div className="mb-2 col-12 input-group d-flex flex-row">
+                              <select
+                                onChange={personalDetailsChange}
+                                value={personalDetailsFormData.idproof.type}
+                                name="idProofType"
+                                className="form-select"
+                              >
+                                <option value="">Select</option>
+                                <option value="adhar">Adhar Card</option>
+                                <option value="pan">PAN Card</option>
+                                <option value="license">License</option>
+                              </select>
+
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="idProofNumber"
+                                onChange={personalDetailsChange}
+                                value={personalDetailsFormData.idproof.number}
+                                placeholder="Enter ID Proof Number"
+                              />
+                            </div>
+
+                            <div className="p-0 border-bottom bg-light">
+                              <div className="border-top border-bottom ">
+                                <h5 className="text-center mt-3 mb-2 ">
                                   Emergency Contact Details
-                                </p>
+                                </h5>
                               </div>
-                              <form className="d-flex flex-column justify-content-center align-items-center mb-2 w-100">
-                                <div className="row w-100 mt-2">
-                                  <div className="mb-2 col-lg-6">
-                                    {/* <label>Client Name</label> */}
+                              <div className="row w-100 mt-2">
+                                <div className="mb-2 col-lg-6">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="emergencyContactName"
+                                    value={
+                                      personalDetailsFormData.emergencyContact
+                                        .name
+                                    }
+                                    onChange={personalDetailsChange}
+                                    placeholder="Enter Name"
+                                  />
+                                </div>
+                                <div className="mb-2 flex-column col-lg-6">
+                                  <div className="input-group">
+                                    <span
+                                      className="input-group-text"
+                                      id="basic-addon1"
+                                    >
+                                      +91
+                                    </span>
                                     <input
                                       type="text"
-                                      onChange={handlePersonalDetailsChange}
-                                      name="emergencyContactName"
+                                      className="form-control"
+                                      onChange={personalDetailsChange}
                                       value={
                                         personalDetailsFormData.emergencyContact
-                                          .name
+                                          .contact
                                       }
-                                      className="form-control"
-                                      placeholder="Name"
+                                      name="emergencyContactNumber"
+                                      placeholder="Enter contact number"
                                     />
                                   </div>
-                                  <div className="mb-2 flex-column col-lg-6">
-                                    <div class="input-group">
-                                      <span
-                                        class="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        +91
-                                      </span>
-                                      <input
-                                        type="number"
-                                        class="form-control"
-                                        name="emergencyContactNumber"
-                                        onChange={handlePersonalDetailsChange}
-                                        value={
-                                          personalDetailsFormData
-                                            .emergencyContact.contact
-                                        }
-                                        placeholder="Contact Number"
-                                        aria-label="Username"
-                                        aria-describedby="basic-addon1"
-                                        aria-hidden
-                                      />
-                                    </div>
-                                  </div>
                                 </div>
-                              </form>
+                              </div>
                             </div>
-                            <div className="d-flex justify-content-end mt-3">
+
+                            <div className="col-12 d-flex justify-content-end p-0">
                               <button
-                                className="btn btn-primary"
-                                onClick={handlePersonalDetailsSubmit}
+                                onClick={personalDetailsSubmit}
+                                className="btn btn-primary m-2"
                               >
-                                Save Changes
+                                Submit
                               </button>
                             </div>
                           </div>
@@ -755,7 +954,6 @@ function StaffDetails() {
                     {/* </Container> */}
                   </Modal.Body>
                 </Modal>
-
               </div>
               <div className="d-flex justify-content-center">
                 <img
@@ -765,42 +963,30 @@ function StaffDetails() {
                   alt=""
                 />
               </div>
-              <label className="userLabel mt-3 text-center">Full Name</label>
-              <label className="userLabel text-center text-body-tertiary">
-                +91 9834****32
+              <label className="userLabel mt-3 text-center">
+                {staffData?.name}
               </label>
               <label className="userLabel text-center text-body-tertiary">
-                Los Angeles, United States
+                +91 {staffData?.contact}
+              </label>
+              <label className="userLabel text-center text-body-tertiary">
+                {staffData?.areaDetails} {staffData?.city} Los Angeles, United
+                States
               </label>
               <div className="card mt-5 h-100 shadow p-3">
                 <div className="">
-                  <label className="headLabel">Client ID</label>
-                  <label className="smallLabel">1602</label>
-                </div>
-                <hr />
-                <div className="">
                   <label className="headLabel">Email ID</label>
-                  <label className="smallLabel">example@xyz.com</label>
+                  <label className="smallLabel">{staffData?.email}</label>
                 </div>
                 <hr />
                 <div className="">
                   <label className="headLabel">Gender</label>
-                  <label className="smallLabel">Male</label>
+                  <label className="smallLabel">{staffData?.gender}</label>
                 </div>
                 <hr />
                 <div className="">
                   <label className="headLabel">Joining Date</label>
-                  <label className="smallLabel">20/10/2023</label>
-                </div>
-                <hr />
-                <div className="">
-                  <label className="headLabel">End Date</label>
-                  <label className="smallLabel">20/04/2024</label>
-                </div>
-                <hr />
-                <div className="">
-                  <label className="headLabel">Membership</label>
-                  <label className="smallLabel">6 Months</label>
+                  <label className="smallLabel">{staffData?.joiningdate}</label>
                 </div>
                 <hr />
               </div>

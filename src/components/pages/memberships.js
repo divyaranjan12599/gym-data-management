@@ -46,6 +46,8 @@ function Memberships() {
         sortable: false,
         filterable: false,
       },
+      // { field: "id", headerName: "Id", flex: 1 },
+      { field: "Sno", headerName: "S.No.", flex: 1 },
       { field: "name", headerName: "Name", flex: 1 },
       { field: "email", headerName: "Email ID", flex: 1 },
       { field: "phone", headerName: "Phone Number", flex: 1 },
@@ -69,9 +71,11 @@ function Memberships() {
   );
 
   const rows = membershipData
-    .map((membership) => {
-
+    .map((membership, index) => {
+      console.log("row",index,membership);
+      
       return {
+        Sno: index+1,
         id: membership.membershipBy?._id || "N/A",
         name: membership.membershipBy?.name || "N/A",
         phone: membership.membershipBy?.contact || "N/A",
@@ -84,17 +88,17 @@ function Memberships() {
       };
     });
 
-  rows.sort((a, b) => {
-    if (a.startDate === "N/A" && b.startDate === "N/A") {
-      return 0; // both are invalid
-    } else if (a.startDate === "N/A") {
-      return 1; // a is invalid, push it to the end
-    } else if (b.startDate === "N/A") {
-      return -1; // b is invalid, push it to the end
-    } else {
-      return new Date(a.startDate) - new Date(b.startDate); // valid dates comparison
-    }
-  });
+  // rows.sort((a, b) => {
+  //   if (a.startDate === "N/A" && b.startDate === "N/A") {
+  //     return 0; // both are invalid
+  //   } else if (a.startDate === "N/A") {
+  //     return 1; // a is invalid, push it to the end
+  //   } else if (b.startDate === "N/A") {
+  //     return -1; // b is invalid, push it to the end
+  //   } else {
+  //     return new Date(a.startDate) - new Date(b.startDate); // valid dates comparison
+  //   }
+  // });
 
   // console.log("Mapped Rows:", rows);
 
