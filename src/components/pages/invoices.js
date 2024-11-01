@@ -22,6 +22,9 @@ function Invoices() {
 
   let { paymentData } = useContext(UserContext);
 
+  console.log("paymentData", paymentData);
+  
+
   const sendEmail = (row) => {
     const templateParams = {
       to_name: row.name,
@@ -40,15 +43,18 @@ function Invoices() {
   };
 
   const handleGenerateClick = (row) => {
+    console.log(row);
+    
     const info = {
-      billFrom: "Famous Fitness Studio",
-      billFromAddress: "123 Business Rd.",
-      billFromEmail: "contact@yourcompany.com",
+      billFrom: row.data.belongsTo.gymTitle ||"Famous Fitness Studio",
+      billFromAddress: (row.data.belongsTo.address.areaDetails+", "+row.data.belongsTo.address.city+", "+row.data.belongsTo.address.state+"("+row.data.belongsTo.address.picode+")")||"123 Business Rd.",
+      billFromEmail: row.data.belongsTo.email||"contact@yourcompany.com",
+      billFromContact: row.data.belongsTo.contact||"1234567890",
       gstReg: "GST12345",
       billTo: row.name,
       billToAddress: row.address,
       billToEmail: row.email,
-      invoiceNumber: `INV-${row.id}`,
+      invoiceNumber: `INV-${row.phone+row.sno}`,
       dateOfIssue: new Date().toISOString().split("T")[0],
       currentDate: new Date().toISOString().split("T")[0],
       notes: "Thank you for your business!",
@@ -126,6 +132,7 @@ function Invoices() {
   const rows = paymentData.map((payment, index) => ({
     sno: index + 1,
     id: payment?._id,
+    data: payment,
     name: payment?.amountPaidBy?.name || "N/A",
     phone: payment?.amountPaidBy?.contact || "N/A",
     email: payment?.amountPaidBy?.email || "N/A",
